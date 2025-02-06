@@ -1,0 +1,360 @@
+<mvc:View
+    controllerName="zpro.sk.matix.so.creation.zskmatixsocreation.controller.View2"
+    height="100%"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:f="sap.f"
+    xmlns:fb="sap.ui.comp.filterbar"
+    xmlns:svm="sap.ui.comp.smartvariants"
+    xmlns:plugins="sap.m.plugins"
+    xmlns:columnmenu="sap.m.table.columnmenu"
+    xmlns:sap.ui.fl="sap.ui.fl"
+    xmlns:sap.ui.dt="sap.ui.dt"
+    xmlns:vm="sap.ui.fl.variants"
+    xmlns:dnd="sap.ui.core.dnd"
+    xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+    xmlns:u="sap.ui.unified"
+    xmlns:form="sap.ui.layout.form"
+>
+    <Page enableScrolling="false" title="Create Sales Order" titleAlignment="Center" titleLevel="H1">
+        <fb:FilterBar
+            id="filterbar"
+            persistencyKey="myPersKey"
+            useToolbar="false"
+            search="onSearch"
+            showClearOnFB="true"
+            clear="onFilterClear"
+            showFilterConfiguration="false"
+            
+        >
+            <fb:filterGroupItems>
+                <fb:FilterGroupItem
+                    name="Name"
+                    label="SO Document Type"
+                    groupName="Group1"
+                    visibleInFilterBar="true"
+                >
+                    <fb:control>
+                        <Input
+                            value=""
+                            placeholder="SO Document Type"
+                            showValueHelp="true"
+                        />
+                    </fb:control>
+                </fb:FilterGroupItem>
+
+                <fb:FilterGroupItem
+                    name="Name1"
+                    label="Sales Organisation"
+                    groupName="Group1"
+                    visibleInFilterBar="true"
+                >
+                    <fb:control>
+                        <Input
+                            value=""
+                            placeholder="Sales Organisation"
+                            showValueHelp="true"
+                        />
+                    </fb:control>
+                </fb:FilterGroupItem>
+
+                <fb:FilterGroupItem
+                    name="Name2"
+                    label="Distribution Channel"
+                    groupName="Group1"
+                    visibleInFilterBar="true"
+                >
+                    <fb:control>
+                        <Input
+                            value=""
+                            placeholder="Distribution Channel"
+                            showValueHelp="true"
+                        />
+                    </fb:control>
+                </fb:FilterGroupItem>
+
+                <fb:FilterGroupItem
+                    name="Name3"
+                    label="Division "
+                    groupName="Group1"
+                    visibleInFilterBar="true"
+                >
+                    <fb:control>
+                        <Input
+                            value=""
+                            placeholder="Division"
+                            showValueHelp="true"
+                        />
+                    </fb:control>
+                </fb:FilterGroupItem>
+
+                <fb:FilterGroupItem
+                    name="Name4"
+                    label="Material Group"
+                    groupName="Group1"
+                    visibleInFilterBar="true"
+                >
+                    <fb:control>
+                        <Select />
+                    </fb:control>
+                </fb:FilterGroupItem>
+            </fb:filterGroupItems>
+        </fb:FilterBar>
+        <f:DynamicPage
+            preserveHeaderStateOnScroll="true"
+            showFooter="true"
+            fitContent="true"
+            headerPinned="true"
+            
+        >
+            <f:title>
+                <f:DynamicPageTitle>
+                    <f:heading>
+                        <Title text="Sales order">
+                            <content />
+                        </Title>
+                    </f:heading>
+                </f:DynamicPageTitle>
+            </f:title>
+
+            <f:header>
+                <f:DynamicPageHeader>
+                    <f:content>
+                        <form:SimpleForm
+                            editable="true"
+                            layout="ColumnLayout"
+                        >
+                            <form:content>
+                                
+                                <Label text="Sold-to-party" />
+                                <Input />
+
+                                <Label text="Payment Terms" />
+                                <Input />
+
+                                <Label text="Doc Date" />
+                                <Input />
+
+                                <Label text="Truck No" />
+                                <Input />
+                                <Label text="Transporter Code " />
+                                <Input />
+
+                            
+
+                                <Label text="Ship-to-party " />
+                                <Input />
+                                <Label text="Inco Terms" />
+                                <Input />
+                                <Label text="LR No " />
+                                <Input />
+                                <Label text="Truck Capacilty" />
+                                <Input />
+                            </form:content>
+                        </form:SimpleForm>
+                    </f:content>
+                </f:DynamicPageHeader>
+            </f:header>
+
+            <f:content>
+                <Table
+                    id="SOTable"
+                    items="{path: 'oModelForTable>/'}"
+                    ariaLabelledBy="title"
+                    fixedLayout="Strict"
+                    autoPopinMode="true"
+                    growing="true"
+                    sticky="ColumnHeaders,HeaderToolbar"
+                    popinLayout="GridSmall"
+                    mode="Delete"
+                    delete="onItemsTableDelete"
+                    backgroundDesign="Solid"
+                    alternateRowColors="true"
+                >
+                    <headerToolbar>
+                        <OverflowToolbar>
+                            <Title
+                                id="title"
+                                text="List of Products"
+                            />
+                            <Button
+                                icon="sap-icon://action-settings"
+                                press="openPersoDialog"
+                                tooltip="Settings"
+                                visible="{myProperties>/view}"
+                            />
+                            <ToolbarSeparator visible="false" />
+                            <vm:VariantManagement
+                                id="p13nVm"
+                                for="SIONTable"
+                                visible="false"
+                            />
+                            <ToolbarSpacer />
+                            <Button
+                                icon="sap-icon://download"
+                                press="onExport"
+                                visible="{myProperties>/view}"
+                            />
+
+                            <Button
+                                icon="sap-icon://add-product"
+                                press="onAddNewItemPress"
+                                tooltip="Add New Item"
+                                type="Emphasized"
+                            />
+                        </OverflowToolbar>
+                    </headerToolbar>
+
+                    <dependents>
+                        <plugins:ColumnResizer columnResize="onColumnResize" />
+                        <columnmenu:Menu
+                            id="menu"
+                            beforeOpen="beforeOpenColumnMenu"
+                        >
+                            <columnmenu:QuickSort change="onSort">
+                                <columnmenu:items>
+                                    <columnmenu:QuickSortItem />
+                                </columnmenu:items>
+                            </columnmenu:QuickSort>
+                            <columnmenu:QuickGroup change="onGroup">
+                                <columnmenu:items>
+                                    <columnmenu:QuickGroupItem />
+                                </columnmenu:items>
+                            </columnmenu:QuickGroup>
+                            <columnmenu:items>
+                                <columnmenu:ActionItem
+                                    icon="sap-icon://sort"
+                                    label="Sort"
+                                    press="onColumnHeaderItemPress"
+                                />
+                                <columnmenu:ActionItem
+                                    icon="sap-icon://group-2"
+                                    label="Group"
+                                    press="onColumnHeaderItemPress"
+                                />
+                                <columnmenu:ActionItem
+                                    icon="sap-icon://filter"
+                                    label="Filter"
+                                    press="onColumnHeaderItemPress"
+                                />
+                                <columnmenu:ActionItem
+                                    icon="sap-icon://table-column"
+                                    label="Columns"
+                                    press="onColumnHeaderItemPress"
+                                />
+                            </columnmenu:items>
+                        </columnmenu:Menu>
+                    </dependents>
+
+                    <dragDropConfig>
+                        <dnd:DragDropInfo
+                            sourceAggregation="columns"
+                            targetAggregation="columns"
+                            dropPosition="Between"
+                            drop="onColumnMove"
+                        />
+                    </dragDropConfig>
+
+                    <noData>
+                        <IllustratedMessage />
+                    </noData>
+
+                    <columns>
+                        <Column headerMenu="menu">
+                            <header>
+                                <Text text="Material" />
+                            </header>
+                        </Column>
+                        <Column headerMenu="menu">
+                            <header>
+                                <Text text="Material Description " />
+                            </header>
+                        </Column>
+
+                        <Column
+                            app:p13nKey="HsnCode"
+                            headerMenu="menu"
+                        >
+                            <Text text="Quantity" />
+                        </Column>
+                        <Column
+                            app:p13nKey="SionNo"
+                            headerMenu="menu"
+                        >
+                            <Text text="Unit" />
+                        </Column>
+                        <Column
+                            app:p13nKey="Plant"
+                            headerMenu="menu"
+                        >
+                            <Text text="Plant" />
+                        </Column>
+                        <Column
+                            app:p13nKey="Plant"
+                            headerMenu="menu"
+                        >
+                            <Text text="Storage Location" />
+                        </Column>
+                        <Column
+                            app:p13nKey="Plant"
+                            headerMenu="menu"
+                        >
+                            <Text text="Contract" />
+                        </Column>
+                        <Column
+                            app:p13nKey="Plant"
+                            headerMenu="menu"
+                        >
+                            <Text text="Batch No" />
+                        </Column>
+                    </columns>
+
+                    <items>
+                        <ColumnListItem>
+                            <Text text="{MaterialNumber}" />
+                            <Text />
+                            <Text />
+                            <Text />
+                            <Text />
+                            <Text />
+                            <Text />
+                            <Text />
+                        </ColumnListItem>
+                    </items>
+                </Table>
+            </f:content>
+
+            <f:footer>
+                <OverflowToolbar visible="{myProperties>/footer}">
+                    <ToolbarSpacer />
+                    <Button
+                        text="Auto Invoice for SO"
+                        press=""
+                        type="Emphasized"
+                    />
+                    <Button
+                        text="Updtae Contract value"
+                        press=""
+                        type="Emphasized"
+                    />
+                    <Button
+                        text="Condition"
+                        press=""
+                        type="Emphasized"
+                    />
+                    <Button
+                        text="Reset"
+                        press=""
+                        type="Reject"
+                    />
+                    <Button
+                        text="Submit"
+                        press=""
+                        type="Accept"
+                    />
+                </OverflowToolbar>
+            </f:footer>
+        </f:DynamicPage>
+    </Page>
+</mvc:View>
