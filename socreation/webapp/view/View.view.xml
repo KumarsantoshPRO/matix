@@ -28,13 +28,16 @@
             <fb:FilterBar
                 id="filterbar"
                 persistencyKey="myPersKey"
-                useToolbar="false"
-                search="onSearch"
-                showClearOnFB="true"
-                clear="onFilterClear"
-                showFilterConfiguration="false"
+                useToolbar="true"
+                showGoOnFB="false"
+                showFilterConfiguration="true"
                 filterContainerWidth="30rem"
+                showRestoreButton="true"
+                showAllFilters="true"
+                
+               
             >
+          
                 <fb:filterGroupItems>
                     <fb:FilterGroupItem
                         name="Name"
@@ -47,6 +50,7 @@
                                 value=""
                                 placeholder="SO Document Type"
                                 showValueHelp="true"
+                                width="15rem"
                             />
                         </fb:control>
                     </fb:FilterGroupItem>
@@ -62,6 +66,7 @@
                                 value=""
                                 placeholder="Sales Organisation"
                                 showValueHelp="true"
+                                width="15rem"
                             />
                         </fb:control>
                     </fb:FilterGroupItem>
@@ -77,6 +82,7 @@
                                 value=""
                                 placeholder="Distribution Channel"
                                 showValueHelp="true"
+                                width="15rem"
                             />
                         </fb:control>
                     </fb:FilterGroupItem>
@@ -92,6 +98,7 @@
                                 value=""
                                 placeholder="Division"
                                 showValueHelp="true"
+                                width="15rem"
                             />
                         </fb:control>
                     </fb:FilterGroupItem>
@@ -104,6 +111,26 @@
                     >
                         <fb:control>
                             <Select />
+                        </fb:control>
+                    </fb:FilterGroupItem>
+                    <fb:FilterGroupItem
+                        name="Name5"
+                        groupName="Group1"
+                        visibleInFilterBar="true"
+                    >
+                        <fb:control>
+                         <FlexBox direction="Row" justifyContent="End"> 
+                                <Button
+                                    text="Next"
+                                    width="10rem"
+                                    type="Emphasized"
+                                    class="sapUiTinyMarginEnd"
+                                />
+                                <Button
+                                    text="Reset"
+                                    width="10rem"
+                                />
+                            </FlexBox> 
                         </fb:control>
                     </fb:FilterGroupItem>
                 </fb:filterGroupItems>
@@ -197,11 +224,6 @@
                                             visible="false"
                                         />
                                         <ToolbarSpacer />
-                                        <Button
-                                            icon="sap-icon://download"
-                                            press="onExport"
-                                            visible="{myProperties>/view}"
-                                        />
 
                                         <Button
                                             icon="sap-icon://add-product"
