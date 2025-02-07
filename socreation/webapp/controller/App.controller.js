@@ -3,7 +3,7 @@ sap.ui.define([
 ], (Controller) => {
   "use strict";
 
-  return Controller.extend("matix.com.sp.socreation.socreation.controller.View", {
+  return Controller.extend("matix.com.sp.socreation.socreation.controller.App", {
       onInit() {
       }
   });

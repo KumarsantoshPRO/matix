@@ -34,10 +34,7 @@
                 filterContainerWidth="30rem"
                 showRestoreButton="true"
                 showAllFilters="true"
-                
-               
             >
-          
                 <fb:filterGroupItems>
                     <fb:FilterGroupItem
                         name="Name"
@@ -47,7 +44,6 @@
                     >
                         <fb:control>
                             <Input
-                                value=""
                                 placeholder="SO Document Type"
                                 showValueHelp="true"
                                 width="15rem"
@@ -63,7 +59,8 @@
                     >
                         <fb:control>
                             <Input
-                                value=""
+                                value="1000-Matix Sales Group"
+                                editable="false"
                                 placeholder="Sales Organisation"
                                 showValueHelp="true"
                                 width="15rem"
@@ -79,7 +76,7 @@
                     >
                         <fb:control>
                             <Input
-                                value=""
+                                value="10-Dealers"
                                 placeholder="Distribution Channel"
                                 showValueHelp="true"
                                 width="15rem"
@@ -95,7 +92,7 @@
                     >
                         <fb:control>
                             <Input
-                                value=""
+                                value="10-Fertilisers"
                                 placeholder="Division"
                                 showValueHelp="true"
                                 width="15rem"
@@ -110,7 +107,12 @@
                         visibleInFilterBar="true"
                     >
                         <fb:control>
-                            <Select />
+                            <Select>
+                                <core:Item
+                                    key="90-Final Product"
+                                    text="90-Final Product"
+                                />
+                            </Select>
                         </fb:control>
                     </fb:FilterGroupItem>
                     <fb:FilterGroupItem
@@ -119,7 +121,10 @@
                         visibleInFilterBar="true"
                     >
                         <fb:control>
-                         <FlexBox direction="Row" justifyContent="End"> 
+                            <FlexBox
+                                direction="Row"
+                                justifyContent="End"
+                            >
                                 <Button
                                     text="Next"
                                     width="10rem"
@@ -130,7 +135,7 @@
                                     text="Reset"
                                     width="10rem"
                                 />
-                            </FlexBox> 
+                            </FlexBox>
                         </fb:control>
                     </fb:FilterGroupItem>
                 </fb:filterGroupItems>
@@ -158,7 +163,10 @@
                                     <Input />
 
                                     <Label text="Doc Date" />
-                                    <Input />
+                                    <DatePicker
+                                        value="07/02/2025"
+                                        displayFormat="dd/MM/yyyy"
+                                    />
 
                                     <Label text="Truck No" />
                                     <Input />
@@ -193,14 +201,14 @@
                         <uxap:blocks>
                             <Table
                                 id="SOTable"
-                                items="{path: 'oModelForTable>/'}"
+                                items="{path: 'oModelForTable>/results/'}"
                                 ariaLabelledBy="title"
                                 fixedLayout="Strict"
                                 autoPopinMode="true"
                                 growing="true"
                                 sticky="ColumnHeaders,HeaderToolbar"
                                 popinLayout="GridSmall"
-                                mode="Delete"
+                                mode="MultiSelect"
                                 delete="onItemsTableDelete"
                                 backgroundDesign="Solid"
                                 alternateRowColors="true"
@@ -215,7 +223,8 @@
                                             icon="sap-icon://action-settings"
                                             press="openPersoDialog"
                                             tooltip="Settings"
-                                            visible="{myProperties>/view}"
+                                            visible="false"
+
                                         />
                                         <ToolbarSeparator visible="false" />
                                         <vm:VariantManagement
@@ -224,8 +233,15 @@
                                             visible="false"
                                         />
                                         <ToolbarSpacer />
-
                                         <Button
+                                            text="Delete"
+                                            icon="sap-icon://delete"
+                                            press="deleteRow"
+                                            tooltip="Delete"
+                                            type="Reject"
+                                        />
+                                        <Button
+                                            text="Add Row"
                                             icon="sap-icon://add-product"
                                             press="onAddNewItemPress"
                                             tooltip="Add New Item"
@@ -344,14 +360,42 @@
 
                                 <items>
                                     <ColumnListItem>
-                                        <Text text="{MaterialNumber}" />
-                                        <Text />
-                                        <Text />
-                                        <Text />
-                                        <Text />
-                                        <Text />
-                                        <Text />
-                                        <Text />
+                                        <Select>
+                                            <core:Item
+                                                key="1"
+                                                text="{oModelForTable>Material}"
+                                            />
+                                        </Select>
+                                        <Input
+                                            value="{oModelForTable>MaterialDescription}"
+                                        />
+                                        <Input
+                                            value="{oModelForTable>Quantity}"
+                                        />
+                                        <Input value="{oModelForTable>Unit}" />
+                                        <Select>
+                                            <core:Item
+                                                key="1"
+                                                text="{oModelForTable>Plant}"
+                                            />
+                                        </Select>
+
+                                        <Select>
+                                            <core:Item
+                                                key="1"
+                                                text="{oModelForTable>StorageLocation}"
+                                            />
+                                        </Select>
+
+                                        <Input
+                                            value="{oModelForTable>Contract}"
+                                        />
+                                        <Select>
+                                            <core:Item
+                                                key="1"
+                                                text=""
+                                            />
+                                        </Select>
                                     </ColumnListItem>
                                 </items>
                             </Table>
