@@ -80,12 +80,24 @@
                     "target": [
                         "TargetView"
                     ]
+                },
+                {
+                  "name": "View2",
+                  "pattern": "View2/{SONo}",
+                  "target": [
+                    "View2"
+                  ]
                 }
             ],
             "targets": {
                 "TargetView": {
                     "id": "View",
                     "name": "View"
+                },
+                "View2": {
+                  "viewType": "XML",
+                  "viewId": "View2",
+                  "viewName": "View2"
                 }
             }
         },

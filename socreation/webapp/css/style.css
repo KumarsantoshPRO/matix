@@ -1,15 +1,8 @@
 /* Enter your custom styles here */
  
 
-#application-matixcomspsocreationsocreation-display-component---View--filterbar-filterItem-Group1-Name5{
-    visibility: hidden;
-}
-
-#application-matixcomspsocreationsocreation-display-component---View--filterbar-variantUi2-vm-trigger{
-    visibility: hidden;
-}
-
-#__hbox0{
-    align-items: end;
-    align-content: flex-end;
+.sapUiForm .sapUiFormElementLbl>.sapMLabel {
+    text-align: left !important;
+    width : auto;
+   
 }

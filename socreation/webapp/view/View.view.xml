@@ -4,7 +4,7 @@
     xmlns:mvc="sap.ui.core.mvc"
     xmlns="sap.m"
     xmlns:core="sap.ui.core"
-    xmlns:f="sap.f"
+    xmlns:f="sap.ui.layout.form"
     xmlns:fb="sap.ui.comp.filterbar"
     xmlns:svm="sap.ui.comp.smartvariants"
     xmlns:plugins="sap.m.plugins"
@@ -18,29 +18,25 @@
     xmlns:form="sap.ui.layout.form"
     xmlns:uxap="sap.uxap"
 >
-    <uxap:ObjectPageLayout
-        id="ObjectPageLayout"
-        upperCaseAnchorBar="false"
-        showFooter="true"
-        headerContentPinnable="false"
-     
-    >
-        <uxap:headerContent>
-            <form:SimpleForm
+    <Page>
+        <VBox class="sapUiSmallMargin">
+            <f:SimpleForm
                 editable="true"
-                layout="ColumnLayout"
-                title="SO Creation"
-                class="sapUiSmallMargin"
-                columnsL="3"
-                width="40rem"
-                
+                title="Create Sales Order"
+                layout="ResponsiveGridLayout"
+                emptySpanXL="4"
+                emptySpanL="4"
+                emptySpanM="4"
+                columnsXL="1"
+                columnsL="1"
+                singleContainerFullSize="false"
             >
-                <form:content>
+                <f:content>
                     <Label text="SO Document Type" />
                     <Input
                         placeholder="SO Document Type"
                         showValueHelp="true"
-                       
+                        width="15rem"
                     />
 
                     <Label text="Sales Organisation" />
@@ -49,7 +45,7 @@
                         editable="false"
                         placeholder="Sales Organisation"
                         showValueHelp="true"
-                       
+                        width="15rem"
                     />
 
                     <Label text="Distribution Channel" />
@@ -57,7 +53,7 @@
                         value="10-Dealers"
                         placeholder="Distribution Channel"
                         showValueHelp="true"
-                       
+                        width="15rem"
                     />
 
                     <Label text="Division" />
@@ -65,330 +61,36 @@
                         value="10-Fertilisers"
                         placeholder="Division"
                         showValueHelp="true"
-                       
+                        width="15rem"
                     />
-                    <Label text="Material Group " />
-                    <Select>
+                    <Label
+                        text="Material Group "
+                        textAlign="Initial"
+                    />
+                    <Select width="15rem">
                         <core:Item
                             key="90-Final Product"
                             text="90-Final Product"
                         />
                     </Select>
-                </form:content>
-            </form:SimpleForm>
+                </f:content>
+            </f:SimpleForm>
+
             <Bar>
                 <contentLeft>
                     <Button
-                        text="Next"
-                        width="10rem"
-                        type="Emphasized"
-                        class="sapUiTinyMarginEnd"
+                        text="Reset"
+                        type="Reject"
+                        icon="sap-icon://reset"
                     />
                     <Button
-                        text="Reset"
-                        width="10rem"
-                         type="Ghost"
+                        text="Next"
+                        type="Emphasized"
+                        press="onNextButtonPress"
+                        icon="sap-icon://initiative"
                     />
                 </contentLeft>
             </Bar>
-        </uxap:headerContent>
-
-        <uxap:sections>
-            <uxap:ObjectPageSection
-                id="idOPSalesOrderDetails"
-                title="Sales Order"
-            >
-                <uxap:subSections>
-                    <uxap:ObjectPageSubSection
-                        id="idSalesOrderHeader"
-                        title="Sales Order"
-                        titleUppercase="true"
-                        visible="false"
-                    >
-                        <uxap:blocks>
-                            <form:SimpleForm
-                                editable="true"
-                                layout="ResponsiveGridLayout"
-                            >
-                                <form:content>
-                                    <Label text="Sold-to-party" />
-                                    <Input />
-
-                                    <Label text="Payment Terms" />
-                                    <Input />
-
-                                    <Label text="Doc Date" />
-                                    <DatePicker
-                                        value="07/02/2025"
-                                        displayFormat="dd/MM/yyyy"
-                                    />
-
-                                    <Label text="Truck No" />
-                                    <Input />
-                                    <Label text="Transporter Code " />
-                                    <Input />
-
-                                    <Label text="Ship-to-party " />
-                                    <Input />
-                                    <Label text="Inco Terms" />
-                                    <Input />
-                                    <Label text="LR No " />
-                                    <Input />
-                                    <Label text="Truck Capacilty" />
-                                    <Input />
-                                </form:content>
-                            </form:SimpleForm>
-                        </uxap:blocks>
-                    </uxap:ObjectPageSubSection>
-                </uxap:subSections>
-            </uxap:ObjectPageSection>
-            <uxap:ObjectPageSection
-                id="idOPListofProducts"
-                titleUppercase="true"
-                title="List of Products"
-                visible="false"
-            >
-                <uxap:subSections>
-                    <uxap:ObjectPageSubSection
-                        id="idListofProducts"
-                        title="List of Products"
-                        titleUppercase="true"
-                    >
-                        <uxap:blocks>
-                            <Table
-                                id="SOTable"
-                                items="{path: 'oModelForTable>/results/'}"
-                                ariaLabelledBy="title"
-                                fixedLayout="Strict"
-                                autoPopinMode="true"
-                                growing="true"
-                                sticky="ColumnHeaders,HeaderToolbar"
-                                popinLayout="GridSmall"
-                                mode="MultiSelect"
-                                delete="onItemsTableDelete"
-                                backgroundDesign="Solid"
-                                alternateRowColors="true"
-                            >
-                                <headerToolbar>
-                                    <OverflowToolbar>
-                                        <Title
-                                            id="title"
-                                            text="List of Products"
-                                        />
-                                        <Button
-                                            icon="sap-icon://action-settings"
-                                            press="openPersoDialog"
-                                            tooltip="Settings"
-                                            visible="false"
-                                        />
-                                        <ToolbarSeparator visible="false" />
-                                        <vm:VariantManagement
-                                            id="p13nVm"
-                                            for="SIONTable"
-                                            visible="false"
-                                        />
-                                        <ToolbarSpacer />
-                                        <Button
-                                            text="Delete"
-                                            icon="sap-icon://delete"
-                                            press="deleteRow"
-                                            tooltip="Delete"
-                                            type="Reject"
-                                        />
-                                        <Button
-                                            text="Add Row"
-                                            icon="sap-icon://add-product"
-                                            press="onAddNewItemPress"
-                                            tooltip="Add New Item"
-                                            type="Emphasized"
-                                        />
-                                    </OverflowToolbar>
-                                </headerToolbar>
-
-                                <dependents>
-                                    <plugins:ColumnResizer
-                                        columnResize="onColumnResize"
-                                    />
-                                    <columnmenu:Menu
-                                        id="menu"
-                                        beforeOpen="beforeOpenColumnMenu"
-                                    >
-                                        <columnmenu:QuickSort change="onSort">
-                                            <columnmenu:items>
-                                                <columnmenu:QuickSortItem />
-                                            </columnmenu:items>
-                                        </columnmenu:QuickSort>
-                                        <columnmenu:QuickGroup change="onGroup">
-                                            <columnmenu:items>
-                                                <columnmenu:QuickGroupItem />
-                                            </columnmenu:items>
-                                        </columnmenu:QuickGroup>
-                                        <columnmenu:items>
-                                            <columnmenu:ActionItem
-                                                icon="sap-icon://sort"
-                                                label="Sort"
-                                                press="onColumnHeaderItemPress"
-                                            />
-                                            <columnmenu:ActionItem
-                                                icon="sap-icon://group-2"
-                                                label="Group"
-                                                press="onColumnHeaderItemPress"
-                                            />
-                                            <columnmenu:ActionItem
-                                                icon="sap-icon://filter"
-                                                label="Filter"
-                                                press="onColumnHeaderItemPress"
-                                            />
-                                            <columnmenu:ActionItem
-                                                icon="sap-icon://table-column"
-                                                label="Columns"
-                                                press="onColumnHeaderItemPress"
-                                            />
-                                        </columnmenu:items>
-                                    </columnmenu:Menu>
-                                </dependents>
-
-                                <dragDropConfig>
-                                    <dnd:DragDropInfo
-                                        sourceAggregation="columns"
-                                        targetAggregation="columns"
-                                        dropPosition="Between"
-                                        drop="onColumnMove"
-                                    />
-                                </dragDropConfig>
-
-                                <noData>
-                                    <IllustratedMessage />
-                                </noData>
-
-                                <columns>
-                                    <Column headerMenu="menu">
-                                        <header>
-                                            <Text text="Material" />
-                                        </header>
-                                    </Column>
-                                    <Column headerMenu="menu">
-                                        <header>
-                                            <Text
-                                                text="Material Description "
-                                            />
-                                        </header>
-                                    </Column>
-
-                                    <Column
-                                        app:p13nKey="HsnCode"
-                                        headerMenu="menu"
-                                    >
-                                        <Text text="Quantity" />
-                                    </Column>
-                                    <Column
-                                        app:p13nKey="SionNo"
-                                        headerMenu="menu"
-                                    >
-                                        <Text text="Unit" />
-                                    </Column>
-                                    <Column
-                                        app:p13nKey="Plant"
-                                        headerMenu="menu"
-                                    >
-                                        <Text text="Plant" />
-                                    </Column>
-                                    <Column
-                                        app:p13nKey="Plant"
-                                        headerMenu="menu"
-                                    >
-                                        <Text text="Storage Location" />
-                                    </Column>
-                                    <Column
-                                        app:p13nKey="Plant"
-                                        headerMenu="menu"
-                                    >
-                                        <Text text="Contract" />
-                                    </Column>
-                                    <Column
-                                        app:p13nKey="Plant"
-                                        headerMenu="menu"
-                                    >
-                                        <Text text="Batch No" />
-                                    </Column>
-                                </columns>
-
-                                <items>
-                                    <ColumnListItem>
-                                        <Select>
-                                            <core:Item
-                                                key="1"
-                                                text="{oModelForTable>Material}"
-                                            />
-                                        </Select>
-                                        <Input
-                                            value="{oModelForTable>MaterialDescription}"
-                                        />
-                                        <Input
-                                            value="{oModelForTable>Quantity}"
-                                        />
-                                        <Input value="{oModelForTable>Unit}" />
-                                        <Select>
-                                            <core:Item
-                                                key="1"
-                                                text="{oModelForTable>Plant}"
-                                            />
-                                        </Select>
-
-                                        <Select>
-                                            <core:Item
-                                                key="1"
-                                                text="{oModelForTable>StorageLocation}"
-                                            />
-                                        </Select>
-
-                                        <Input
-                                            value="{oModelForTable>Contract}"
-                                        />
-                                        <Select>
-                                            <core:Item
-                                                key="1"
-                                                text=""
-                                            />
-                                        </Select>
-                                    </ColumnListItem>
-                                </items>
-                            </Table>
-                        </uxap:blocks>
-                    </uxap:ObjectPageSubSection>
-                </uxap:subSections>
-            </uxap:ObjectPageSection>
-        </uxap:sections>
-
-        <uxap:footer >
-            <OverflowToolbar   visible="false">
-                <ToolbarSpacer />
-                <Button
-                    text="Auto Invoice for SO"
-                    press=""
-                    type="Emphasized"
-                />
-                <Button
-                    text="Updtae Contract value"
-                    press=""
-                    type="Emphasized"
-                />
-                <Button
-                    text="Condition"
-                    press=""
-                    type="Emphasized"
-                />
-                <Button
-                    text="Reset"
-                    press=""
-                    type="Reject"
-                />
-                <Button
-                    text="Submit"
-                    press=""
-                    type="Accept"
-                />
-            </OverflowToolbar>
-        </uxap:footer>
-    </uxap:ObjectPageLayout>
+        </VBox>
+    </Page>
 </mvc:View>
