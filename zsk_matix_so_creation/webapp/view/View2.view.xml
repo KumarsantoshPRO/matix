@@ -1,5 +1,5 @@
 <mvc:View
-    controllerName="matix.com.sp.socreation.socreation.controller.View"
+    controllerName="zpro.sk.matix.so.creation.zskmatixsocreation.controller.View2"
     height="100%"
     xmlns:mvc="sap.ui.core.mvc"
     xmlns="sap.m"
@@ -23,76 +23,7 @@
         upperCaseAnchorBar="false"
         showFooter="true"
         headerContentPinnable="false"
-     
     >
-        <uxap:headerContent>
-            <form:SimpleForm
-                editable="true"
-                layout="ColumnLayout"
-                title="SO Creation"
-                class="sapUiSmallMargin"
-                columnsL="3"
-                width="40rem"
-                
-            >
-                <form:content>
-                    <Label text="SO Document Type" />
-                    <Input
-                        placeholder="SO Document Type"
-                        showValueHelp="true"
-                       
-                    />
-
-                    <Label text="Sales Organisation" />
-                    <Input
-                        value="1000-Matix Sales Group"
-                        editable="false"
-                        placeholder="Sales Organisation"
-                        showValueHelp="true"
-                       
-                    />
-
-                    <Label text="Distribution Channel" />
-                    <Input
-                        value="10-Dealers"
-                        placeholder="Distribution Channel"
-                        showValueHelp="true"
-                       
-                    />
-
-                    <Label text="Division" />
-                    <Input
-                        value="10-Fertilisers"
-                        placeholder="Division"
-                        showValueHelp="true"
-                       
-                    />
-                    <Label text="Material Group " />
-                    <Select>
-                        <core:Item
-                            key="90-Final Product"
-                            text="90-Final Product"
-                        />
-                    </Select>
-                </form:content>
-            </form:SimpleForm>
-            <Bar>
-                <contentLeft>
-                    <Button
-                        text="Next"
-                        width="10rem"
-                        type="Emphasized"
-                        class="sapUiTinyMarginEnd"
-                    />
-                    <Button
-                        text="Reset"
-                        width="10rem"
-                         type="Ghost"
-                    />
-                </contentLeft>
-            </Bar>
-        </uxap:headerContent>
-
         <uxap:sections>
             <uxap:ObjectPageSection
                 id="idOPSalesOrderDetails"
@@ -103,14 +34,15 @@
                         id="idSalesOrderHeader"
                         title="Sales Order"
                         titleUppercase="true"
-                        visible="false"
                     >
                         <uxap:blocks>
                             <form:SimpleForm
                                 editable="true"
                                 layout="ResponsiveGridLayout"
+                                columnsL="3"
                             >
                                 <form:content>
+                                    <core:Title />
                                     <Label text="Sold-to-party" />
                                     <Input />
 
@@ -122,14 +54,15 @@
                                         value="07/02/2025"
                                         displayFormat="dd/MM/yyyy"
                                     />
-
+                                    <core:Title />
                                     <Label text="Truck No" />
                                     <Input />
-                                    <Label text="Transporter Code " />
+                                    <Label text="Trans. Code " />
                                     <Input />
 
                                     <Label text="Ship-to-party " />
                                     <Input />
+                                    <core:Title />
                                     <Label text="Inco Terms" />
                                     <Input />
                                     <Label text="LR No " />
@@ -146,7 +79,6 @@
                 id="idOPListofProducts"
                 titleUppercase="true"
                 title="List of Products"
-                visible="false"
             >
                 <uxap:subSections>
                     <uxap:ObjectPageSubSection
@@ -360,8 +292,8 @@
             </uxap:ObjectPageSection>
         </uxap:sections>
 
-        <uxap:footer >
-            <OverflowToolbar   visible="false">
+        <uxap:footer>
+            <OverflowToolbar>
                 <ToolbarSpacer />
                 <Button
                     text="Auto Invoice for SO"
