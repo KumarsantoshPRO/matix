@@ -5,38 +5,23 @@
     xmlns="sap.m"
     xmlns:core="sap.ui.core"
     xmlns:f="sap.ui.layout.form"
-    xmlns:fb="sap.ui.comp.filterbar"
-    xmlns:svm="sap.ui.comp.smartvariants"
-    xmlns:plugins="sap.m.plugins"
-    xmlns:columnmenu="sap.m.table.columnmenu"
-    xmlns:sap.ui.fl="sap.ui.fl"
-    xmlns:sap.ui.dt="sap.ui.dt"
-    xmlns:vm="sap.ui.fl.variants"
-    xmlns:dnd="sap.ui.core.dnd"
-    xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
-    xmlns:u="sap.ui.unified"
-    xmlns:form="sap.ui.layout.form"
-    xmlns:uxap="sap.uxap"
 >
     <Page>
-        <VBox class="sapUiSmallMargin">
+        <FlexBox
+            alignItems="Center"
+            justifyContent="Center"
+            class="sapUiLargeMarginTop"
+        >
             <f:SimpleForm
                 editable="true"
                 title="Create Sales Order"
                 layout="ResponsiveGridLayout"
-                emptySpanXL="4"
-                emptySpanL="4"
-                emptySpanM="4"
-                columnsXL="1"
-                columnsL="1"
-                singleContainerFullSize="false"
             >
                 <f:content>
                     <Label text="SO Document Type" />
                     <Input
                         placeholder="SO Document Type"
                         showValueHelp="true"
-                        width="15rem"
                     />
 
                     <Label text="Sales Organisation" />
@@ -45,7 +30,6 @@
                         editable="false"
                         placeholder="Sales Organisation"
                         showValueHelp="true"
-                        width="15rem"
                     />
 
                     <Label text="Distribution Channel" />
@@ -53,7 +37,6 @@
                         value="10-Dealers"
                         placeholder="Distribution Channel"
                         showValueHelp="true"
-                        width="15rem"
                     />
 
                     <Label text="Division" />
@@ -61,23 +44,18 @@
                         value="10-Fertilisers"
                         placeholder="Division"
                         showValueHelp="true"
-                        width="15rem"
                     />
                     <Label
                         text="Material Group "
                         textAlign="Initial"
                     />
-                    <Select width="15rem">
+                    <Select>
                         <core:Item
                             key="90-Final Product"
                             text="90-Final Product"
                         />
                     </Select>
-                </f:content>
-            </f:SimpleForm>
-
-            <Bar>
-                <contentLeft>
+                    <Label />
                     <Button
                         text="Reset"
                         type="Reject"
@@ -89,8 +67,23 @@
                         press="onNextButtonPress"
                         icon="sap-icon://initiative"
                     />
-                </contentLeft>
-            </Bar>
-        </VBox>
+                </f:content>
+            </f:SimpleForm>
+            <!-- <Bar>
+                    <contentLeft>
+                        <Button
+                            text="Reset"
+                            type="Reject"
+                            icon="sap-icon://reset"
+                        />
+                        <Button
+                            text="Next"
+                            type="Emphasized"
+                            press="onNextButtonPress"
+                            icon="sap-icon://initiative"
+                        />
+                    </contentLeft>
+                </Bar> -->
+        </FlexBox>
     </Page>
 </mvc:View>

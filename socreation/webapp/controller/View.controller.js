@@ -35,6 +35,9 @@ sap.ui.define(
             .getRouter()
             .attachRoutePatternMatched(this.onRouteMatched, this);
         },
+        onRouteMatched: function(oEvent){
+
+        },
 
         onNextButtonPress: function () {
           this.oRouter = this.getOwnerComponent().getRouter();

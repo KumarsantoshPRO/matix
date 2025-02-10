@@ -40,6 +40,7 @@
                                 editable="true"
                                 layout="ResponsiveGridLayout"
                                 columnsL="3"
+                                title="{oModelForForm>/title}"
                             >
                                 <form:content>
                                     <core:Title />
