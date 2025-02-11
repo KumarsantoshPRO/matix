@@ -1,0 +1,164 @@
+<mvc:View
+    controllerName="matix.com.rep.transitdetails.transitdetails.controller.View"
+    height="100%"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:core="sap.ui.core"
+    xmlns="sap.m"
+    xmlns:f="sap.f"
+    xmlns:fb="sap.ui.comp.filterbar"
+    xmlns:svm="sap.ui.comp.smartvariants"
+    xmlns:form="sap.ui.layout.form"
+>
+    <f:DynamicPage headerExpanded="true">
+        <f:header>
+            <f:DynamicPageHeader pinnable="false">
+                <f:content>
+                    <form:SimpleForm
+                        editable="true"
+                        title="Display Stock In Transit"
+                        layout="ColumnLayout"
+                    >
+                        <form:content>
+                            <!-- <core:Title /> -->
+                            <Label text="Material" />
+                            <Input
+                                placeholder="Material"
+                                showValueHelp="true"
+                                width="15rem"
+                            />
+
+                            <Label text="District " />
+                            <Input
+                                placeholder="District"
+                                showValueHelp="true"
+                                width="15rem"
+                            />
+
+                            <Label text="Receiving Plant " />
+                            <Input
+                                placeholder="Receiving Plant"
+                                showValueHelp="true"
+                                width="15rem"
+                            />
+                            <!-- <core:Title /> -->
+                            <Label text="From Date " />
+                            <DatePicker
+                                placeholder="mm/dd/yyyy"
+                                width="15rem"
+                            />
+                            <Label text="To Date " />
+                            <DatePicker
+                                placeholder="mm/dd/yyyy"
+                                width="15rem"
+                            />
+                            <Label />
+                            <RadioButton
+                                text="Stock Transfer"
+                                selected="true"
+                            />
+                        </form:content>
+                    </form:SimpleForm>
+                </f:content>
+                <HBox justifyContent="SpaceBetween">
+                    <HBox>
+                        <Button
+                            text="View Report"
+                            type="Emphasized"
+                            press="onNextButtonPress"
+                            class="sapUiSmallMarginEnd"
+                        />
+                        <Button
+                            text="Reset"
+                            type="Reject"
+                        />
+                    </HBox>
+                </HBox>
+            </f:DynamicPageHeader>
+        </f:header>
+        <f:content>
+            <Table
+                id="table"
+                inset="false"
+                items="{
+						path: '/ProductCollection'
+					}"
+            >
+                <infoToolbar>
+                    <OverflowToolbar>
+                        <Label text="List of Stock in Transit" design="Bold" />
+                    </OverflowToolbar>
+                </infoToolbar>
+                <columns>
+                    <Column
+                        minScreenWidth="Tablet"
+                        demandPopin="true"
+                    >
+                        <Text text="Material" />
+                    </Column>
+                    <Column
+                        minScreenWidth="Tablet"
+                        demandPopin="true"
+                    >
+                        <Text text="Date" />
+                    </Column>
+                    <Column
+                        minScreenWidth="Tablet"
+                        demandPopin="true"
+                    >
+                        <Text text="OBD Number" />
+                    </Column>
+                    <Column
+                        minScreenWidth="Tablet"
+                        demandPopin="true"
+                    >
+                        <Text text="Quantity" />
+                    </Column>
+                    <Column
+                        minScreenWidth="Tablet"
+                        demandPopin="true"
+                    >
+                        <Text text="District" />
+                    </Column>
+                    <Column
+                        minScreenWidth="Tablet"
+                        demandPopin="true"
+                    >
+                        <Text text="Destination Plant" />
+                    </Column>
+                    <Column
+                        minScreenWidth="Tablet"
+                        demandPopin="true"
+                    >
+                        <Text text="Mode of Transportation" />
+                    </Column>
+                    <Column
+                        minScreenWidth="Tablet"
+                        demandPopin="true"
+                    >
+                        <Text text="Delay" />
+                    </Column>
+                    <Column
+                        minScreenWidth="Tablet"
+                        demandPopin="true"
+                    >
+                        <Text text="Supplying Plant" />
+                    </Column>
+                </columns>
+
+                <items>
+                    <ColumnListItem vAlign="Middle">
+                        <cells>
+                            <ObjectIdentifier
+                                title="{Name}"
+                                text="{ProductId}"
+                            />
+                            <Text text="{Category}" />
+                            <Text text="{SupplierName}" />
+                            <Text text="{SupplierName}" />
+                        </cells>
+                    </ColumnListItem>
+                </items>
+            </Table>
+        </f:content>
+    </f:DynamicPage>
+</mvc:View>

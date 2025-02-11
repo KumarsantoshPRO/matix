@@ -1,0 +1,97 @@
+{
+    "_version": "1.65.0",
+    "sap.app": {
+        "id": "matix.com.rep.stockdifflocation.stockdifflocation",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "0.0.1"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "resources": "resources.json",
+        "sourceTemplate": {
+            "id": "@sap/generator-fiori:basic",
+            "version": "1.15.6",
+            "toolsId": "41fc876c-17c9-4b22-a01a-570be3d25445"
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        }
+    },
+    "sap.ui5": {
+        "flexEnabled": true,
+        "dependencies": {
+            "minUI5Version": "1.132.1",
+            "libs": {
+                "sap.m": {},
+                "sap.ui.core": {}
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "settings": {
+                    "bundleName": "matix.com.rep.stockdifflocation.stockdifflocation.i18n.i18n"
+                }
+            }
+        },
+        "resources": {
+            "css": [
+                {
+                    "uri": "css/style.css"
+                }
+            ]
+        },
+        "routing": {
+            "config": {
+                "routerClass": "sap.m.routing.Router",
+                "controlAggregation": "pages",
+                "controlId": "app",
+                "transition": "slide",
+                "type": "View",
+                "viewType": "XML",
+                "path": "matix.com.rep.stockdifflocation.stockdifflocation.view",
+                "async": true,
+                "viewPath": "matix.com.rep.stockdifflocation.stockdifflocation.view"
+            },
+            "routes": [
+                {
+                    "name": "RouteView",
+                    "pattern": ":?query:",
+                    "target": [
+                        "TargetView"
+                    ]
+                }
+            ],
+            "targets": {
+                "TargetView": {
+                    "id": "View",
+                    "name": "View"
+                }
+            }
+        },
+        "rootView": {
+            "viewName": "matix.com.rep.stockdifflocation.stockdifflocation.view.App",
+            "type": "XML",
+            "id": "App"
+        }
+    }
+}

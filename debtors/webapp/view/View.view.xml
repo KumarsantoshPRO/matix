@@ -1,0 +1,131 @@
+<mvc:View
+    controllerName="matix.com.rep.debtors.debtors.controller.View"
+    height="100%"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:core="sap.ui.core"
+    xmlns="sap.m"
+    xmlns:f="sap.f"
+    xmlns:fb="sap.ui.comp.filterbar"
+    xmlns:svm="sap.ui.comp.smartvariants"
+    xmlns:form="sap.ui.layout.form"
+>
+    <f:DynamicPage headerExpanded="true">
+        <f:header>
+            <f:DynamicPageHeader pinnable="false">
+                <f:content>
+                    <form:SimpleForm
+                        editable="true"
+                        title="Debtors Outstanding with aging"
+                        layout="ResponsiveGridLayout"
+                    >
+                        <form:content>
+                            <Label text="Sold To Party" />
+                            <Input
+                                placeholder="Sold To Party"
+                                showValueHelp="true"
+                                width="15rem"
+                            />
+
+                            <Label text="District " />
+                            <Input
+                                placeholder="District"
+                                showValueHelp="true"
+                                width="15rem"
+                            />
+
+                            <Label text="Date " />
+                            <DatePicker
+                                value="02/11/2025"
+                                width="15rem"
+                            />
+                        </form:content>
+                    </form:SimpleForm>
+                </f:content>
+                <HBox justifyContent="SpaceBetween">
+                    <HBox>
+                        <Button
+                            text="View Report"
+                            type="Emphasized"
+                            press="onNextButtonPress"
+                            class="sapUiSmallMarginEnd"
+                        />
+                        <Button
+                            text="Reset"
+                            type="Reject"
+                        />
+                    </HBox>
+                </HBox>
+            </f:DynamicPageHeader>
+        </f:header>
+        <f:content>
+            <Table
+                id="table"
+                inset="false"
+                items="{
+						path: '/ProductCollection'
+					}"
+            >
+                <infoToolbar>
+                    <OverflowToolbar>
+                        <Label
+                            text="List of Debtors Outstanding"
+                            design="Bold"
+                        />
+                    </OverflowToolbar>
+                </infoToolbar>
+                <columns>
+                    <Column
+                        minScreenWidth="Tablet"
+                        demandPopin="true"
+                    >
+                        <Text text="Customer Number" />
+                    </Column>
+                    <Column
+                        minScreenWidth="Tablet"
+                        demandPopin="true"
+                    >
+                        <Text text="Customer Name" />
+                    </Column>
+                    <Column
+                        minScreenWidth="Tablet"
+                        demandPopin="true"
+                    >
+                        <Text text="District" />
+                    </Column>
+                    <Column
+                        minScreenWidth="Tablet"
+                        demandPopin="true"
+                    >
+                        <Text text="Credit Limit" />
+                    </Column>
+                    <Column
+                        minScreenWidth="Tablet"
+                        demandPopin="true"
+                    >
+                        <Text text="Validity Till" />
+                    </Column>
+                    <Column
+                        minScreenWidth="Tablet"
+                        demandPopin="true"
+                    >
+                        <Text text="Outstanding Amount" />
+                    </Column>
+                </columns>
+
+                <items>
+                    <ColumnListItem vAlign="Middle">
+                        <cells>
+                            <ObjectIdentifier
+                                title="{Name}"
+                                text="{ProductId}"
+                            />
+                            <Text text="{Category}" />
+                            <Text text="{SupplierName}" />
+                            <Text text="{SupplierName}" />
+                        </cells>
+                    </ColumnListItem>
+                </items>
+            </Table>
+        </f:content>
+    </f:DynamicPage>
+</mvc:View>
