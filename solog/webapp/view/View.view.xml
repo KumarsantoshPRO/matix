@@ -1,5 +1,5 @@
 <mvc:View
-    controllerName="matix.com.sp.socreation.socreation.controller.View2"
+    controllerName="matix.com.log.solog.solog.controller.View"
     height="100%"
     xmlns:mvc="sap.ui.core.mvc"
     xmlns:core="sap.ui.core"
@@ -12,47 +12,60 @@
     xmlns:dnd="sap.ui.core.dnd"
     xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
 >
-    <f:DynamicPage headerExpanded="true" showFooter="true">
+    <f:DynamicPage
+        headerExpanded="true"
+        showFooter="true"
+    >
         <f:header>
             <f:DynamicPageHeader pinnable="false">
                 <f:content>
                     <form:SimpleForm
                         editable="true"
-                        layout="ColumnLayout"
-                        
-                        title="{oModelForForm>/title}"
+                        layout="ResponsiveGridLayout"
+                        columnsL="2"
+                        title="SO Log"
                     >
                         <form:content>
-                             <!-- <core:Title /> -->
-                            <Label text="Sold-to-party" />
-                            <Input />
-
-                            <Label text="Payment Terms" />
-                            <Input />
-
-                            <Label text="Doc Date" />
+                            <core:Title />
+                            <Label text="From Date " />
                             <DatePicker
-                                value="07/02/2025"
-                                displayFormat="dd/MM/yyyy"
+                                placeholder="mm/dd/yyyy"
+                                width="15rem"
                             />
-                             <!-- <core:Title /> -->
-                            <Label text="Truck No" />
-                            <Input />
-                            <Label text="Trans. Code " />
-                            <Input />
 
-                            <Label text="Ship-to-party " />
-                            <Input />
-                             <!-- <core:Title /> -->
-                            <Label text="Inco Terms" />
-                            <Input />
-                            <Label text="LR No " />
-                            <Input />
-                            <Label text="Truck Capacilty" />
-                            <Input />
+                            <Label text="User" />
+                            <Input width="15rem" />
+                            <Label text="Product " />
+                            <Input width="15rem" />
+                            <core:Title />
+                            <Label text="Sales Office " />
+                            <Input width="15rem" />
+
+                            <Label text="Customer Sales Group" />
+                            <Input width="15rem" />
+
+                            <Label text="To Date " />
+                            <DatePicker
+                                placeholder="mm/dd/yyyy"
+                                width="15rem"
+                            />
                         </form:content>
                     </form:SimpleForm>
                 </f:content>
+                <HBox justifyContent="SpaceBetween">
+                    <HBox>
+                        <Button
+                            text="Search"
+                            type="Emphasized"
+                            press="onNextButtonPress"
+                            class="sapUiSmallMarginEnd"
+                        />
+                        <Button
+                            text="Reset"
+                            type="Reject"
+                        />
+                    </HBox>
+                </HBox>
             </f:DynamicPageHeader>
         </f:header>
 
@@ -62,11 +75,10 @@
                 items="{path: 'oModelForTable>/results/'}"
                 ariaLabelledBy="title"
                 fixedLayout="Strict"
-                autoPopinMode="true"
                 growing="true"
                 sticky="ColumnHeaders,HeaderToolbar"
                 popinLayout="GridSmall"
-                mode="MultiSelect"
+                mode="None"
                 delete="onItemsTableDelete"
                 backgroundDesign="Solid"
                 alternateRowColors="true"
@@ -75,7 +87,7 @@
                     <OverflowToolbar>
                         <Title
                             id="title"
-                            text="List of Products"
+                            text="List of SO Log"
                         />
                         <Button
                             icon="sap-icon://action-settings"
@@ -96,6 +108,7 @@
                             press="deleteRow"
                             tooltip="Delete"
                             type="Reject"
+                            visible="false"
                         />
                         <Button
                             text="Add Row"
@@ -103,6 +116,7 @@
                             press="onAddNewItemPress"
                             tooltip="Add New Item"
                             type="Emphasized"
+                            visible="false"
                         />
                     </OverflowToolbar>
                 </headerToolbar>
@@ -164,12 +178,12 @@
                 <columns>
                     <Column headerMenu="menu">
                         <header>
-                            <Text text="Material" />
+                            <Text text="SlNo" />
                         </header>
                     </Column>
                     <Column headerMenu="menu">
                         <header>
-                            <Text text="Material Description " />
+                            <Text text="SO Number" />
                         </header>
                     </Column>
 
@@ -177,13 +191,19 @@
                         app:p13nKey="HsnCode"
                         headerMenu="menu"
                     >
-                        <Text text="Quantity" />
+                        <Text text="Doc.Date" />
                     </Column>
                     <Column
                         app:p13nKey="SionNo"
                         headerMenu="menu"
                     >
-                        <Text text="Unit" />
+                        <Text text="Sold-To-Party" />
+                    </Column>
+                    <Column
+                        app:p13nKey="Plant"
+                        headerMenu="menu"
+                    >
+                        <Text text="Ship-To-party" />
                     </Column>
                     <Column
                         app:p13nKey="Plant"
@@ -195,88 +215,82 @@
                         app:p13nKey="Plant"
                         headerMenu="menu"
                     >
-                        <Text text="Storage Location" />
+                        <Text text="Payment Terms" />
                     </Column>
                     <Column
                         app:p13nKey="Plant"
                         headerMenu="menu"
                     >
-                        <Text text="Contract" />
+                        <Text text="Material" />
                     </Column>
+
                     <Column
                         app:p13nKey="Plant"
                         headerMenu="menu"
                     >
                         <Text text="Batch No" />
                     </Column>
+                    <Column
+                        app:p13nKey="Plant"
+                        headerMenu="menu"
+                    >
+                        <Text text="SO Qnty" />
+                    </Column>
+                    <Column
+                        app:p13nKey="Plant"
+                        headerMenu="menu"
+                    >
+                        <Text text="Storage Location" />
+                    </Column>
+
+                    <Column
+                        app:p13nKey="Plant"
+                        headerMenu="menu"
+                    >
+                        <Text text="Sales Office" />
+                    </Column>
+
+                    <Column
+                        app:p13nKey="Plant"
+                        headerMenu="menu"
+                    >
+                        <Text text="Customer Region" />
+                    </Column>
+
+                    <Column
+                        app:p13nKey="Plant"
+                        headerMenu="menu"
+                    >
+                        <Text text="Customer Sales Group" />
+                    </Column>
+                    <Column
+                        app:p13nKey="Plant"
+                        headerMenu="menu"
+                    >
+                        <Text text="User" />
+                    </Column>
                 </columns>
 
                 <items>
                     <ColumnListItem>
-                        <Select>
-                            <core:Item
-                                key="1"
-                                text="{oModelForTable>Material}"
-                            />
-                        </Select>
-                        <Input value="{oModelForTable>MaterialDescription}" />
-                        <Input value="{oModelForTable>Quantity}" />
-                        <Input value="{oModelForTable>Unit}" />
-                        <Select>
-                            <core:Item
-                                key="1"
-                                text="{oModelForTable>Plant}"
-                            />
-                        </Select>
-
-                        <Select>
-                            <core:Item
-                                key="1"
-                                text="{oModelForTable>StorageLocation}"
-                            />
-                        </Select>
-
-                        <Input value="{oModelForTable>Contract}" />
-                        <Select>
-                            <core:Item
-                                key="1"
-                                text=""
-                            />
-                        </Select>
+                        <Text />
+                        <Text />
+                        <Text />
+                        <Text />
+                        <Text />
+                        <Text />
+                        <Text />
+                        <Text />
+                        <Text />
+                        <Text />
+                        <Text />
+                        <Text />
+                        <Text />
+                        <Text />
+                        <Text />
                     </ColumnListItem>
                 </items>
             </Table>
         </f:content>
-
-        <f:footer>
-            <OverflowToolbar>
-                <ToolbarSpacer />
-                <Button
-                    text="Auto Invoice for SO"
-                    press=""
-                    type="Emphasized"
-                />
-                <Button
-                    text="Updtae Contract value"
-                    press=""
-                    type="Emphasized"
-                />
-                <Button
-                    text="Condition"
-                    press=""
-                    type="Emphasized"
-                />
-                <Button
-                    text="Reset"
-                    press=""
-                    type="Reject"
-                />
-                <Button
-                    text="Submit"
-                    press=""
-                    type="Accept"
-                />
-            </OverflowToolbar>
-        </f:footer>
     </f:DynamicPage>
 </mvc:View>

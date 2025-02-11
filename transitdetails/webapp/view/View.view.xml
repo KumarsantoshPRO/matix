@@ -58,21 +58,21 @@
                             />
                         </form:content>
                     </form:SimpleForm>
-                </f:content>
-                <HBox justifyContent="SpaceBetween">
-                    <HBox>
-                        <Button
-                            text="View Report"
-                            type="Emphasized"
-                            press="onNextButtonPress"
-                            class="sapUiSmallMarginEnd"
-                        />
-                        <Button
-                            text="Reset"
-                            type="Reject"
-                        />
+                    <HBox justifyContent="SpaceBetween">
+                        <HBox>
+                            <Button
+                                text="View Report"
+                                type="Emphasized"
+                                press="onNextButtonPress"
+                                class="sapUiSmallMarginEnd"
+                            />
+                            <Button
+                                text="Reset"
+                                type="Reject"
+                            />
+                        </HBox>
                     </HBox>
-                </HBox>
+                </f:content>
             </f:DynamicPageHeader>
         </f:header>
         <f:content>
@@ -85,7 +85,10 @@
             >
                 <infoToolbar>
                     <OverflowToolbar>
-                        <Label text="List of Stock in Transit" design="Bold" />
+                        <Label
+                            text="List of Stock in Transit"
+                            design="Bold"
+                        />
                     </OverflowToolbar>
                 </infoToolbar>
                 <columns>
