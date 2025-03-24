@@ -62,7 +62,7 @@
                 id="table"
                 inset="false"
                 items="{
-						path: '/ProductCollection'
+						path: '/Es_Stock_Report'
 					}"
             >
              <infoToolbar>

@@ -3,7 +3,7 @@ sap.ui.define([
 ], (Controller) => {
   "use strict";
 
-  return Controller.extend("matix.com.rep.stockdifflocation.stockdifflocation.controller.View", {
+  return Controller.extend("matix.com.rep.stockdifflocation.stockdifflocation.controller.App", {
       onInit() {
       }
   });

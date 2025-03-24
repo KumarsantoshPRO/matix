@@ -12,44 +12,46 @@
     xmlns:dnd="sap.ui.core.dnd"
     xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
 >
-    <f:DynamicPage headerExpanded="true" showFooter="true">
+    <f:DynamicPage
+        headerExpanded="true"
+        showFooter="true"
+    >
         <f:header>
             <f:DynamicPageHeader pinnable="false">
                 <f:content>
                     <form:SimpleForm
                         editable="true"
                         layout="ColumnLayout"
-                        
-                        title="{oModelForForm>/title}"
                     >
                         <form:content>
-                             <!-- <core:Title /> -->
+                            <!-- <core:Title /> -->
                             <Label text="Sold-to-party" />
-                            <Input />
+                            <Input value="{oModelForHeader>}" />
 
                             <Label text="Payment Terms" />
-                            <Input />
+                            <Input value="{oModelForHeader>}" />
 
                             <Label text="Doc Date" />
+
                             <DatePicker
-                                value="07/02/2025"
+                                value="{path: 'oModelForHeader>/DocDate', type: 'sap.ui.model.type.Date', formatOptions: {UTC: true}}"
                                 displayFormat="dd/MM/yyyy"
                             />
-                             <!-- <core:Title /> -->
+                            <!-- <core:Title /> -->
                             <Label text="Truck No" />
-                            <Input />
+                            <Input value="{oModelForHeader>/Vhlnr}" />
                             <Label text="Trans. Code " />
-                            <Input />
+                            <Input value="{oModelForHeader>/Tdlnr}" />
 
                             <Label text="Ship-to-party " />
-                            <Input />
-                             <!-- <core:Title /> -->
+                            <Input value="{oModelForHeader>}" />
+                            <!-- <core:Title /> -->
                             <Label text="Inco Terms" />
-                            <Input />
+                            <Input value="{oModelForHeader>/Incoterms1}" />
                             <Label text="LR No " />
-                            <Input />
+                            <Input value="{oModelForHeader>/Lrno}" />
                             <Label text="Truck Capacilty" />
-                            <Input />
+                            <Input value="{oModelForHeader>/ZtruckCap}" />
                         </form:content>
                     </form:SimpleForm>
                 </f:content>
@@ -59,7 +61,7 @@
         <f:content>
             <Table
                 id="SOTable"
-                items="{path: 'oModelForTable>/results/'}"
+                items="{path: 'oModelForItems>/results/'}"
                 ariaLabelledBy="title"
                 fixedLayout="Strict"
                 autoPopinMode="true"
@@ -216,27 +218,27 @@
                         <Select>
                             <core:Item
                                 key="1"
-                                text="{oModelForTable>Material}"
+                                text="{oModelForItems>Material}"
                             />
                         </Select>
-                        <Input value="{oModelForTable>MaterialDescription}" />
-                        <Input value="{oModelForTable>Quantity}" />
-                        <Input value="{oModelForTable>Unit}" />
+                        <Input value="{oModelForItems>MaterialDescription}" />
+                        <Input value="{oModelForItems>Quantity}" />
+                        <Input value="{oModelForItems>Unit}" />
                         <Select>
                             <core:Item
                                 key="1"
-                                text="{oModelForTable>Plant}"
+                                text="{oModelForItems>Plant}"
                             />
                         </Select>
 
                         <Select>
                             <core:Item
                                 key="1"
-                                text="{oModelForTable>StorageLocation}"
+                                text="{oModelForItems>StorageLocation}"
                             />
                         </Select>
 
-                        <Input value="{oModelForTable>Contract}" />
+                        <Input value="{oModelForItems>Contract}" />
                         <Select>
                             <core:Item
                                 key="1"
@@ -273,7 +275,7 @@
                 />
                 <Button
                     text="Submit"
-                    press=""
+                    press="onSubmit"
                     type="Accept"
                 />
             </OverflowToolbar>

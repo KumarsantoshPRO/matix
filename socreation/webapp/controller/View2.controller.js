@@ -31,21 +31,30 @@ sap.ui.define(
 
           this.getView().setModel(
             new JSONModel(tableForData),
-            "oModelForTable"
+            "oModelForItems"
+          );
+
+          var headerPayload = {
+            DocType: "3",
+            Incoterms1: null,
+            DocDate: null,
+            Lrno: null,
+            Vhlnr: null,
+            ZtruckCap: null,
+            Tdlnr: null,
+          };
+          this.getView().setModel(
+            new JSONModel(headerPayload),
+            "oModelForHeader"
           );
         },
 
         onRouteMatched: function (oEvent) {
           var SONo = oEvent.getParameter("arguments").SONo;
           var title = "ZFAC-Factory Order WC - Sales order";
-          var dataForForm = {
-            title: title,
-          };
-          this.getView().setModel(new JSONModel(dataForForm), "oModelForForm");
-          debugger;
         },
         onAddNewItemPress: function () {
-          var JSONData = this.getView().getModel("oModelForTable").getData();
+          var JSONData = this.getView().getModel("oModelForItems").getData();
           JSONData.results.push({
             Material: "4400000000-Neam Coated Urea",
             MaterialDescription: "",
@@ -57,7 +66,7 @@ sap.ui.define(
             BatchNo: "",
           });
           this.getView()
-            .getModel("oModelForTable")
+            .getModel("oModelForItems")
             .setData(JSON.parse(JSON.stringify(JSONData)));
         },
         deleteRow: function (oEvent) {
@@ -86,6 +95,19 @@ sap.ui.define(
             text = text * 10;
             table.getItems()[i].getCells()[0].setProperty("text", text);
           }
+        },
+        onSubmit: function () {
+          var headPayload = this.getView()
+            .getModel("oModelForHeader")
+            .getData();
+          debugger;
+          var sPath = "/Es_So_Auto_Creation_Head";
+          this.getView()
+            .getModel()
+            .create(sPath, headPayload, {
+              success: function (oData, response) {}.bind(this),
+              error: function (sError) {}.bind(this),
+            });
         },
       }
     );
