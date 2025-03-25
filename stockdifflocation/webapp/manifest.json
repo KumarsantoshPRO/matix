@@ -29,6 +29,7 @@
     },
     "sap.ui": {
         "technology": "UI5",
+        "fullWidth": true,
         "icons": {
             "icon": "",
             "favIcon": "",
@@ -45,6 +46,7 @@
     },
     "sap.ui5": {
         "flexEnabled": true,
+
         "dependencies": {
             "minUI5Version": "1.132.1",
             "libs": {

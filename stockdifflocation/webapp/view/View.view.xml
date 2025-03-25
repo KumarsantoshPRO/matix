@@ -46,6 +46,7 @@
                         <Button
                             text="Reset"
                             type="Reject"
+                            press="onResetButtonPress"
                         />
                     </HBox>
                     <ObjectStatus
@@ -62,10 +63,10 @@
                 id="table"
                 inset="false"
                 items="{
-						path: '/Es_Stock_Report'
+						path: 'oModelForTable>/' 
 					}"
             >
-             <infoToolbar>
+                <infoToolbar>
                     <OverflowToolbar>
                         <Label
                             text="List of Stocks at Different Location"
@@ -104,12 +105,12 @@
                     <ColumnListItem vAlign="Middle">
                         <cells>
                             <ObjectIdentifier
-                                title="{Name}"
-                                text="{ProductId}"
+                                title="{oModelForTable>Matnr}"
+                                text="{oModelForTable>Name1}"
                             />
-                            <Text text="{Category}" />
-                            <Text text="{SupplierName}" />
-                            <Text text="{SupplierName}" />
+                            <Text text="{oModelForTable>Labst}" />
+                            <Text text="{oModelForTable>Werks}" />
+                            <Text text="{oModelForTable>Lgort}" />
                         </cells>
                     </ColumnListItem>
                 </items>

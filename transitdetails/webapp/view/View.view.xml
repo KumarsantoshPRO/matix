@@ -25,6 +25,7 @@
                                 placeholder="Material"
                                 showValueHelp="true"
                                 width="15rem"
+                                value="{oModelForFilters>/LipsMatnr}"
                             />
 
                             <Label text="District " />
@@ -32,6 +33,7 @@
                                 placeholder="District"
                                 showValueHelp="true"
                                 width="15rem"
+                                value="{oModelForFilters>/LikpBzirk}"
                             />
 
                             <Label text="Receiving Plant " />
@@ -39,17 +41,20 @@
                                 placeholder="Receiving Plant"
                                 showValueHelp="true"
                                 width="15rem"
+                                value="{oModelForFilters>/LipsWerks}"
                             />
                             <!-- <core:Title /> -->
                             <Label text="From Date " />
                             <DatePicker
                                 placeholder="mm/dd/yyyy"
                                 width="15rem"
+                                value="{path:'oModelForFilters>/PeriodFrm', type: 'sap.ui.model.type.Date', formatOptions: {UTC: true}}"
                             />
                             <Label text="To Date " />
                             <DatePicker
                                 placeholder="mm/dd/yyyy"
                                 width="15rem"
+                                 value="{path:'oModelForFilters>/PeriodTo', type: 'sap.ui.model.type.Date', formatOptions: {UTC: true}}"
                             />
                             <Label />
                             <RadioButton
@@ -80,7 +85,7 @@
                 id="table"
                 inset="false"
                 items="{
-						path: '/ProductCollection'
+						path: 'oModelForTable>/'
 					}"
             >
                 <infoToolbar>

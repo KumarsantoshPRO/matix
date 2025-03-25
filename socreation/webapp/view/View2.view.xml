@@ -29,7 +29,7 @@
                             <Input value="{oModelForHeader>}" />
 
                             <Label text="Payment Terms" />
-                            <Input value="{oModelForHeader>}" />
+                            <Input value="{oModelForHeader>/Pmnttrms}" />
 
                             <Label text="Doc Date" />
 
@@ -221,9 +221,9 @@
                                 text="{oModelForItems>Material}"
                             />
                         </Select>
-                        <Input value="{oModelForItems>MaterialDescription}" />
-                        <Input value="{oModelForItems>Quantity}" />
-                        <Input value="{oModelForItems>Unit}" />
+                        <Input value="" />
+                        <Input value="{oModelForItems>TargetQty}" />
+                        <Input value="{oModelForItems>TargetQu}" />
                         <Select>
                             <core:Item
                                 key="1"
@@ -234,15 +234,15 @@
                         <Select>
                             <core:Item
                                 key="1"
-                                text="{oModelForItems>StorageLocation}"
+                                text="{oModelForItems>StoreLoc}"
                             />
                         </Select>
 
-                        <Input value="{oModelForItems>Contract}" />
+                        <Input value="" />
                         <Select>
                             <core:Item
                                 key="1"
-                                text=""
+                                text="{oModelForItems>Batch}"
                             />
                         </Select>
                     </ColumnListItem>
