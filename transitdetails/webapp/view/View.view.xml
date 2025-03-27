@@ -88,14 +88,27 @@
 						path: 'oModelForTable>/'
 					}"
             >
-                <infoToolbar>
-                    <OverflowToolbar>
-                        <Label
-                            text="List of Stock in Transit"
-                            design="Bold"
-                        />
+                 
+
+                <headerToolbar>
+                    <OverflowToolbar
+                        design="Transparent"
+                        width="100%"
+                    >
+                        <content>
+                            <Title
+                                text="List of Stock in Transit"
+                                level="H2"
+                            />
+
+                            <ToolbarSpacer />
+                            <Button
+                                icon="sap-icon://download"
+                                press="onExport"
+                            />
+                        </content>
                     </OverflowToolbar>
-                </infoToolbar>
+                </headerToolbar>
                 <columns>
                     <Column
                         minScreenWidth="Tablet"

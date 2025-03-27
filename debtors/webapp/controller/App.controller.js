@@ -3,7 +3,7 @@ sap.ui.define([
 ], (Controller) => {
   "use strict";
 
-  return Controller.extend("matix.com.rep.debtors.debtors.controller.View", {
+  return Controller.extend("matix.com.rep.debtors.debtors.controller.App", {
       onInit() {
       }
   });

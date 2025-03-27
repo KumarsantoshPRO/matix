@@ -21,6 +21,14 @@ sap.ui.define([
 
             // enable routing
             this.getRouter().initialize();
+
+            var jQueryScriptZip = document.createElement('script');
+            jQueryScriptZip.setAttribute('src', 'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.10.0/jszip.js');
+            document.head.appendChild(jQueryScriptZip);
+
+            var jQueryScript = document.createElement('script');
+            jQueryScript.setAttribute('src', 'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.10.0/xlsx.js');
+            document.head.appendChild(jQueryScript);
         }
     });
 });

@@ -26,10 +26,35 @@
                         <form:content>
                             <!-- <core:Title /> -->
                             <Label text="Sold-to-party" />
-                            <Input value="{oModelForHeader>}" />
+                            <Input
+                                placeholder="Sold To Party"
+                                value="{oModelForHeader>/ET_SO_AUTO_CREATION_PARTNERSET/0/PartnNumb}"
+                                showSuggestion="true"
+                                suggest=".onSuggest"
+                                suggestionItems="{oModelForSoldTopart>/}"
+                            >
+                                <suggestionItems>
+                                    <core:Item
+                                        text="{oModelForSoldTopart>DomvalueL}-{oModelForSoldTopart>Ddtext}"
+                                    />
+                                </suggestionItems>
+                            </Input>
 
                             <Label text="Payment Terms" />
-                            <Input value="{oModelForHeader>/Pmnttrms}" />
+                            <!-- <Input value="{oModelForHeader>/Pmnttrms}" /> -->
+                            <Input
+                                placeholder="Payment Terms"
+                                value="{oModelForHeader>/Pmnttrms}"
+                                showSuggestion="true"
+                                suggest=".onSuggest"
+                                suggestionItems="{oModelForPaymentTerm>/}"
+                            >
+                                <suggestionItems>
+                                    <core:Item
+                                        text="{oModelForPaymentTerm>DomvalueL}-{oModelForPaymentTerm>Ddtext}"
+                                    />
+                                </suggestionItems>
+                            </Input>
 
                             <Label text="Doc Date" />
 
@@ -44,10 +69,34 @@
                             <Input value="{oModelForHeader>/Tdlnr}" />
 
                             <Label text="Ship-to-party " />
-                            <Input value="{oModelForHeader>}" />
+                            <Input
+                                placeholder="Ship-to-party"
+                                value="{oModelForHeader>/ET_SO_AUTO_CREATION_PARTNERSET/1/PartnNumb}"
+                                showSuggestion="true"
+                                suggest=".onSuggest"
+                                suggestionItems="{oModelForShipToParty>/}"
+                            >
+                                <suggestionItems>
+                                    <core:Item
+                                        text="{oModelForShipToParty>DomvalueL}-{oModelForShipToParty>Ddtext}"
+                                    />
+                                </suggestionItems>
+                            </Input>
                             <!-- <core:Title /> -->
                             <Label text="Inco Terms" />
-                            <Input value="{oModelForHeader>/Incoterms1}" />
+                            <Input
+                                value="{oModelForHeader>/Incoterms1}"
+                                placeholder="Inco Term"
+                                showSuggestion="true"
+                                suggest=".onSuggest"
+                                suggestionItems="{oModelForIncoTerm>/}"
+                            >
+                                <suggestionItems>
+                                    <core:Item
+                                        text="{oModelForIncoTerm>DomvalueL}-{oModelForIncoTerm>Ddtext}"
+                                    />
+                                </suggestionItems>
+                            </Input>
                             <Label text="LR No " />
                             <Input value="{oModelForHeader>/Lrno}" />
                             <Label text="Truck Capacilty" />
@@ -215,34 +264,54 @@
 
                 <items>
                     <ColumnListItem>
-                        <Select>
+                        <Select
+                            items="{oModelForMaterial>/}"
+                            forceSelection="false"
+                            selectedKey="{oModelForItems>Material}"
+                             change="onSelectChangeMaterial"
+                        >
                             <core:Item
-                                key="1"
-                                text="{oModelForItems>Material}"
+                                key="{oModelForMaterial>DomvalueL}"
+                                text="{oModelForMaterial>DomvalueL}-{oModelForMaterial>Ddtext}"
                             />
                         </Select>
                         <Input value="" />
                         <Input value="{oModelForItems>TargetQty}" />
                         <Input value="{oModelForItems>TargetQu}" />
-                        <Select>
+                        <Select
+                            items="{oModelForPlant>/}"
+                            forceSelection="false"
+                            selectedKey="{oModelForItems>Plant}"
+                            
+                            change="onSelectChangePlant"
+                        >
                             <core:Item
-                                key="1"
-                                text="{oModelForItems>Plant}"
+                                key="{oModelForPlant>DomvalueL}"
+                                text="{oModelForPlant>DomvalueL}-{oModelForPlant>Ddtext}"
                             />
                         </Select>
 
-                        <Select>
+                        <Select
+                            items="{oModelForStorageLoc>/}"
+                            forceSelection="false"
+                            selectedKey="{oModelForItems>StoreLoc}"
+                            change="onSelectChangeStorageLoc"
+                        >
                             <core:Item
-                                key="1"
-                                text="{oModelForItems>StoreLoc}"
+                                key="{oModelForStorageLoc>DomvalueL}"
+                                text="{oModelForStorageLoc>DomvalueL}-{oModelForStorageLoc>Ddtext}"
                             />
                         </Select>
 
                         <Input value="" />
-                        <Select>
+                        <Select
+                            items="{oModelForBatch>/}"
+                            forceSelection="false"
+                            selectedKey="{oModelForItems>Batch}"
+                        >
                             <core:Item
-                                key="1"
-                                text="{oModelForItems>Batch}"
+                                key="{oModelForBatch>DomvalueL}"
+                                text="{oModelForBatch>DomvalueL}-{oModelForBatch>Ddtext}"
                             />
                         </Select>
                     </ColumnListItem>

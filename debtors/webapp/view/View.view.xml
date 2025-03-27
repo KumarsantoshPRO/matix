@@ -2,12 +2,10 @@
     controllerName="matix.com.rep.debtors.debtors.controller.View"
     height="100%"
     xmlns:mvc="sap.ui.core.mvc"
-    xmlns:core="sap.ui.core"
     xmlns="sap.m"
     xmlns:f="sap.f"
-    xmlns:fb="sap.ui.comp.filterbar"
-    xmlns:svm="sap.ui.comp.smartvariants"
     xmlns:form="sap.ui.layout.form"
+    xmlns:core="sap.ui.core"
 >
     <f:DynamicPage headerExpanded="true">
         <f:header>
@@ -17,14 +15,24 @@
                         editable="true"
                         title="Debtors Outstanding with aging"
                         layout="ResponsiveGridLayout"
+                        columnsL="2"
+                        columnsM="2"
+                        columnsXL="2"
                     >
                         <form:content>
                             <Label text="Sold To Party" />
                             <Input
                                 placeholder="Sold To Party"
-                                showValueHelp="true"
                                 width="15rem"
-                            />
+                                value="{oModelForFilters>/CustomerNumber}"
+                                showSuggestion="true"
+                                suggest=".onSuggest"
+                                suggestionItems="{oModelForSoldTopart>/}"
+                            >
+                                <suggestionItems>
+                                    <core:Item text="{oModelForSoldTopart>DomvalueL}-{oModelForSoldTopart>Ddtext}"/>
+                                </suggestionItems>
+                            </Input>
 
                             <Label text="District " />
                             <Input
@@ -35,8 +43,9 @@
 
                             <Label text="Date " />
                             <DatePicker
-                                value="02/11/2025"
+                                placeholder="mm/dd/yyyy"
                                 width="15rem"
+                                value="{path:'oModelForFilters>/Keydate', type: 'sap.ui.model.type.Date', formatOptions: {UTC: true}}"
                             />
                         </form:content>
                     </form:SimpleForm>
@@ -52,80 +61,102 @@
                         <Button
                             text="Reset"
                             type="Reject"
+                            press="onResetButtonPress"
                         />
                     </HBox>
                 </HBox>
             </f:DynamicPageHeader>
         </f:header>
         <f:content>
-            <Table
-                id="table"
-                inset="false"
-                items="{
-						path: '/ProductCollection'
+            <VBox>
+                <Table
+                    id="table"
+                    inset="false"
+                    items="{
+						path: 'oModelForTable>/'
 					}"
-            >
-                <infoToolbar>
-                    <OverflowToolbar>
-                        <Label
-                            text="List of Debtors Outstanding"
-                            design="Bold"
-                        />
-                    </OverflowToolbar>
-                </infoToolbar>
-                <columns>
-                    <Column
-                        minScreenWidth="Tablet"
-                        demandPopin="true"
-                    >
-                        <Text text="Customer Number" />
-                    </Column>
-                    <Column
-                        minScreenWidth="Tablet"
-                        demandPopin="true"
-                    >
-                        <Text text="Customer Name" />
-                    </Column>
-                    <Column
-                        minScreenWidth="Tablet"
-                        demandPopin="true"
-                    >
-                        <Text text="District" />
-                    </Column>
-                    <Column
-                        minScreenWidth="Tablet"
-                        demandPopin="true"
-                    >
-                        <Text text="Credit Limit" />
-                    </Column>
-                    <Column
-                        minScreenWidth="Tablet"
-                        demandPopin="true"
-                    >
-                        <Text text="Validity Till" />
-                    </Column>
-                    <Column
-                        minScreenWidth="Tablet"
-                        demandPopin="true"
-                    >
-                        <Text text="Outstanding Amount" />
-                    </Column>
-                </columns>
+                >
+                    <headerToolbar>
+                        <OverflowToolbar
+                            design="Transparent"
+                            width="100%"
+                        >
+                            <content>
+                                <Title
+                                    text="List of Debtors Outstanding"
+                                    level="H2"
+                                />
 
-                <items>
-                    <ColumnListItem vAlign="Middle">
-                        <cells>
-                            <ObjectIdentifier
-                                title="{Name}"
-                                text="{ProductId}"
-                            />
-                            <Text text="{Category}" />
-                            <Text text="{SupplierName}" />
-                            <Text text="{SupplierName}" />
-                        </cells>
-                    </ColumnListItem>
-                </items>
-            </Table>
+                                <ToolbarSpacer />
+                                <Button
+                                    icon="sap-icon://download"
+                                    press="onExport"
+                                />
+                            </content>
+                        </OverflowToolbar>
+                    </headerToolbar>
+                    <columns>
+                        <Column
+                            minScreenWidth="Tablet"
+                            demandPopin="true"
+                        >
+                            <Text text="Customer Number" />
+                        </Column>
+                        <Column
+                            minScreenWidth="Tablet"
+                            demandPopin="true"
+                        >
+                            <Text text="Customer Name" />
+                        </Column>
+
+                        <Column
+                            minScreenWidth="Tablet"
+                            demandPopin="true"
+                        >
+                            <Text text="District" />
+                        </Column>
+                        <Column
+                            minScreenWidth="Tablet"
+                            demandPopin="true"
+                        >
+                            <Text text="Credit Limit" />
+                        </Column>
+                        <Column
+                            minScreenWidth="Tablet"
+                            demandPopin="true"
+                        >
+                            <Text text="Validity Till" />
+                        </Column>
+                        <Column
+                            minScreenWidth="Tablet"
+                            demandPopin="true"
+                        >
+                            <Text text="Outstanding Amount" />
+                        </Column>
+                    </columns>
+
+                    <items>
+                        <ColumnListItem vAlign="Middle">
+                            <cells>
+                                <Text text="{oModelForTable>CustomerNumber}" />
+                                <Text text="{oModelForTable>CustomerName}" />
+                                <Text
+                                    text="{oModelForTable>DistrictCode}-{oModelForTable>DistrictName}"
+                                />
+                                <Text text="{oModelForTable>CreditLimit}" />
+                                <Text text="{oModelForTable>ValidTill}" />
+                                <Text text="{oModelForTable>Balance}" />
+                            </cells>
+                        </ColumnListItem>
+                    </items>
+                </Table>
+                <MessageStrip
+                    id="myMessageStrip"
+                    text="BENGAL TEAM TO DEDUCT THE SECURITY AMOUNT OF PESTICIDES FROM THE SHOWN OUSTANDING AMOUNT"
+                    type="Error"
+                    visible="false"
+                />
+            </VBox>
         </f:content>
     </f:DynamicPage>
 </mvc:View>

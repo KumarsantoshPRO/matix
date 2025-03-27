@@ -1,6 +1,12 @@
 sap.ui.define(
-  ["sap/ui/core/mvc/Controller", "sap/ui/model/json/JSONModel"],
-  (Controller, JSONModel) => {
+  [
+    "sap/ui/core/mvc/Controller",
+    "sap/ui/model/json/JSONModel",
+    "sap/ui/core/util/ExportTypeCSV",
+    "sap/ui/export/library",
+    "sap/ui/export/Spreadsheet",
+  ],
+  (Controller, JSONModel, ExportTypeCSV, exportLibrary, Spreadsheet) => {
     "use strict";
 
     return Controller.extend(
@@ -50,21 +56,24 @@ sap.ui.define(
 
           var oFilterPeriodFrm = new sap.ui.model.Filter({
             path: "PeriodFrm",
-            operator: "EQ",
+            operator: "BT",
             value1: this.getView()
               .getModel("oModelForFilters")
               .getProperty("/PeriodFrm"),
-          });
-          aFilters.push(oFilterPeriodFrm);
-
-          var oFilterPeriodTo = new sap.ui.model.Filter({
-            path: "PeriodTo",
-            operator: "EQ",
-            value1: this.getView()
+            value2: this.getView()
               .getModel("oModelForFilters")
               .getProperty("/PeriodTo"),
           });
-          aFilters.push(oFilterPeriodTo);
+          aFilters.push(oFilterPeriodFrm);
+
+          // var oFilterPeriodTo = new sap.ui.model.Filter({
+          //   path: "PeriodTo",
+          //   operator: "EQ",
+          //   value1: this.getView()
+          //     .getModel("oModelForFilters")
+          //     .getProperty("/PeriodTo"),
+          // });
+          // aFilters.push(oFilterPeriodTo);
 
           var sPath = "/Es_Stock_In_Transit_Report";
           this.getView().setBusy(true);
@@ -89,6 +98,74 @@ sap.ui.define(
         onResetButtonPress: function () {
           this.getView().getModel("oModelForTable").setData({});
         },
+         // Start: Download Excel
+      //Excel export using Spreadsheet
+      onExport: function () {
+        var aCols, oRowBinding, oSettings, oSheet, oTable;
+
+        if (!this._oTable) {
+          this._oTable = this.getView().byId("table");
+        }
+
+        oTable = this._oTable;
+        oRowBinding = oTable.getBinding("items");
+        aCols = this.createColumnConfig();
+
+        oSettings = {
+          workbook: {
+            columns: aCols,
+            hierarchyLevel: "Level",
+            textAlign: "Left",
+            wrap: true,
+            context: {
+              sheetName: "List of Debtors Outstanding",
+            },
+          },
+          dataSource: oRowBinding,
+          count: 0,
+          fileName: "List of Debtors Outstanding.xlsx",
+          worker: false, // We need to disable worker because we are using a MockServer as OData Service
+        };
+
+        oSheet = new Spreadsheet(oSettings);
+        oSheet.build().finally(function () {
+          oSheet.destroy();
+        });
+      },
+      createColumnConfig: function () {
+        var aCols = [];
+        aCols.push({
+          property: "CustomerNumber",
+          type: EdmType.String,
+        });
+        aCols.push({
+          property: "CustomerName",
+          type: EdmType.String,
+        });
+        aCols.push({
+          property: "DistrictCode",
+          type: EdmType.String,
+        });
+        aCols.push({
+          property: "DistrictName",
+          type: EdmType.String,
+        });
+        aCols.push({
+          property: "CreditLimit",
+          type: EdmType.String,
+        });
+        aCols.push({
+          property: "ValidTill",
+          type: EdmType.String,
+        });
+        aCols.push({
+          property: "Balance",
+          type: EdmType.String,
+        });
+
+        return aCols;
+      },
+      // End: Download Excel
       }
     );
   }

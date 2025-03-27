@@ -21,8 +21,16 @@
                     <Label text="SO Document Type" />
                     <Input
                         placeholder="SO Document Type"
-                        showValueHelp="true"
-                    />
+                        showSuggestion="true"
+                        suggest=".onSuggest"
+                        suggestionItems="{oModelForSODocType>/}"
+                    >
+                        <suggestionItems>
+                            <core:Item
+                                text="{oModelForSODocType>DomvalueL}-{oModelForSODocType>Ddtext}"
+                            />
+                        </suggestionItems>
+                    </Input>
 
                     <Label text="Sales Organisation" />
                     <Input
@@ -34,25 +42,39 @@
 
                     <Label text="Distribution Channel" />
                     <Input
-                        value="10-Dealers"
                         placeholder="Distribution Channel"
-                        showValueHelp="true"
-                    />
+                        showSuggestion="true"
+                        suggest=".onSuggest"
+                        suggestionItems="{oModelForDistChannel>/}"
+                    >
+                        <suggestionItems>
+                            <core:Item
+                                text="{oModelForDistChannel>DomvalueL}-{oModelForDistChannel>Ddtext}"
+                            />
+                        </suggestionItems>
+                    </Input>
 
                     <Label text="Division" />
                     <Input
-                        value="10-Fertilisers"
                         placeholder="Division"
-                        showValueHelp="true"
-                    />
+                        showSuggestion="true"
+                        suggest=".onSuggest"
+                        suggestionItems="{oModelForDivision>/}"
+                    >
+                        <suggestionItems>
+                            <core:Item
+                                text="{oModelForDivision>DomvalueL}-{oModelForDivision>Ddtext}"
+                            />
+                        </suggestionItems>
+                    </Input>
                     <Label
                         text="Material Group "
                         textAlign="Initial"
                     />
-                    <Select>
+                    <Select items="{oModelForMatGroup>/}">
                         <core:Item
-                            key="90-Final Product"
-                            text="90-Final Product"
+                            key="{oModelForMatGroup>DomvalueL}"
+                            text="{oModelForMatGroup>DomvalueL}-{oModelForMatGroup>Ddtext}"
                         />
                     </Select>
                     <Label />

@@ -52,7 +52,7 @@
                     <ObjectStatus
                         class="sapMObjectStatusLarge"
                         title="Total Stock"
-                        text="15002"
+                        text="{oLocalModel>/totalStock}"
                         state="None"
                     />
                 </HBox>
@@ -66,14 +66,25 @@
 						path: 'oModelForTable>/' 
 					}"
             >
-                <infoToolbar>
-                    <OverflowToolbar>
-                        <Label
-                            text="List of Stocks at Different Location"
-                            design="Bold"
-                        />
+                <headerToolbar>
+                    <OverflowToolbar
+                        design="Transparent"
+                        width="100%"
+                    >
+                        <content>
+                            <Title
+                                text="List of Stocks at Different Location"
+                                level="H2"
+                            />
+
+                            <ToolbarSpacer />
+                            <Button
+                                icon="sap-icon://download"
+                                press="onExport"
+                            />
+                        </content>
                     </OverflowToolbar>
-                </infoToolbar>
+                </headerToolbar>
                 <columns>
                     <Column
                         minScreenWidth="Tablet"
@@ -81,6 +92,7 @@
                     >
                         <Text text="Material" />
                     </Column>
+
                     <Column
                         minScreenWidth="Tablet"
                         demandPopin="true"
@@ -105,8 +117,7 @@
                     <ColumnListItem vAlign="Middle">
                         <cells>
                             <ObjectIdentifier
-                                title="{oModelForTable>Matnr}"
-                                text="{oModelForTable>Name1}"
+                                title="{oModelForTable>Matnr}-{oModelForTable>Name1}"
                             />
                             <Text text="{oModelForTable>Labst}" />
                             <Text text="{oModelForTable>Werks}" />

@@ -3,8 +3,10 @@ sap.ui.define(
     "sap/ui/core/mvc/Controller",
     "sap/ui/model/json/JSONModel",
     "sap/ui/core/format/DateFormat",
+    "sap/ui/model/Filter",
+    "sap/ui/model/FilterOperator",
   ],
-  function (Controller, JSONModel, DateFormat) {
+  function (Controller, JSONModel, DateFormat, Filter, FilterOperator) {
     "use strict";
 
     return Controller.extend(
@@ -18,13 +20,17 @@ sap.ui.define(
           this.getOwnerComponent()
             .getRouter()
             .attachRoutePatternMatched(this.onRouteMatched, this);
+          this.loadPayloads();
+          this.loadDataForSuggestions();
+        },
 
+        loadPayloads: function () {
           var headerPayload = {
             DocType: "ZRAO",
             ReqDateH: "2025-03-16T00:00:00",
             Ref1: "40000000",
             SalesOrg: "1000",
-            Pmnttrms: "",
+            Pmnttrms: "ZT04",
             DistrChan: "10",
             Incoterms1: "",
             Incoterms2: "FOB",
@@ -42,12 +48,12 @@ sap.ui.define(
             ET_SO_AUTO_CREATION_PARTNERSET: [
               {
                 PartnRole: "SP",
-                PartnNumb: "500073",
+                PartnNumb: "",
               },
 
               {
                 PartnRole: "SH",
-                PartnNumb: "500073",
+                PartnNumb: "",
               },
             ],
 
@@ -62,12 +68,12 @@ sap.ui.define(
             results: [
               {
                 ItmNumber: this.itemNo.toString(),
-                TargetQu: "TON",
-                Material: "4400000001",
-                Batch: "24022025",
-                Plant: "1000",
-                StoreLoc: "1024",
-                TargetQty: "9.000",
+                TargetQu: "",
+                Material: "",
+                Batch: "",
+                Plant: "",
+                StoreLoc: "",
+                TargetQty: "",
               },
             ],
           };
@@ -76,6 +82,221 @@ sap.ui.define(
             new JSONModel(dataFortable),
             "oModelForItems"
           );
+        },
+
+        loadDataForSuggestions: function () {
+          var sService = "/sap/opu/odata/sap/ZSFA_SALES_PROCESS_SRV";
+          var oModel = new sap.ui.model.odata.ODataModel(sService, true);
+          var sPath = "/Es_F4_ValueSet";
+
+          var oFilterSP = new sap.ui.model.Filter({
+            path: "Domname",
+            operator: "EQ",
+            value1: "KNA1",
+          });
+          oModel.read(sPath, {
+            filters: [oFilterSP],
+            success: function (data) {
+              for (let index = 0; index < data.results.length; index++) {
+                const element = data.results[index];
+                element.DomvalueL = element.DomvalueL.replace(/^0+/, "");
+              }
+              this.getView().setModel(
+                new JSONModel(data.results),
+                "oModelForSoldTopart"
+              );
+              this.getView().setModel(
+                new JSONModel(data.results),
+                "oModelForShipToParty"
+              );
+            }.bind(this),
+            error: function (sError) {}.bind(this),
+          });
+          var oFilterPT = new sap.ui.model.Filter({
+            path: "Domname",
+            operator: "EQ",
+            value1: "T052U",
+          });
+          oModel.read(sPath, {
+            filters: [oFilterPT],
+            success: function (data) {
+              for (let index = 0; index < data.results.length; index++) {
+                const element = data.results[index];
+                element.DomvalueL = element.DomvalueL.replace(/^0+/, "");
+              }
+              this.getView().setModel(
+                new JSONModel(data.results),
+                "oModelForPaymentTerm"
+              );
+            }.bind(this),
+            error: function (sError) {}.bind(this),
+          });
+
+          var oFilterIT = new sap.ui.model.Filter({
+            path: "Domname",
+            operator: "EQ",
+            value1: "INCO1",
+          });
+          oModel.read(sPath, {
+            filters: [oFilterIT],
+            success: function (data) {
+              for (let index = 0; index < data.results.length; index++) {
+                const element = data.results[index];
+                element.DomvalueL = element.DomvalueL.replace(/^0+/, "");
+              }
+              this.getView().setModel(
+                new JSONModel(data.results),
+                "oModelForIncoTerm"
+              );
+            }.bind(this),
+            error: function (sError) {}.bind(this),
+          });
+
+          var oFilterMaterial = new sap.ui.model.Filter({
+            path: "Domname",
+            operator: "EQ",
+            value1: "MATERIAL",
+          });
+          oModel.read(sPath, {
+            filters: [oFilterMaterial],
+            success: function (data) {
+              for (let index = 0; index < data.results.length; index++) {
+                const element = data.results[index];
+                element.DomvalueL = element.DomvalueL.replace(/^0+/, "");
+              }
+              this.getView().setModel(
+                new JSONModel(data.results),
+                "oModelForMaterial"
+              );
+            }.bind(this),
+            error: function (sError) {}.bind(this),
+          });
+
+          var oFilterPlant = new sap.ui.model.Filter({
+            path: "Domname",
+            operator: "EQ",
+            value1: "WERKS",
+          });
+          oModel.read(sPath, {
+            filters: [oFilterPlant],
+            success: function (data) {
+              for (let index = 0; index < data.results.length; index++) {
+                const element = data.results[index];
+                element.DomvalueL = element.DomvalueL.replace(/^0+/, "");
+              }
+              this.getView().setModel(
+                new JSONModel(data.results),
+                "oModelForPlant"
+              );
+            }.bind(this),
+            error: function (sError) {}.bind(this),
+          });
+          this.getView().setModel(new JSONModel(), "oModelForStorageLoc");
+          this.getView().setModel(new JSONModel(), "oModelForBatch");
+        },
+        onSelectChangeMaterial: function (oEvent) {
+          this.selectedMaterial = oEvent.getParameter("selectedItem").getKey();
+        },
+        onSelectChangePlant: function (oEvent) {
+          var sService = "/sap/opu/odata/sap/ZSFA_SALES_PROCESS_SRV";
+          var oModel = new sap.ui.model.odata.ODataModel(sService, true);
+          var sPath = "/Es_F4_ValueSet";
+          this.selectedPlant = oEvent.getParameter("selectedItem").getKey();
+          var aFilterStorageLoc = [];
+          var oFilterStorageLoc = new sap.ui.model.Filter({
+            path: "Domname",
+            operator: "EQ",
+            value1: "T001L",
+          });
+
+          aFilterStorageLoc.push(oFilterStorageLoc);
+          var oFilterStorageLocPlant = new sap.ui.model.Filter({
+            path: "Domname2",
+            operator: "EQ",
+            value1: this.selectedPlant,
+          });
+          debugger;
+          aFilterStorageLoc.push(oFilterStorageLocPlant);
+          oModel.read(sPath, {
+            filters: aFilterStorageLoc,
+            success: function (data) {
+              for (let index = 0; index < data.results.length; index++) {
+                const element = data.results[index];
+                element.DomvalueL = element.DomvalueL.replace(/^0+/, "");
+              }
+              this.getView().setModel(
+                new JSONModel(data.results),
+                "oModelForStorageLoc"
+              );
+            }.bind(this),
+            error: function (sError) {}.bind(this),
+          });
+        },
+        onSelectChangeStorageLoc: function (oEvent) {
+          var sService = "/sap/opu/odata/sap/ZSFA_SALES_PROCESS_SRV";
+          var oModel = new sap.ui.model.odata.ODataModel(sService, true);
+          var sPath = "/Es_F4_ValueSet";
+          this.storageLocation = oEvent.getParameter("selectedItem").getKey();
+          debugger;
+          var aFilterBatch = [];
+          var oFilterBatch = new sap.ui.model.Filter({
+            path: "Domname",
+            operator: "EQ",
+            value1: "MCHB",
+          });
+          aFilterBatch.push(oFilterBatch);
+          var oFilterStorageLocPlant = new sap.ui.model.Filter({
+            path: "Domname1",
+            operator: "EQ",
+            value1: this.selectedPlant,
+          });
+          aFilterBatch.push(oFilterStorageLocPlant);
+
+          var oFilterBatchStorageLoc = new sap.ui.model.Filter({
+            path: "Domname2",
+            operator: "EQ",
+            value1: this.storageLocation,
+          });
+          aFilterBatch.push(oFilterBatchStorageLoc);
+
+          var oFilterBatchMat = new sap.ui.model.Filter({
+            path: "Domname3",
+            operator: "EQ",
+            value1: this.selectedMaterial,
+          });
+          aFilterBatch.push(oFilterBatchMat);
+          oModel.read(sPath, {
+            filters: aFilterBatch,
+            success: function (data) {
+              for (let index = 0; index < data.results.length; index++) {
+                const element = data.results[index];
+                element.DomvalueL = element.DomvalueL.replace(/^0+/, "");
+              }
+              this.getView().setModel(
+                new JSONModel(data.results),
+                "oModelForBatch"
+              );
+            }.bind(this),
+            error: function (sError) {}.bind(this),
+          });
+        },
+        onSuggest: function (oEvent) {
+          var sTerm = oEvent.getParameter("suggestValue");
+          var aFilters = [];
+          aFilters.push(
+            new Filter("Ddtext", FilterOperator.Contains, sTerm.toString())
+          );
+          aFilters.push(
+            new Filter("DomvalueL", FilterOperator.Contains, sTerm.toString())
+          );
+          if (sTerm) {
+            var Filters = new Filter({
+              filters: aFilters,
+              and: false,
+            });
+          }
+
+          oEvent.getSource().getBinding("suggestionItems").filter(Filters);
         },
 
         onRouteMatched: function (oEvent) {
@@ -87,12 +308,12 @@ sap.ui.define(
           var JSONData = this.getView().getModel("oModelForItems").getData();
           JSONData.results.push({
             ItmNumber: this.itemNo.toString(),
-            TargetQu: "TON",
-            Material: "4400000001",
-            Batch: "24022025",
-            Plant: "1000",
-            StoreLoc: "1024",
-            TargetQty: "9.000",
+            TargetQu: "",
+            Material: "",
+            Batch: "",
+            Plant: "",
+            StoreLoc: "",
+            TargetQty: "",
           });
           this.getView()
             .getModel("oModelForItems")

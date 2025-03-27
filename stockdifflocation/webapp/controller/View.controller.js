@@ -1,8 +1,15 @@
 sap.ui.define(
-  ["sap/ui/core/mvc/Controller", "sap/ui/model/json/JSONModel"],
-  (Controller, JSONModel) => {
+  [
+    "sap/ui/core/mvc/Controller",
+    "sap/ui/model/json/JSONModel",
+    "sap/ui/core/util/ExportTypeCSV",
+    "sap/ui/export/library",
+    "sap/ui/export/Spreadsheet",
+    "sap/ui/core/format/DateFormat",
+  ],
+  (Controller, JSONModel, ExportTypeCSV, exportLibrary, Spreadsheet, DateFormat) => {
     "use strict";
-
+    var EdmType = exportLibrary.EdmType;
     return Controller.extend(
       "matix.com.rep.stockdifflocation.stockdifflocation.controller.View",
       {
@@ -35,6 +42,15 @@ sap.ui.define(
                   new JSONModel(oData.results),
                   "oModelForTable"
                 );
+                var totalStock = 0;
+                for (let index = 0; index < oData.results.length; index++) {
+                  const element = oData.results[index];
+                  totalStock = totalStock + Number(element.Labst);
+                }
+                this.getView().setModel(
+                  new JSONModel({ totalStock: totalStock }),
+                  "oLocalModel"
+                );
 
                 this.getView().setBusy(false);
               }.bind(this),
@@ -43,11 +59,77 @@ sap.ui.define(
               }.bind(this),
             });
         },
-        onResetButtonPress: function(){
-          this.getView().getModel(
-           "oModelForTable"
-          ).setData({});
-        }
+        onResetButtonPress: function () {
+          this.getView().getModel("oModelForTable").setData({});
+        },
+        // Start: Download Excel
+        //Excel export using Spreadsheet
+        onExport: function () {
+          var aCols, oRowBinding, oSettings, oSheet, oTable;
+
+          if (!this._oTable) {
+            this._oTable = this.getView().byId("table");
+          }
+
+          oTable = this._oTable;
+          oRowBinding = oTable.getBinding("items");
+          aCols = this.createColumnConfig();
+          var dateTime = DateFormat.getDateInstance({
+            pattern: "dd-MM-yyyy HH:mm:ss",
+          }).format(new Date());
+          var fileName = "Stocks at Different Location(" + dateTime + ").xlsx";
+          oSettings = {
+            workbook: {
+              columns: aCols,
+              hierarchyLevel: "Level",
+              textAlign: "Left",
+              wrap: true,
+              context: {
+                sheetName: "Stocks at Different Location",
+              },
+            },
+            dataSource: oRowBinding,
+            count: 0,
+            fileName: fileName,
+            worker: false, // We need to disable worker because we are using a MockServer as OData Service
+          };
+
+          oSheet = new Spreadsheet(oSettings);
+          oSheet.build().finally(function () {
+            oSheet.destroy();
+          });
+        },
+        createColumnConfig: function () {
+          var aCols = [];
+          aCols.push({
+            label: "Material Code",
+            property: "Matnr",
+            type: EdmType.String,
+          });
+          aCols.push({
+            label: "Material Name",
+            property: "Name1",
+            type: EdmType.String,
+          });
+          aCols.push({
+            label: "Quantity",
+            property: "Labst",
+            type: EdmType.String,
+          });
+          aCols.push({
+            label: "Plant",
+            property: "Werks",
+            type: EdmType.String,
+          });
+          aCols.push({
+            label: "Location Code",
+            property: "Lgort",
+            type: EdmType.String,
+          });
+
+          return aCols;
+        },
+        // End: Download Excel
       }
     );
   }
