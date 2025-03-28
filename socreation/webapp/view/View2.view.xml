@@ -59,6 +59,7 @@
                             <Label text="Doc Date" />
 
                             <DatePicker
+                                id='docTypeDatePickerId'
                                 value="{path: 'oModelForHeader>/DocDate', type: 'sap.ui.model.type.Date', formatOptions: {UTC: true}}"
                                 displayFormat="dd/MM/yyyy"
                             />
@@ -268,7 +269,7 @@
                             items="{oModelForMaterial>/}"
                             forceSelection="false"
                             selectedKey="{oModelForItems>Material}"
-                             change="onSelectChangeMaterial"
+                            change="onSelectChangeMaterial"
                         >
                             <core:Item
                                 key="{oModelForMaterial>DomvalueL}"
@@ -276,13 +277,15 @@
                             />
                         </Select>
                         <Input value="" />
-                        <Input value="{oModelForItems>TargetQty}" />
+                        <Input
+                            value="{path:'oModelForItems>TargetQty'}"
+                            liveChange="onTargetQtyInputLiveChange"
+                        />
                         <Input value="{oModelForItems>TargetQu}" />
                         <Select
                             items="{oModelForPlant>/}"
                             forceSelection="false"
                             selectedKey="{oModelForItems>Plant}"
-                            
                             change="onSelectChangePlant"
                         >
                             <core:Item
@@ -303,7 +306,7 @@
                             />
                         </Select>
 
-                        <Input value="" />
+                        <Input value="{oModelForItems>Ref1}" />
                         <Select
                             items="{oModelForBatch>/}"
                             forceSelection="false"
@@ -324,12 +327,12 @@
                 <ToolbarSpacer />
                 <Button
                     text="Auto Invoice for SO"
-                    press=""
+                    press="onSubmit"
                     type="Emphasized"
                 />
                 <Button
                     text="Updtae Contract value"
-                    press=""
+                    press="onUpdateContractValue"
                     type="Emphasized"
                 />
                 <Button
@@ -339,13 +342,8 @@
                 />
                 <Button
                     text="Reset"
-                    press=""
+                    press="onResetButtonPress"
                     type="Reject"
-                />
-                <Button
-                    text="Submit"
-                    press="onSubmit"
-                    type="Accept"
                 />
             </OverflowToolbar>
         </f:footer>

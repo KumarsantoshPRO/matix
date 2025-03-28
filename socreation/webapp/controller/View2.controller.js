@@ -5,10 +5,20 @@ sap.ui.define(
     "sap/ui/core/format/DateFormat",
     "sap/ui/model/Filter",
     "sap/ui/model/FilterOperator",
+    "matix/com/sp/socreation/socreation/model/formatter",
+    "sap/m/MessageBox",
   ],
-  function (Controller, JSONModel, DateFormat, Filter, FilterOperator) {
+  function (
+    Controller,
+    JSONModel,
+    DateFormat,
+    Filter,
+    FilterOperator,
+    formatter,
+    MessageBox
+  ) {
     "use strict";
-
+    formatter: formatter;
     return Controller.extend(
       "matix.com.sp.socreation.socreation.controller.View2",
       {
@@ -20,68 +30,21 @@ sap.ui.define(
           this.getOwnerComponent()
             .getRouter()
             .attachRoutePatternMatched(this.onRouteMatched, this);
-          this.loadPayloads();
+
           this.loadDataForSuggestions();
         },
 
-        loadPayloads: function () {
-          var headerPayload = {
-            DocType: "ZRAO",
-            ReqDateH: "2025-03-16T00:00:00",
-            Ref1: "40000000",
-            SalesOrg: "1000",
-            Pmnttrms: "ZT04",
-            DistrChan: "10",
-            Incoterms1: "",
-            Incoterms2: "FOB",
-            Division: "UR",
-            PriceDate: "2025-03-16T00:00:00",
-            PurchNoC: "PURCH_NO_C",
-            DocDate: "",
-            Lrdat: "2025-03-12T00:00:00",
-            Lrno: "",
-            Vhlnr: "",
-            ZtruckCap: "",
-            Tdlnr: "",
-            ET_SO_AUTO_CREATION_ORDER_ITEM: [],
-
-            ET_SO_AUTO_CREATION_PARTNERSET: [
-              {
-                PartnRole: "SP",
-                PartnNumb: "",
-              },
-
-              {
-                PartnRole: "SH",
-                PartnNumb: "",
-              },
-            ],
-
-            ET_SO_AUTO_CREATION_SCHEDULESE: [],
-          };
-          this.getView().setModel(
-            new JSONModel(headerPayload),
-            "oModelForHeader"
-          );
-          this.itemNo = 10;
-          var dataFortable = {
-            results: [
-              {
-                ItmNumber: this.itemNo.toString(),
-                TargetQu: "",
-                Material: "",
-                Batch: "",
-                Plant: "",
-                StoreLoc: "",
-                TargetQty: "",
-              },
-            ],
-          };
-
-          this.getView().setModel(
-            new JSONModel(dataFortable),
-            "oModelForItems"
-          );
+        onRouteMatched: function (oEvent) {
+          var SONo = oEvent.getParameter("arguments").SONo;
+          if (SONo === "null") {
+            if (!this.getOwnerComponent().getModel("oModelForHeader")) {
+              this.getOwnerComponent().getRouter().navTo("RouteView");
+            }
+          }
+          var title = "ZFAC-Factory Order WC - Sales order";
+          var oDatePicker = this.getView().byId("docTypeDatePickerId"); // Replace "yourDatePickerId"
+          var oMinDate = new Date(); // Set your desired minimum date here
+          oDatePicker.setMinDate(oMinDate);
         },
 
         loadDataForSuggestions: function () {
@@ -94,6 +57,7 @@ sap.ui.define(
             operator: "EQ",
             value1: "KNA1",
           });
+          this.getView().setBusy(true);
           oModel.read(sPath, {
             filters: [oFilterSP],
             success: function (data) {
@@ -109,14 +73,19 @@ sap.ui.define(
                 new JSONModel(data.results),
                 "oModelForShipToParty"
               );
+              this.getView().setBusy(false);
             }.bind(this),
-            error: function (sError) {}.bind(this),
+            error: function (sError) {
+              MessageBox.error(sError.message);
+              this.getView().setBusy(false);
+            }.bind(this),
           });
           var oFilterPT = new sap.ui.model.Filter({
             path: "Domname",
             operator: "EQ",
             value1: "T052U",
           });
+          this.getView().setBusy(true);
           oModel.read(sPath, {
             filters: [oFilterPT],
             success: function (data) {
@@ -128,8 +97,12 @@ sap.ui.define(
                 new JSONModel(data.results),
                 "oModelForPaymentTerm"
               );
+              this.getView().setBusy(false);
             }.bind(this),
-            error: function (sError) {}.bind(this),
+            error: function (sError) {
+              MessageBox.error(sError.message);
+              this.getView().setBusy(false);
+            }.bind(this),
           });
 
           var oFilterIT = new sap.ui.model.Filter({
@@ -137,6 +110,7 @@ sap.ui.define(
             operator: "EQ",
             value1: "INCO1",
           });
+          this.getView().setBusy(true);
           oModel.read(sPath, {
             filters: [oFilterIT],
             success: function (data) {
@@ -148,8 +122,12 @@ sap.ui.define(
                 new JSONModel(data.results),
                 "oModelForIncoTerm"
               );
+              this.getView().setBusy(false);
             }.bind(this),
-            error: function (sError) {}.bind(this),
+            error: function (sError) {
+              MessageBox.error(sError.message);
+              this.getView().setBusy(false);
+            }.bind(this),
           });
 
           var oFilterMaterial = new sap.ui.model.Filter({
@@ -157,6 +135,7 @@ sap.ui.define(
             operator: "EQ",
             value1: "MATERIAL",
           });
+          this.getView().setBusy(true);
           oModel.read(sPath, {
             filters: [oFilterMaterial],
             success: function (data) {
@@ -168,8 +147,12 @@ sap.ui.define(
                 new JSONModel(data.results),
                 "oModelForMaterial"
               );
+              this.getView().setBusy(false);
             }.bind(this),
-            error: function (sError) {}.bind(this),
+            error: function (sError) {
+              MessageBox.error(sError.message);
+              this.getView().setBusy(false);
+            }.bind(this),
           });
 
           var oFilterPlant = new sap.ui.model.Filter({
@@ -177,6 +160,7 @@ sap.ui.define(
             operator: "EQ",
             value1: "WERKS",
           });
+          this.getView().setBusy(true);
           oModel.read(sPath, {
             filters: [oFilterPlant],
             success: function (data) {
@@ -188,14 +172,57 @@ sap.ui.define(
                 new JSONModel(data.results),
                 "oModelForPlant"
               );
+              this.getView().setBusy(false);
             }.bind(this),
-            error: function (sError) {}.bind(this),
+            error: function (sError) {
+              MessageBox.error(sError.message);
+              this.getView().setBusy(false);
+            }.bind(this),
           });
           this.getView().setModel(new JSONModel(), "oModelForStorageLoc");
           this.getView().setModel(new JSONModel(), "oModelForBatch");
         },
+        onTargetQtyInputLiveChange: function (oEvent) {
+          var enteredQuntity = oEvent.getParameter("value");
+          if (Number(enteredQuntity) % 9 === 0) {
+            oEvent.getSource().setValueState("Success");
+          } else {
+            oEvent.getSource().setValue("");
+            oEvent.getSource().setValueState("Error");
+            oEvent
+              .getSource()
+              .setValueStateText("Entering quantity must be multiple of 9");
+          }
+        },
+        onResetButtonPress: function () {
+          this.oRouter = this.getOwnerComponent().getRouter();
+          this.oRouter.navTo("RouteView");
+        },
         onSelectChangeMaterial: function (oEvent) {
           this.selectedMaterial = oEvent.getParameter("selectedItem").getKey();
+          var sPath = oEvent.getSource().getParent().getBindingContextPath();
+          var Material = this.selectedMaterial;
+
+          var oModelData = this.getView()
+            .getModel("oModelForMaterial")
+            .getData();
+
+          for (let index = 0; index < oModelData.length; index++) {
+            const element = oModelData[index];
+            if (Material === element.DomvalueL) {
+              var description = element.Ddtext;
+              var unit = element.Domname3;
+            }
+          }
+          oEvent
+            .getSource()
+            .getParent()
+            .getAggregation("cells")[1]
+            .setValue(description);
+          sPath = sPath + "/TargetQu";
+          this.getOwnerComponent()
+            .getModel("oModelForItems")
+            .setProperty(sPath, unit);
         },
         onSelectChangePlant: function (oEvent) {
           var sService = "/sap/opu/odata/sap/ZSFA_SALES_PROCESS_SRV";
@@ -215,8 +242,13 @@ sap.ui.define(
             operator: "EQ",
             value1: this.selectedPlant,
           });
-          debugger;
+
           aFilterStorageLoc.push(oFilterStorageLocPlant);
+          this.oPlantSelect = oEvent
+            .getSource()
+            .getParent()
+            .getAggregation("cells")[5];
+          this.getView().setBusy(true);
           oModel.read(sPath, {
             filters: aFilterStorageLoc,
             success: function (data) {
@@ -224,12 +256,17 @@ sap.ui.define(
                 const element = data.results[index];
                 element.DomvalueL = element.DomvalueL.replace(/^0+/, "");
               }
-              this.getView().setModel(
+
+              this.oPlantSelect.setModel(
                 new JSONModel(data.results),
                 "oModelForStorageLoc"
               );
+              this.getView().setBusy(false);
             }.bind(this),
-            error: function (sError) {}.bind(this),
+            error: function (sError) {
+              MessageBox.error(sError.message);
+              this.getView().setBusy(false);
+            }.bind(this),
           });
         },
         onSelectChangeStorageLoc: function (oEvent) {
@@ -237,7 +274,7 @@ sap.ui.define(
           var oModel = new sap.ui.model.odata.ODataModel(sService, true);
           var sPath = "/Es_F4_ValueSet";
           this.storageLocation = oEvent.getParameter("selectedItem").getKey();
-          debugger;
+
           var aFilterBatch = [];
           var oFilterBatch = new sap.ui.model.Filter({
             path: "Domname",
@@ -265,6 +302,11 @@ sap.ui.define(
             value1: this.selectedMaterial,
           });
           aFilterBatch.push(oFilterBatchMat);
+          this.obatchSelect = oEvent
+            .getSource()
+            .getParent()
+            .getAggregation("cells")[7];
+          this.getView().setBusy(true);
           oModel.read(sPath, {
             filters: aFilterBatch,
             success: function (data) {
@@ -272,12 +314,16 @@ sap.ui.define(
                 const element = data.results[index];
                 element.DomvalueL = element.DomvalueL.replace(/^0+/, "");
               }
-              this.getView().setModel(
+              this.obatchSelect.setModel(
                 new JSONModel(data.results),
                 "oModelForBatch"
               );
+              this.getView().setBusy(false);
             }.bind(this),
-            error: function (sError) {}.bind(this),
+            error: function (sError) {
+              MessageBox.error(sError.message);
+              this.getView().setBusy(false);
+            }.bind(this),
           });
         },
         onSuggest: function (oEvent) {
@@ -299,13 +345,11 @@ sap.ui.define(
           oEvent.getSource().getBinding("suggestionItems").filter(Filters);
         },
 
-        onRouteMatched: function (oEvent) {
-          var SONo = oEvent.getParameter("arguments").SONo;
-          var title = "ZFAC-Factory Order WC - Sales order";
-        },
         onAddNewItemPress: function () {
           this.itemNo = this.itemNo + 10;
-          var JSONData = this.getView().getModel("oModelForItems").getData();
+          var JSONData = this.getOwnerComponent()
+            .getModel("oModelForItems")
+            .getData();
           JSONData.results.push({
             ItmNumber: this.itemNo.toString(),
             TargetQu: "",
@@ -315,7 +359,7 @@ sap.ui.define(
             StoreLoc: "",
             TargetQty: "",
           });
-          this.getView()
+          this.getOwnerComponent()
             .getModel("oModelForItems")
             .setData(JSON.parse(JSON.stringify(JSONData)));
         },
@@ -325,8 +369,8 @@ sap.ui.define(
           var msg;
           if (selected["length"] === 0) {
             msg = "Please select atleast one row";
-            sap.m.MessageBox.show(msg, {
-              icon: sap.m.MessageBox.Icon.ERROR,
+            MessageBox.show(msg, {
+              icon: MessageBox.Icon.ERROR,
               title: "Error",
             });
           } else {
@@ -337,7 +381,7 @@ sap.ui.define(
             this.tableDateRefresh();
           }
         },
-        tableDateRefresh: function (oEvent) {
+        tableDateRefresh: function () {
           var table = this.getView().byId("SOTable");
           var rowCount = table.getItems().length;
           for (var i = 0; i < rowCount; i++) {
@@ -346,17 +390,102 @@ sap.ui.define(
             table.getItems()[i].getCells()[0].setProperty("text", text);
           }
         },
+
+        onUpdateContractValue: function () {
+          const oDateFormat = DateFormat.getDateTimeInstance(
+            {
+              pattern: "yyyy-MM-dd'T'HH:mm:ss",
+            },
+            sap.ui.getCore().getConfiguration().getLocale()
+          ); // You can also use a specific locale
+          var sPath = "/Es_Contract_Value";
+          var aFilters = [];
+          aFilters.push(
+            new Filter(
+              "SoldToParty",
+              FilterOperator.EQ,
+              this.getOwnerComponent()
+                .getModel("oModelForHeader")
+                .getProperty("/ET_SO_AUTO_CREATION_PARTNERSET/0/PartnNumb")
+                .split("-")[0]
+            )
+          );
+          aFilters.push(
+            new Filter(
+              "CreationDate",
+              FilterOperator.EQ,
+              oDateFormat.format(
+                this.getOwnerComponent()
+                  .getModel("oModelForHeader")
+                  .getProperty("/DocDate")
+              )
+            )
+          );
+          var aPayload = this.getOwnerComponent()
+            .getModel("oModelForItems")
+            .getData().results;
+          var oModel = this.getView().getModel();
+          var that = this;
+          var promise = Promise.resolve();
+          aPayload.forEach(function (Payload, i) {
+            //copy local variables
+            //Chain the promises
+            promise = promise.then(function () {
+              aFilters.push(
+                new Filter("Material", FilterOperator.EQ, Payload.Material)
+              );
+              return that._promiseReadCallForEachContract(
+                oModel,
+                sPath,
+                aFilters,
+                i
+              );
+            });
+          });
+          promise.then(function () {}).catch(function () {});
+        },
+
+        _promiseReadCallForEachContract: function (
+          oModel,
+          sPath,
+          aFilters,
+          index
+        ) {
+          var that = this;
+          this.getView().setBusy(true);
+          oModel.read(sPath, {
+            filters: aFilters,
+            success: function (data) {
+              var path = "/" + index + "/Ref1";
+              this.getOwnerComponent()
+                .getModel("oModelForItems")
+                .setProperty(path);
+              this.getView().setBusy(false);
+            }.bind(this),
+            error: function (sError) {
+              MessageBox.error(sError.message);
+              this.getView().setBusy(false);
+            }.bind(this),
+          });
+        },
+
         onSubmit: function () {
-          var oHeadPayload = this.getView()
+          var oHeadPayload = this.getOwnerComponent()
             .getModel("oModelForHeader")
             .getData();
-          var aItemPayload = this.getView()
+          var aItemPayload = this.getOwnerComponent()
             .getModel("oModelForItems")
             .getData();
 
           oHeadPayload.ET_SO_AUTO_CREATION_ORDER_ITEM = aItemPayload.results;
-          var payload = oHeadPayload;
 
+          oHeadPayload.SalesOrg = oHeadPayload.SalesOrg.split("-")[0];
+          oHeadPayload.DocType = oHeadPayload.DocType.split("-")[0];
+          oHeadPayload.DistrChan = oHeadPayload.DistrChan.split("-")[0];
+          oHeadPayload.Division = oHeadPayload.Division.split("-")[0];
+          oHeadPayload.Pmnttrms = oHeadPayload.Pmnttrms.split("-")[0];
+          oHeadPayload.Incoterms1 = oHeadPayload.Incoterms1.split("-")[0];
+          const myDate = new Date();
           const oDateFormat = DateFormat.getDateTimeInstance(
             {
               pattern: "yyyy-MM-dd'T'HH:mm:ss",
@@ -364,8 +493,24 @@ sap.ui.define(
             sap.ui.getCore().getConfiguration().getLocale()
           ); // You can also use a specific locale
 
-          const myDate = new Date();
-          payload.DocDate = oDateFormat.format(payload.DocDate);
+          if (oHeadPayload.DocDate) {
+            oHeadPayload.DocDate = oDateFormat.format(oHeadPayload.DocDate);
+          } else {
+            oHeadPayload.DocDate = oDateFormat.format(myDate);
+          }
+          oHeadPayload.Lrdat = oDateFormat.format(myDate);
+          oHeadPayload.PriceDate = oDateFormat.format(myDate);
+          oHeadPayload.ReqDateH = oDateFormat.format(myDate);
+          oHeadPayload.ET_SO_AUTO_CREATION_PARTNERSET[0].PartnNumb =
+            oHeadPayload.ET_SO_AUTO_CREATION_PARTNERSET[0].PartnNumb.split(
+              "-"
+            )[0];
+          oHeadPayload.ET_SO_AUTO_CREATION_PARTNERSET[1].PartnNumb =
+            oHeadPayload.ET_SO_AUTO_CREATION_PARTNERSET[1].PartnNumb.split(
+              "-"
+            )[0];
+
+          var payload = oHeadPayload;
 
           for (
             let index = 0;
@@ -373,6 +518,9 @@ sap.ui.define(
             index++
           ) {
             const element = oHeadPayload.ET_SO_AUTO_CREATION_ORDER_ITEM[index];
+            element.MatlGroup = this.getOwnerComponent()
+              .getModel("oModelTemp")
+              .getProperty("/MatlGroup");
             payload.ET_SO_AUTO_CREATION_SCHEDULESE.push({
               ItmNumber: element.ItmNumber,
               ReqDate: oDateFormat.format(myDate),
@@ -381,12 +529,30 @@ sap.ui.define(
           }
 
           var sPath = "/Es_So_Auto_Creation_Head";
-
+          this.getView().setBusy(true);
           this.getView()
             .getModel()
             .create(sPath, payload, {
-              success: function (oData, response) {}.bind(this),
-              error: function (sError) {}.bind(this),
+              success: function (oData, response) {
+                var message = JSON.parse(
+                  response.headers["sap-message"]
+                ).message;
+                // MessageBox.success(message);
+                var that = this;
+                MessageBox.success(message, {
+                  actions: ["OK", MessageBox.Action.CLOSE],
+                  emphasizedAction: "OK",
+                  onClose: function (sAction) {
+                    that.getOwnerComponent().getRouter().navTo("RouteView");
+                  },
+                  dependentOn: this.getView(),
+                });
+                this.getView().setBusy(false);
+              }.bind(this),
+              error: function (sError) {
+                MessageBox.error(sError.message);
+                this.getView().setBusy(false);
+              }.bind(this),
             });
         },
       }

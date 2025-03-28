@@ -20,6 +20,7 @@
                 <f:content>
                     <Label text="SO Document Type" />
                     <Input
+                        value="{oModelForHeader>/DocType}"
                         placeholder="SO Document Type"
                         showSuggestion="true"
                         suggest=".onSuggest"
@@ -34,7 +35,7 @@
 
                     <Label text="Sales Organisation" />
                     <Input
-                        value="1000-Matix Sales Group"
+                        value="{oModelForHeader>/SalesOrg}"
                         editable="false"
                         placeholder="Sales Organisation"
                         showValueHelp="true"
@@ -42,6 +43,7 @@
 
                     <Label text="Distribution Channel" />
                     <Input
+                        value="{oModelForHeader>/DistrChan}"
                         placeholder="Distribution Channel"
                         showSuggestion="true"
                         suggest=".onSuggest"
@@ -56,6 +58,7 @@
 
                     <Label text="Division" />
                     <Input
+                        value="{oModelForHeader>/Division}"
                         placeholder="Division"
                         showSuggestion="true"
                         suggest=".onSuggest"
@@ -71,7 +74,11 @@
                         text="Material Group "
                         textAlign="Initial"
                     />
-                    <Select items="{oModelForMatGroup>/}">
+                    <Select
+                        items="{oModelForMatGroup>/}"
+                        selectedKey="{oModelTemp>/MatlGroup}"
+                        forceSelection="false"
+                    >
                         <core:Item
                             key="{oModelForMatGroup>DomvalueL}"
                             text="{oModelForMatGroup>DomvalueL}-{oModelForMatGroup>Ddtext}"
@@ -82,6 +89,7 @@
                         text="Reset"
                         type="Reject"
                         icon="sap-icon://reset"
+                        press="onResetButtonPress"
                     />
                     <Button
                         text="Next"

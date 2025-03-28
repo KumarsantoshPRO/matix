@@ -1,26 +1,29 @@
-sap.ui.define([
+sap.ui.define(
+  [
     "sap/ui/core/UIComponent",
-    "matix/com/sp/socreation/socreation/model/models"
-], (UIComponent, models) => {
+    "matix/com/sp/socreation/socreation/model/models",
+    "sap/ui/model/json/JSONModel",
+  ],
+  (UIComponent, models, JSONModel) => {
     "use strict";
 
     return UIComponent.extend("matix.com.sp.socreation.socreation.Component", {
-        metadata: {
-            manifest: "json",
-            interfaces: [
-                "sap.ui.core.IAsyncContentCreation"
-            ]
-        },
+      metadata: {
+        manifest: "json",
+        interfaces: ["sap.ui.core.IAsyncContentCreation"],
+      },
 
-        init() {
-            // call the base component's init function
-            UIComponent.prototype.init.apply(this, arguments);
+      init() {
+        // call the base component's init function
+        UIComponent.prototype.init.apply(this, arguments);
 
-            // set the device model
-            this.setModel(models.createDeviceModel(), "device");
+        // set the device model
+        this.setModel(models.createDeviceModel(), "device");
 
-            // enable routing
-            this.getRouter().initialize();
-        }
+        // enable routing
+        this.getRouter().initialize();
+
+      }
     });
-});
+  }
+);
