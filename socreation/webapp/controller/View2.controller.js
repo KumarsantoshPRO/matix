@@ -30,8 +30,6 @@ sap.ui.define(
           this.getOwnerComponent()
             .getRouter()
             .attachRoutePatternMatched(this.onRouteMatched, this);
-
-          this.loadDataForSuggestions();
         },
 
         onRouteMatched: function (oEvent) {
@@ -39,27 +37,51 @@ sap.ui.define(
           if (SONo === "null") {
             if (!this.getOwnerComponent().getModel("oModelForHeader")) {
               this.getOwnerComponent().getRouter().navTo("RouteView");
+            } else {
+              this.loadDataForSuggestions();
             }
           }
           var title = "ZFAC-Factory Order WC - Sales order";
           var oDatePicker = this.getView().byId("docTypeDatePickerId"); // Replace "yourDatePickerId"
-          var oMinDate = new Date(); // Set your desired minimum date here
-          oDatePicker.setMinDate(oMinDate);
+          var oDate = new Date(); // Set your desired minimum date here
+          oDatePicker.setMaxDate(oDate);
         },
 
         loadDataForSuggestions: function () {
           var sService = "/sap/opu/odata/sap/ZSFA_SALES_PROCESS_SRV";
           var oModel = new sap.ui.model.odata.ODataModel(sService, true);
           var sPath = "/Es_F4_ValueSet";
-
+          // Sold to Party
           var oFilterSP = new sap.ui.model.Filter({
             path: "Domname",
             operator: "EQ",
-            value1: "KNA1",
+            value1: "SOLD",
+          });
+          var oFilterSO = new sap.ui.model.Filter({
+            path: "Domname1",
+            operator: "EQ",
+            value1: this.getOwnerComponent()
+              .getModel("oModelForHeader")
+              .getProperty("/SalesOrg"),
+          });
+          var oFilterDistChan = new sap.ui.model.Filter({
+            path: "Domname2",
+            operator: "EQ",
+            value1: this.getOwnerComponent()
+              .getModel("oModelForHeader")
+              .getProperty("/DistrChan"),
+          });
+
+          var oFilterDivision = new sap.ui.model.Filter({
+            path: "Domname3",
+            operator: "EQ",
+            value1: this.getOwnerComponent()
+              .getModel("oModelForHeader")
+              .getProperty("/Division"),
           });
           this.getView().setBusy(true);
           oModel.read(sPath, {
-            filters: [oFilterSP],
+            filters: [oFilterSP, oFilterSO, oFilterDistChan, oFilterDivision],
             success: function (data) {
               for (let index = 0; index < data.results.length; index++) {
                 const element = data.results[index];
@@ -69,17 +91,20 @@ sap.ui.define(
                 new JSONModel(data.results),
                 "oModelForSoldTopart"
               );
-              this.getView().setModel(
-                new JSONModel(data.results),
-                "oModelForShipToParty"
-              );
+              // this.getView().setModel(
+              //   new JSONModel(data.results),
+              //   "oModelForShipToParty"
+              // );
               this.getView().setBusy(false);
             }.bind(this),
             error: function (sError) {
-              MessageBox.error(sError.message);
+              MessageBox.error(
+                JSON.parse(sError.responseText).error.message.value
+              );
               this.getView().setBusy(false);
             }.bind(this),
           });
+          // Payment Term
           var oFilterPT = new sap.ui.model.Filter({
             path: "Domname",
             operator: "EQ",
@@ -100,7 +125,9 @@ sap.ui.define(
               this.getView().setBusy(false);
             }.bind(this),
             error: function (sError) {
-              MessageBox.error(sError.message);
+              MessageBox.error(
+                JSON.parse(sError.responseText).error.message.value
+              );
               this.getView().setBusy(false);
             }.bind(this),
           });
@@ -125,7 +152,9 @@ sap.ui.define(
               this.getView().setBusy(false);
             }.bind(this),
             error: function (sError) {
-              MessageBox.error(sError.message);
+              MessageBox.error(
+                JSON.parse(sError.responseText).error.message.value
+              );
               this.getView().setBusy(false);
             }.bind(this),
           });
@@ -150,7 +179,9 @@ sap.ui.define(
               this.getView().setBusy(false);
             }.bind(this),
             error: function (sError) {
-              MessageBox.error(sError.message);
+              MessageBox.error(
+                JSON.parse(sError.responseText).error.message.value
+              );
               this.getView().setBusy(false);
             }.bind(this),
           });
@@ -175,23 +206,105 @@ sap.ui.define(
               this.getView().setBusy(false);
             }.bind(this),
             error: function (sError) {
-              MessageBox.error(sError.message);
+              MessageBox.error(
+                JSON.parse(sError.responseText).error.message.value
+              );
               this.getView().setBusy(false);
             }.bind(this),
           });
           this.getView().setModel(new JSONModel(), "oModelForStorageLoc");
           this.getView().setModel(new JSONModel(), "oModelForBatch");
         },
+        getShipToPartySuggestion: function () {
+          var sService = "/sap/opu/odata/sap/ZSFA_SALES_PROCESS_SRV";
+          var oModel = new sap.ui.model.odata.ODataModel(sService, true);
+          var sPath = "/Es_F4_ValueSet";
+          // Sold to Party
+          var oFilterSP = new sap.ui.model.Filter({
+            path: "Domname",
+            operator: "EQ",
+            value1: "SHIP",
+          });
+          var oFilterSO = new sap.ui.model.Filter({
+            path: "Domname1",
+            operator: "EQ",
+            value1: this.getOwnerComponent()
+              .getModel("oModelForHeader")
+              .getProperty("/SalesOrg"),
+          });
+          var oFilterDistChan = new sap.ui.model.Filter({
+            path: "Domname2",
+            operator: "EQ",
+            value1: this.getOwnerComponent()
+              .getModel("oModelForHeader")
+              .getProperty("/DistrChan"),
+          });
+
+          var oFilterDivision = new sap.ui.model.Filter({
+            path: "Domname3",
+            operator: "EQ",
+            value1: this.getOwnerComponent()
+              .getModel("oModelForHeader")
+              .getProperty("/Division"),
+          });
+          var oFilterSold = new sap.ui.model.Filter({
+            path: "Domname4",
+            operator: "EQ",
+            value1: this.getOwnerComponent()
+              .getModel("oModelForHeader")
+              .getProperty("/ET_SO_AUTO_CREATION_PARTNERSET/0/PartnNumb"),
+          });
+
+          this.getView().setBusy(true);
+          oModel.read(sPath, {
+            filters: [
+              oFilterSP,
+              oFilterSO,
+              oFilterDistChan,
+              oFilterDivision,
+              oFilterSold,
+            ],
+            success: function (data) {
+              for (let index = 0; index < data.results.length; index++) {
+                const element = data.results[index];
+                element.DomvalueL = element.DomvalueL.replace(/^0+/, "");
+              }
+              // this.getView().setModel(
+              //   new JSONModel(data.results),
+              //   "oModelForSoldTopart"
+              // );
+              this.getView().setModel(
+                new JSONModel(data.results),
+                "oModelForShipToParty"
+              );
+              this.getView().setBusy(false);
+            }.bind(this),
+            error: function (sError) {
+              MessageBox.error(
+                JSON.parse(sError.responseText).error.message.value
+              );
+              this.getView().setBusy(false);
+            }.bind(this),
+          });
+        },
         onTargetQtyInputLiveChange: function (oEvent) {
           var enteredQuntity = oEvent.getParameter("value");
-          if (Number(enteredQuntity) % 9 === 0) {
+
+          const scaleFactor = 100; // Since there are at most two decimal places
+          const intNum1 = Math.round(Number(enteredQuntity) * scaleFactor);
+          const intNum2 = Math.round(0.045 * scaleFactor);
+
+          if (intNum1 % intNum2 === 0) {
             oEvent.getSource().setValueState("Success");
           } else {
             oEvent.getSource().setValue("");
             oEvent.getSource().setValueState("Error");
+            sap.m.MessageToast.show(
+              "Entering quantity must be multiple of 0.045"
+            );
             oEvent
               .getSource()
-              .setValueStateText("Entering quantity must be multiple of 9");
+              .setValueStateText("Entering quantity must be multiple of 0.045");
           }
         },
         onResetButtonPress: function () {
@@ -264,7 +377,9 @@ sap.ui.define(
               this.getView().setBusy(false);
             }.bind(this),
             error: function (sError) {
-              MessageBox.error(sError.message);
+              MessageBox.error(
+                JSON.parse(sError.responseText).error.message.value
+              );
               this.getView().setBusy(false);
             }.bind(this),
           });
@@ -321,7 +436,9 @@ sap.ui.define(
               this.getView().setBusy(false);
             }.bind(this),
             error: function (sError) {
-              MessageBox.error(sError.message);
+              MessageBox.error(
+                JSON.parse(sError.responseText).error.message.value
+              );
               this.getView().setBusy(false);
             }.bind(this),
           });
@@ -346,12 +463,15 @@ sap.ui.define(
         },
 
         onAddNewItemPress: function () {
-          this.itemNo = this.itemNo + 10;
           var JSONData = this.getOwnerComponent()
             .getModel("oModelForItems")
             .getData();
+          var itemNo =
+            Number(JSONData.results[JSONData.results.length - 1].ItmNumber) +
+            10;
+
           JSONData.results.push({
-            ItmNumber: this.itemNo.toString(),
+            ItmNumber: itemNo.toString(),
             TargetQu: "",
             Material: "",
             Batch: "",
@@ -463,7 +583,9 @@ sap.ui.define(
               this.getView().setBusy(false);
             }.bind(this),
             error: function (sError) {
-              MessageBox.error(sError.message);
+              MessageBox.error(
+                JSON.parse(sError.responseText).error.message.value
+              );
               this.getView().setBusy(false);
             }.bind(this),
           });
@@ -479,12 +601,14 @@ sap.ui.define(
 
           oHeadPayload.ET_SO_AUTO_CREATION_ORDER_ITEM = aItemPayload.results;
 
-          oHeadPayload.SalesOrg = oHeadPayload.SalesOrg.split("-")[0];
-          oHeadPayload.DocType = oHeadPayload.DocType.split("-")[0];
-          oHeadPayload.DistrChan = oHeadPayload.DistrChan.split("-")[0];
-          oHeadPayload.Division = oHeadPayload.Division.split("-")[0];
-          oHeadPayload.Pmnttrms = oHeadPayload.Pmnttrms.split("-")[0];
-          oHeadPayload.Incoterms1 = oHeadPayload.Incoterms1.split("-")[0];
+          // oHeadPayload.SalesOrg = oHeadPayload.SalesOrg.split("-")[0];
+
+          // oHeadPayload.DocType = oHeadPayload.DocType.split("-")[0];
+          // oHeadPayload.DistrChan = oHeadPayload.DistrChan.split("-")[0];
+          // oHeadPayload.Division = oHeadPayload.Division.split("-")[0];
+
+          // oHeadPayload.Pmnttrms = oHeadPayload.Pmnttrms.split("-")[0];
+          // oHeadPayload.Incoterms1 = oHeadPayload.Incoterms1.split("-")[0];
           const myDate = new Date();
           const oDateFormat = DateFormat.getDateTimeInstance(
             {
@@ -501,14 +625,14 @@ sap.ui.define(
           oHeadPayload.Lrdat = oDateFormat.format(myDate);
           oHeadPayload.PriceDate = oDateFormat.format(myDate);
           oHeadPayload.ReqDateH = oDateFormat.format(myDate);
-          oHeadPayload.ET_SO_AUTO_CREATION_PARTNERSET[0].PartnNumb =
-            oHeadPayload.ET_SO_AUTO_CREATION_PARTNERSET[0].PartnNumb.split(
-              "-"
-            )[0];
-          oHeadPayload.ET_SO_AUTO_CREATION_PARTNERSET[1].PartnNumb =
-            oHeadPayload.ET_SO_AUTO_CREATION_PARTNERSET[1].PartnNumb.split(
-              "-"
-            )[0];
+          // oHeadPayload.ET_SO_AUTO_CREATION_PARTNERSET[0].PartnNumb =
+          //   oHeadPayload.ET_SO_AUTO_CREATION_PARTNERSET[0].PartnNumb.split(
+          //     "-"
+          //   )[0];
+          // oHeadPayload.ET_SO_AUTO_CREATION_PARTNERSET[1].PartnNumb =
+          //   oHeadPayload.ET_SO_AUTO_CREATION_PARTNERSET[1].PartnNumb.split(
+          //     "-"
+          //   )[0];
 
           var payload = oHeadPayload;
 
@@ -539,7 +663,8 @@ sap.ui.define(
                 ).message;
                 // MessageBox.success(message);
                 var that = this;
-                MessageBox.success(message, {
+                debugger;
+                MessageBox.information(message, {
                   actions: ["OK", MessageBox.Action.CLOSE],
                   emphasizedAction: "OK",
                   onClose: function (sAction) {
@@ -550,10 +675,132 @@ sap.ui.define(
                 this.getView().setBusy(false);
               }.bind(this),
               error: function (sError) {
-                MessageBox.error(sError.message);
+                var that = this;
+                debugger;
+                MessageBox.error(
+                  JSON.parse(sError.responseText).error.message.value,
+                  {
+                    onClose: function (sAction) {
+                      that.getOwnerComponent().getRouter().navTo("RouteView");
+                    },
+                    dependentOn: this.getView(),
+                  }
+                );
                 this.getView().setBusy(false);
               }.bind(this),
             });
+        },
+        onPmnttrmsInputSuggestionItemSelected: function (oEvent) {
+          var sValue = oEvent.getParameter("selectedItem").getProperty("text");
+          this.getOwnerComponent()
+            .getModel("oModelForHeader")
+            .setProperty("/Pmnttrms", sValue.split("-")[0]);
+
+          if (sValue.split("-")[1] !== "") {
+            this.getOwnerComponent()
+              .getModel("oModelTemp")
+              .setProperty("/PmnttrmsDescrp", "-" + sValue.split("-")[1]);
+          }
+        },
+        onPartnNumbInputSuggestionItemSelected: function (oEvent) {
+          var sValue = oEvent.getParameter("selectedItem").getProperty("text");
+          this.getOwnerComponent()
+            .getModel("oModelForHeader")
+            .setProperty(
+              "/ET_SO_AUTO_CREATION_PARTNERSET/0/PartnNumb",
+              sValue.split("-")[0]
+            );
+
+          if (sValue.split("-")[1] !== "") {
+            this.getOwnerComponent()
+              .getModel("oModelTemp")
+              .setProperty("/PartnNumbDescrp", "-" + sValue.split("-")[1]);
+          }
+          this.getShipToPartySuggestion();
+        },
+        onPartnNumbInputSuggestionItemSelected2: function (oEvent) {
+          var sValue = oEvent.getParameter("selectedItem").getProperty("text");
+          this.getOwnerComponent()
+            .getModel("oModelForHeader")
+            .setProperty(
+              "/ET_SO_AUTO_CREATION_PARTNERSET/1/PartnNumb",
+              sValue.split("-")[0]
+            );
+
+          if (sValue.split("-")[1] !== "") {
+            this.getOwnerComponent()
+              .getModel("oModelTemp")
+              .setProperty("/PartnNumbDescrp2", "-" + sValue.split("-")[1]);
+          }
+        },
+        onIncotermsInputSuggestionItemSelected: function (oEvent) {
+          var sValue = oEvent.getParameter("selectedItem").getProperty("text");
+          this.getOwnerComponent()
+            .getModel("oModelForHeader")
+            .setProperty("/Incoterms1", sValue.split("-")[0]);
+
+          if (sValue.split("-")[1] !== "") {
+            this.getOwnerComponent()
+              .getModel("oModelTemp")
+              .setProperty("/Incoterms1Descrp", "-" + sValue.split("-")[1]);
+          }
+        },
+        onInputChange: function (oEvent) {
+          var oInput = oEvent.getSource();
+          var sValue = oEvent.getParameter("value");
+          var oBinding = oInput.getBinding("suggestionItems");
+          var aContexts = oBinding.getContexts();
+          var bValid = false;
+
+          // Check if the entered value exists in the suggestions
+          for (var i = 0; i < aContexts.length; i++) {
+            if (aContexts[i].getObject().text === sValue) {
+              bValid = true;
+              break;
+            }
+          }
+
+          if (!bValid && sValue !== "") {
+            // Input is invalid (not in suggestions and not empty)
+            oInput.setValueState("Error");
+            oInput.setValue("");
+            sap.m.MessageToast.show(
+              "Please select a valid entry from the suggestions."
+            );
+          } else {
+            // Input is valid (either in suggestions or empty)
+            oInput.setValueState("None");
+            oInput.setValueStateText("");
+          }
+        },
+        onInputChangeSold: function (oEvent) {
+          var oInput = oEvent.getSource();
+          var sValue = oEvent.getParameter("value");
+          var oBinding = oInput.getBinding("suggestionItems");
+          var aContexts = oBinding.getContexts();
+          var bValid = false;
+
+          // Check if the entered value exists in the suggestions
+          for (var i = 0; i < aContexts.length; i++) {
+            if (aContexts[i].getObject().text === sValue) {
+              bValid = true;
+              break;
+            }
+          }
+
+          if (!bValid && sValue !== "") {
+            // Input is invalid (not in suggestions and not empty)
+            oInput.setValueState("Error");
+            oInput.setValue("");
+            sap.m.MessageToast.show(
+              "Please select a valid entry from the suggestions."
+            );
+          } else {
+            // Input is valid (either in suggestions or empty)
+            this.getShipToPartySuggestion();
+            oInput.setValueState("None");
+            oInput.setValueStateText("");
+          }
         },
       }
     );

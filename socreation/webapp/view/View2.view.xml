@@ -25,13 +25,16 @@
                     >
                         <form:content>
                             <!-- <core:Title /> -->
-                            <Label text="Sold-to-party" />
+                            <Label text="Sold-to-party" required="true" />
                             <Input
                                 placeholder="Sold To Party"
-                                value="{oModelForHeader>/ET_SO_AUTO_CREATION_PARTNERSET/0/PartnNumb}"
+                                value="{oModelForHeader>/ET_SO_AUTO_CREATION_PARTNERSET/0/PartnNumb}{oModelTemp>/PartnNumbDescrp}"
                                 showSuggestion="true"
                                 suggest=".onSuggest"
                                 suggestionItems="{oModelForSoldTopart>/}"
+                                suggestionItemSelected="onPartnNumbInputSuggestionItemSelected"
+                                change="onInputChangeSold"
+                                valueStateText="Please select a valid Sold-To-Party from the suggestions."
                             >
                                 <suggestionItems>
                                     <core:Item
@@ -40,14 +43,17 @@
                                 </suggestionItems>
                             </Input>
 
-                            <Label text="Payment Terms" />
-                            <!-- <Input value="{oModelForHeader>/Pmnttrms}" /> -->
+                            <Label text="Payment Terms"  required="true" />
+
                             <Input
                                 placeholder="Payment Terms"
-                                value="{oModelForHeader>/Pmnttrms}"
+                                value="{oModelForHeader>/Pmnttrms}{oModelTemp>/PmnttrmsDescrp}"
                                 showSuggestion="true"
                                 suggest=".onSuggest"
                                 suggestionItems="{oModelForPaymentTerm>/}"
+                                suggestionItemSelected="onPmnttrmsInputSuggestionItemSelected"
+                                change="onInputChange"
+                                valueStateText="Please select a valid Payment Terms from the suggestions."
                             >
                                 <suggestionItems>
                                     <core:Item
@@ -56,7 +62,7 @@
                                 </suggestionItems>
                             </Input>
 
-                            <Label text="Doc Date" />
+                            <Label text="Doc Date"  required="true" />
 
                             <DatePicker
                                 id='docTypeDatePickerId'
@@ -69,13 +75,16 @@
                             <Label text="Trans. Code " />
                             <Input value="{oModelForHeader>/Tdlnr}" />
 
-                            <Label text="Ship-to-party " />
+                            <Label text="Ship-to-party "  required="true" />
                             <Input
                                 placeholder="Ship-to-party"
-                                value="{oModelForHeader>/ET_SO_AUTO_CREATION_PARTNERSET/1/PartnNumb}"
+                                value="{oModelForHeader>/ET_SO_AUTO_CREATION_PARTNERSET/1/PartnNumb}{oModelTemp>/PartnNumbDescrp2}"
                                 showSuggestion="true"
                                 suggest=".onSuggest"
                                 suggestionItems="{oModelForShipToParty>/}"
+                                suggestionItemSelected="onPartnNumbInputSuggestionItemSelected2"
+                                change="onInputChange"
+                                valueStateText="Please select a valid Ship-to-party from the suggestions."
                             >
                                 <suggestionItems>
                                     <core:Item
@@ -84,13 +93,17 @@
                                 </suggestionItems>
                             </Input>
                             <!-- <core:Title /> -->
-                            <Label text="Inco Terms" />
+                            <Label text="Inco Terms"  required="true" />
                             <Input
-                                value="{oModelForHeader>/Incoterms1}"
+                                value="{oModelForHeader>/Incoterms1}{oModelTemp>/Incoterms1Descrp}"
                                 placeholder="Inco Term"
                                 showSuggestion="true"
+                                editable="false"
                                 suggest=".onSuggest"
                                 suggestionItems="{oModelForIncoTerm>/}"
+                                suggestionItemSelected="onIncotermsInputSuggestionItemSelected"
+                                change="onInputChange"
+                                valueStateText="Please select a valid Inco Terms from the suggestions."
                             >
                                 <suggestionItems>
                                     <core:Item
@@ -279,7 +292,7 @@
                         <Input value="" />
                         <Input
                             value="{path:'oModelForItems>TargetQty'}"
-                            liveChange="onTargetQtyInputLiveChange"
+                            change="onTargetQtyInputLiveChange"
                         />
                         <Input value="{oModelForItems>TargetQu}" />
                         <Select

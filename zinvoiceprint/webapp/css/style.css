@@ -1,0 +1,12 @@
+/* Enter your custom styles here */
+.sapUxAPObjectPageContainerNoBar>.sapUxAPObjectPageSection:first-child:not(.sapUxAPObjectPageSectionNoTitle) {
+    margin-top: 0 !important;
+}
+.sapMIBar.sapMTB {
+    box-shadow: none !important;
+    border-bottom: none !important;
+}
+.sapUiForm .sapUiFormElementLbl>.sapMLabel {
+    text-align: left !important;
+    width : auto;
+}

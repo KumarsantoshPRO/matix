@@ -18,13 +18,20 @@
                 layout="ResponsiveGridLayout"
             >
                 <f:content>
-                    <Label text="SO Document Type" />
+                    <Label
+                        text="SO Document Type"
+                        required="true"
+                    />
                     <Input
-                        value="{oModelForHeader>/DocType}"
+                        id="idInputSODocType"
+                        value="{oModelForHeader>/DocType}{oModelTemp>/DocDescription}"
                         placeholder="SO Document Type"
                         showSuggestion="true"
                         suggest=".onSuggest"
                         suggestionItems="{oModelForSODocType>/}"
+                        suggestionItemSelected="onDocTypeSugSelect"
+                        change="onInputChange"
+                        valueStateText="Please select a valid SO Document Type from the suggestions."
                     >
                         <suggestionItems>
                             <core:Item
@@ -35,19 +42,26 @@
 
                     <Label text="Sales Organisation" />
                     <Input
-                        value="{oModelForHeader>/SalesOrg}"
+                        value="{oModelForHeader>/SalesOrg}{oModelTemp>/SalesOrgDescription}"
                         editable="false"
                         placeholder="Sales Organisation"
                         showValueHelp="true"
                     />
 
-                    <Label text="Distribution Channel" />
+                    <Label
+                        text="Distribution Channel"
+                        required="true"
+                    />
                     <Input
-                        value="{oModelForHeader>/DistrChan}"
+                        id="idInputDistChanel"
+                        value="{oModelForHeader>/DistrChan}{oModelTemp>/DistrChanDescription}"
                         placeholder="Distribution Channel"
                         showSuggestion="true"
                         suggest=".onSuggest"
                         suggestionItems="{oModelForDistChannel>/}"
+                        suggestionItemSelected="onDistChanSugSelect"
+                        change="onInputChange"
+                        valueStateText="Please select a valid Distribution Channel from the suggestions."
                     >
                         <suggestionItems>
                             <core:Item
@@ -56,13 +70,20 @@
                         </suggestionItems>
                     </Input>
 
-                    <Label text="Division" />
+                    <Label
+                        text="Division"
+                        required="true"
+                    />
                     <Input
-                        value="{oModelForHeader>/Division}"
+                        id="idInputDivision"
+                        value="{oModelForHeader>/Division}{oModelTemp>/DivisionDescription}"
                         placeholder="Division"
                         showSuggestion="true"
                         suggest=".onSuggest"
                         suggestionItems="{oModelForDivision>/}"
+                        suggestionItemSelected="onDivisionSugSelect"
+                        change="onInputChange"
+                        valueStateText="Please select a valid Division from the suggestions."
                     >
                         <suggestionItems>
                             <core:Item
@@ -73,6 +94,7 @@
                     <Label
                         text="Material Group "
                         textAlign="Initial"
+                        required="true"
                     />
                     <Select
                         items="{oModelForMatGroup>/}"
