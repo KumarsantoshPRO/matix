@@ -248,25 +248,25 @@ sap.ui.define(
           var nTemp = 1;
           // var myModel = this.getOwnerComponent().getModel("oModelForHeader");
 
-          var docType = this.getView().byId("idInputSODocType").getValue(),
-            DistrChan = this.getView().byId("idInputDistChanel").getValue(),
-            Division = this.getView().byId("idInputDivision").getValue();
+          // var docType = this.getView().byId("idInputSODocType").getValue(),
+          //   DistrChan = this.getView().byId("idInputDistChanel").getValue(),
+          //   Division = this.getView().byId("idInputDivision").getValue();
 
-          if (!docType) {
-            nTemp = 0;
-            this.getView().byId("idInputSODocType").setValueState("Error");
-          } else if (!DistrChan) {
-            nTemp = 0;
-            this.getView().byId("idInputDistChanel").setValueState("Error");
-          } else if (!Division) {
-            nTemp = 0;
-            this.getView().byId("idInputDivision").setValueState("Error");
-          } else {
-            nTemp = 1;
-            this.getView().byId("idInputSODocType").setValueState("None");
-            this.getView().byId("idInputDistChanel").setValueState("None");
-            this.getView().byId("idInputDivision").setValueState("None");
-          }
+          // if (!docType) {
+          //   nTemp = 0;
+          //   this.getView().byId("idInputSODocType").setValueState("Error");
+          // } else if (!DistrChan) {
+          //   nTemp = 0;
+          //   this.getView().byId("idInputDistChanel").setValueState("Error");
+          // } else if (!Division) {
+          //   nTemp = 0;
+          //   this.getView().byId("idInputDivision").setValueState("Error");
+          // } else {
+          //   nTemp = 1;
+          //   this.getView().byId("idInputSODocType").setValueState("None");
+          //   this.getView().byId("idInputDistChanel").setValueState("None");
+          //   this.getView().byId("idInputDivision").setValueState("None");
+          // }
 
           if (nTemp === 1) {
             this.oRouter = this.getOwnerComponent().getRouter();

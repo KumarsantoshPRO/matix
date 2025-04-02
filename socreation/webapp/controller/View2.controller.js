@@ -164,9 +164,17 @@ sap.ui.define(
             operator: "EQ",
             value1: "MATERIAL",
           });
+          var oFilterMaterialGrp = new sap.ui.model.Filter({
+            path: "Domname1",
+            operator: "EQ",
+            value1: this.getOwnerComponent()
+              .getModel("oModelTemp")
+              .getProperty("/MatlGroup"),
+          });
+
           this.getView().setBusy(true);
           oModel.read(sPath, {
-            filters: [oFilterMaterial],
+            filters: [oFilterMaterial, oFilterMaterialGrp],
             success: function (data) {
               for (let index = 0; index < data.results.length; index++) {
                 const element = data.results[index];
@@ -288,23 +296,34 @@ sap.ui.define(
           });
         },
         onTargetQtyInputLiveChange: function (oEvent) {
-          var enteredQuntity = oEvent.getParameter("value");
+          var division = this.getOwnerComponent()
+            .getModel("oModelForHeader")
+            .getProperty("/Division");
+          var docType = this.getOwnerComponent()
+            .getModel("oModelForHeader")
+            .getProperty("/DocType");
 
-          const scaleFactor = 100; // Since there are at most two decimal places
-          const intNum1 = Math.round(Number(enteredQuntity) * scaleFactor);
-          const intNum2 = Math.round(0.045 * scaleFactor);
+          if (docType === "ZRAO" && division === "UR") {
+            var enteredQuntity = oEvent.getParameter("value");
 
-          if (intNum1 % intNum2 === 0) {
-            oEvent.getSource().setValueState("Success");
-          } else {
-            oEvent.getSource().setValue("");
-            oEvent.getSource().setValueState("Error");
-            sap.m.MessageToast.show(
-              "Entering quantity must be multiple of 0.045"
-            );
-            oEvent
-              .getSource()
-              .setValueStateText("Entering quantity must be multiple of 0.045");
+            const scaleFactor = 100; // Since there are at most two decimal places
+            const intNum1 = Math.round(Number(enteredQuntity) * scaleFactor);
+            const intNum2 = Math.round(0.045 * scaleFactor);
+
+            if (intNum1 % intNum2 === 0) {
+              oEvent.getSource().setValueState("Success");
+            } else {
+              oEvent.getSource().setValue("");
+              oEvent.getSource().setValueState("Error");
+              sap.m.MessageToast.show(
+                "Entering quantity must be multiple of 0.045"
+              );
+              oEvent
+                .getSource()
+                .setValueStateText(
+                  "Entering quantity must be multiple of 0.045"
+                );
+            }
           }
         },
         onResetButtonPress: function () {
@@ -312,6 +331,9 @@ sap.ui.define(
           this.oRouter.navTo("RouteView");
         },
         onSelectChangeMaterial: function (oEvent) {
+          // this.getView().getModel("oModelForPlant").setData({});
+          // this.getView().getModel("oModelForStorageLoc").setData({});
+          // this.getView().getModel("oModelForBatch").setData({});
           this.selectedMaterial = oEvent.getParameter("selectedItem").getKey();
           var sPath = oEvent.getSource().getParent().getBindingContextPath();
           var Material = this.selectedMaterial;
@@ -338,6 +360,8 @@ sap.ui.define(
             .setProperty(sPath, unit);
         },
         onSelectChangePlant: function (oEvent) {
+          this.getView().getModel("oModelForStorageLoc").setData({});
+          this.getView().getModel("oModelForBatch").setData({});
           var sService = "/sap/opu/odata/sap/ZSFA_SALES_PROCESS_SRV";
           var oModel = new sap.ui.model.odata.ODataModel(sService, true);
           var sPath = "/Es_F4_ValueSet";
@@ -385,6 +409,7 @@ sap.ui.define(
           });
         },
         onSelectChangeStorageLoc: function (oEvent) {
+          this.getView().getModel("oModelForBatch").setData({});
           var sService = "/sap/opu/odata/sap/ZSFA_SALES_PROCESS_SRV";
           var oModel = new sap.ui.model.odata.ODataModel(sService, true);
           var sPath = "/Es_F4_ValueSet";
@@ -663,7 +688,7 @@ sap.ui.define(
                 ).message;
                 // MessageBox.success(message);
                 var that = this;
-                debugger;
+
                 MessageBox.information(message, {
                   actions: ["OK", MessageBox.Action.CLOSE],
                   emphasizedAction: "OK",
@@ -676,7 +701,7 @@ sap.ui.define(
               }.bind(this),
               error: function (sError) {
                 var that = this;
-                debugger;
+
                 MessageBox.error(
                   JSON.parse(sError.responseText).error.message.value,
                   {

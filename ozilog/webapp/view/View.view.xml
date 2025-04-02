@@ -29,20 +29,89 @@
                             <core:Title />
                             <Label text="From Date " />
                             <DatePicker
-                                placeholder="mm/dd/yyyy"
+                                value="{path:'oModelForFilters>/FromErdat', type: 'sap.ui.model.type.Date', formatOptions: {UTC: true}}"
                                 width="15rem"
                             />
 
                             <Label text="Product" />
-                            <Input width="15rem" />
+
+                            <Input
+                                value="{oModelForFilters>/FromMatnr}{oModelTemp>/productDescrp}"
+                                placeholder="Products"
+                                showSuggestion="true"
+                                suggest=".onSuggest"
+                                suggestionItems="{oModelForMaterial>/}"
+                                suggestionItemSelected="onProductInputSuggestionItemSelected"
+                                change="onInputChange"
+                                valueStateText="Please select a Product from the suggestions."
+                            >
+                                <suggestionItems>
+                                    <core:Item
+                                        text="{oModelForMaterial>DomvalueL}-{oModelForMaterial>Ddtext}"
+                                    />
+                                </suggestionItems>
+                            </Input>
                             <Label text="Sales Office " />
-                            <Input width="15rem" />
+
+                            <Input
+                                value="{oModelForFilters>/FromSalesOffice}{oModelTemp>/FromSalesOfficeDescrp}"
+                                placeholder="Sales Office"
+                                showSuggestion="true"
+                                suggest=".onSuggest"
+                                suggestionItems="{oModelForSalesOffice>/}"
+                                suggestionItemSelected="onFromSalesOfficeInputSuggestionItemSelected"
+                                change="onInputChange"
+                                valueStateText="Please select a Sales Office from the suggestions."
+                            >
+                                <suggestionItems>
+                                    <core:Item
+                                        text="{oModelForSalesOffice>DomvalueL}-{oModelForSalesOffice>Ddtext}"
+                                    />
+                                </suggestionItems>
+                            </Input>
                             <core:Title />
                             <Label text="To Date " />
                             <DatePicker
-                                placeholder="mm/dd/yyyy"
+                                value="{path:'oModelForFilters>/ToErdat', type: 'sap.ui.model.type.Date', formatOptions: {UTC: true}}"
                                 width="15rem"
                             />
+
+                            <Label text="" />
+                            <Input
+                                value="{oModelForFilters>/ToMatnr}{oModelTemp>/productToDescrp}"
+                                placeholder="Products"
+                                showSuggestion="true"
+                                suggest=".onSuggest"
+                                suggestionItems="{oModelForMaterial>/}"
+                                suggestionItemSelected="onProductToInputSuggestionItemSelected"
+                                change="onInputChange"
+                                valueStateText="Please select a Product from the suggestions."
+                            >
+                                <suggestionItems>
+                                    <core:Item
+                                        text="{oModelForMaterial>DomvalueL}-{oModelForMaterial>Ddtext}"
+                                    />
+                                </suggestionItems>
+                            </Input>
+
+                            <Label text="" />
+
+                            <Input
+                                value="{oModelForFilters>/ToSalesOffice}{oModelTemp>/ToSalesOfficeOfficeDescrp}"
+                                placeholder="Sales Office"
+                                showSuggestion="true"
+                                suggest=".onSuggest"
+                                suggestionItems="{oModelForSalesOffice>/}"
+                                suggestionItemSelected="onToSalesOfficeInputSuggestionItemSelected"
+                                change="onInputChange"
+                                valueStateText="Please select a Sales Office from the suggestions."
+                            >
+                                <suggestionItems>
+                                    <core:Item
+                                        text="{oModelForSalesOffice>DomvalueL}-{oModelForSalesOffice>Ddtext}"
+                                    />
+                                </suggestionItems>
+                            </Input>
                         </form:content>
                     </form:SimpleForm>
                 </f:content>
@@ -51,12 +120,13 @@
                         <Button
                             text="Search"
                             type="Emphasized"
-                            press="onNextButtonPress"
+                            press="onSearchButtonPress"
                             class="sapUiSmallMarginEnd"
                         />
                         <Button
                             text="Reset"
                             type="Reject"
+                            press="onResetButtonPress"
                         />
                     </HBox>
                 </HBox>
@@ -72,12 +142,9 @@
             >
                 <Table
                     id="SOTable"
-                    width="100rem"
-                    items="{path: 'oModelForTable>/results/'}"
-                    mode="None"
+                    width="200%"
+                    items="{path: 'oModelForTable>/'}"
                     ariaLabelledBy="title"
-                    fixedLayout="true"
-                    autoPopinMode="false"
                     growing="true"
                     sticky="ColumnHeaders,HeaderToolbar"
                     popinLayout="GridSmall"
@@ -179,11 +246,6 @@
                     <columns>
                         <Column headerMenu="menu">
                             <header>
-                                <Text text="SlNo" />
-                            </header>
-                        </Column>
-                        <Column headerMenu="menu">
-                            <header>
                                 <Text text="SO Number" />
                             </header>
                         </Column>
@@ -247,6 +309,7 @@
                         <Column
                             app:p13nKey="Plant"
                             headerMenu="menu"
+                            visible="false"
                         >
                             <Text text="PGI Qnty" />
                         </Column>
@@ -330,21 +393,41 @@
 
                     <items>
                         <ColumnListItem>
-                            <Text />
-                            <Text />
-                            <Text />
-                            <Text />
-                            <Text />
-                            <Text />
-                            <Text />
-                            <Text />
-                            <Text />
-                            <Text />
-                            <Text />
-                            <Text />
-                            <Text />
-                            <Text />
-                            <Text />
+                            <Text text="{path: 'oModelForTable>SoNo'}" />
+                            <Text
+                                text="{path: 'oModelForTable>SoDate', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'MMM dd, yyyy', strictParsing: true, UTC: true}}"
+                            />
+                            <Text text="{path: 'oModelForTable>ObdNo'}" />
+                            <Text
+                                text="{path: 'oModelForTable>Erdat', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'MMM dd, yyyy', strictParsing: true, UTC: true}}"
+                            />
+                            <Text text="{path: 'oModelForTable>SoQty'}" />
+                            <Text text="{path: 'oModelForTable>Lfimg'}" />
+                            <Text text="{path: 'oModelForTable>PgiDoc'}" />
+                            <Text
+                                text="{path: 'oModelForTable>PgiDate', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'MMM dd, yyyy', strictParsing: true, UTC: true}}"
+                            />
+                            <Text text="{path: 'oModelForTable>InvNo'}" />
+                            <Text
+                                text="{path: 'oModelForTable>InvDate', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'MMM dd, yyyy', strictParsing: true, UTC: true}}"
+                            />
+                            <Text
+                                text="{path: 'oModelForTable>'}"
+                                visible="false"
+                            />
+                            <Text text="{path: 'oModelForTable>BalInvQty'}" />
+                            <Text text="{path: 'oModelForTable>Werks'}" />
+                            <Text text="{path: 'oModelForTable>Lgort'}" />
+                            <Text text="{path: 'oModelForTable>Geino'}" />
+                            <Text text="{path: 'oModelForTable>Vhlnr'}" />
+                            <Text text="{path: 'oModelForTable>ZtruckCap'}" />
+                            <Text text="{path: 'oModelForTable>Lrno'}" />
+                            <Text
+                                text="{path: 'oModelForTable>Lrdat', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'MMM dd, yyyy', strictParsing: true, UTC: true}}"
+                            />
+                            <Text text="{path: 'oModelForTable>Matnr'}" />
+                            <Text text="{path: 'oModelForTable>Arktx'}" />
+                            <Text text="{path: 'oModelForTable>SalesOffice'}" />
                         </ColumnListItem>
                     </items>
                 </Table>

@@ -25,7 +25,10 @@
                     >
                         <form:content>
                             <!-- <core:Title /> -->
-                            <Label text="Sold-to-party" required="true" />
+                            <Label
+                                text="Sold-to-party"
+                                required="true"
+                            />
                             <Input
                                 placeholder="Sold To Party"
                                 value="{oModelForHeader>/ET_SO_AUTO_CREATION_PARTNERSET/0/PartnNumb}{oModelTemp>/PartnNumbDescrp}"
@@ -43,7 +46,10 @@
                                 </suggestionItems>
                             </Input>
 
-                            <Label text="Payment Terms"  required="true" />
+                            <Label
+                                text="Payment Terms"
+                                required="true"
+                            />
 
                             <Input
                                 placeholder="Payment Terms"
@@ -62,7 +68,10 @@
                                 </suggestionItems>
                             </Input>
 
-                            <Label text="Doc Date"  required="true" />
+                            <Label
+                                text="Doc Date"
+                                required="true"
+                            />
 
                             <DatePicker
                                 id='docTypeDatePickerId'
@@ -75,7 +84,10 @@
                             <Label text="Trans. Code " />
                             <Input value="{oModelForHeader>/Tdlnr}" />
 
-                            <Label text="Ship-to-party "  required="true" />
+                            <Label
+                                text="Ship-to-party "
+                                required="true"
+                            />
                             <Input
                                 placeholder="Ship-to-party"
                                 value="{oModelForHeader>/ET_SO_AUTO_CREATION_PARTNERSET/1/PartnNumb}{oModelTemp>/PartnNumbDescrp2}"
@@ -93,7 +105,10 @@
                                 </suggestionItems>
                             </Input>
                             <!-- <core:Title /> -->
-                            <Label text="Inco Terms"  required="true" />
+                            <Label
+                                text="Inco Terms"
+                                required="true"
+                            />
                             <Input
                                 value="{oModelForHeader>/Incoterms1}{oModelTemp>/Incoterms1Descrp}"
                                 placeholder="Inco Term"
@@ -344,7 +359,7 @@
                     type="Emphasized"
                 />
                 <Button
-                    text="Updtae Contract value"
+                    text="Update Contract value"
                     press="onUpdateContractValue"
                     type="Emphasized"
                 />

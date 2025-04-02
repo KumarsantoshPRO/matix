@@ -3,7 +3,7 @@ sap.ui.define([
 ], (Controller) => {
   "use strict";
 
-  return Controller.extend("matix.com.log.ozilog.ozilog.controller.View", {
+  return Controller.extend("matix.com.log.ozilog.ozilog.controller.App", {
       onInit() {
       }
   });

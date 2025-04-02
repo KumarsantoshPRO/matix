@@ -15,6 +15,10 @@ server:
             - /resources
             - /test-resources
           url: https://ui5.sap.com
+        backend:
+          - path: /sap
+            url: https://vhmxfmedap01.sap.matixgroup.com:44300
+            client: "110"
     - name: fiori-tools-appreload
       afterMiddleware: compression
       configuration:

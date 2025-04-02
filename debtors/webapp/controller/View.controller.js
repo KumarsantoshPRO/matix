@@ -36,13 +36,12 @@ sap.ui.define(
 
       loadDataForSuggestions: function () {
         var sService = "/sap/opu/odata/sap/ZSFA_SALES_PROCESS_SRV";
-        // /Es_F4_ValueSet?$filter=Domname eq 'TVAK'
 
         var oModel = new sap.ui.model.odata.ODataModel(sService, true);
         var oFilterSP = new sap.ui.model.Filter({
           path: "Domname",
           operator: "EQ",
-          value1: "KNA1",
+          value1: "KUNNR",
         });
 
         var sPath = "/Es_F4_ValueSet";

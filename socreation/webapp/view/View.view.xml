@@ -22,7 +22,17 @@
                         text="SO Document Type"
                         required="true"
                     />
-                    <Input
+
+                    <Select
+                        items="{oModelForSODocType>/}"
+                        selectedKey="{oModelForHeader>/DocType}"
+                    >
+                        <core:Item
+                            key="{oModelForSODocType>DomvalueL}"
+                            text="{oModelForSODocType>DomvalueL}-{oModelForSODocType>Ddtext}"
+                        />
+                    </Select>
+                    <!-- <Input
                         id="idInputSODocType"
                         value="{oModelForHeader>/DocType}{oModelTemp>/DocDescription}"
                         placeholder="SO Document Type"
@@ -38,7 +48,7 @@
                                 text="{oModelForSODocType>DomvalueL}-{oModelForSODocType>Ddtext}"
                             />
                         </suggestionItems>
-                    </Input>
+                    </Input> -->
 
                     <Label text="Sales Organisation" />
                     <Input
@@ -74,7 +84,16 @@
                         text="Division"
                         required="true"
                     />
-                    <Input
+                    <Select
+                        items="{oModelForDivision>/}"
+                        selectedKey="{oModelForHeader>/Division}"
+                    >
+                        <core:Item
+                            key="{oModelForDivision>DomvalueL}"
+                            text="{oModelForDivision>DomvalueL}-{oModelForDivision>Ddtext}"
+                        />
+                    </Select>
+                    <!-- <Input
                         id="idInputDivision"
                         value="{oModelForHeader>/Division}{oModelTemp>/DivisionDescription}"
                         placeholder="Division"
@@ -90,7 +109,7 @@
                                 text="{oModelForDivision>DomvalueL}-{oModelForDivision>Ddtext}"
                             />
                         </suggestionItems>
-                    </Input>
+                    </Input> -->
                     <Label
                         text="Material Group "
                         textAlign="Initial"

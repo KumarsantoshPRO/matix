@@ -26,12 +26,7 @@ sap.ui.define(
         },
         onNextButtonPress: function () {
           var aFilters = new Array();
-          //   var oFilterLips = new sap.ui.model.Filter({
-          //     path: "Lips",
-          //     operator: "EQ",
-          //     value1: "1000",
-          //   });
-          //   aFilters.push(oFilterLips);
+        
 
           var oFilterLipsMatnr = new sap.ui.model.Filter({
             path: "LipsMatnr",
@@ -65,15 +60,6 @@ sap.ui.define(
               .getProperty("/PeriodTo"),
           });
           aFilters.push(oFilterPeriodFrm);
-
-          // var oFilterPeriodTo = new sap.ui.model.Filter({
-          //   path: "PeriodTo",
-          //   operator: "EQ",
-          //   value1: this.getView()
-          //     .getModel("oModelForFilters")
-          //     .getProperty("/PeriodTo"),
-          // });
-          // aFilters.push(oFilterPeriodTo);
 
           var sPath = "/Es_Stock_In_Transit_Report";
           this.getView().setBusy(true);

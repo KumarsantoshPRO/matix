@@ -30,12 +30,18 @@
                                 suggestionItems="{oModelForSoldTopart>/}"
                             >
                                 <suggestionItems>
-                                    <core:Item text="{oModelForSoldTopart>DomvalueL}-{oModelForSoldTopart>Ddtext}"/>
+                                    <core:Item
+                                        text="{oModelForSoldTopart>DomvalueL}-{oModelForSoldTopart>Ddtext}"
+                                    />
                                 </suggestionItems>
                             </Input>
 
-                            <Label text="District " />
+                            <Label
+                                text="District "
+                                visible="false"
+                            />
                             <Input
+                                visible="false"
                                 placeholder="District"
                                 showValueHelp="true"
                                 width="15rem"
