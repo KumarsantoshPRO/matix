@@ -365,8 +365,9 @@
                 />
                 <Button
                     text="Condition"
-                    press=""
+                    press="onConditionButtonPress"
                     type="Emphasized"
+                    ariaHasPopup="Dialog"
                 />
                 <Button
                     text="Reset"

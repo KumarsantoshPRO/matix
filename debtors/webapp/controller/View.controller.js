@@ -76,45 +76,63 @@ sap.ui.define(
             and: false,
           });
         }
-        debugger;
+
         oEvent.getSource().getBinding("suggestionItems").filter(Filters);
       },
 
       onNextButtonPress: function () {
         var aFilters = new Array();
-
-        var oFilterSoldToParty = new sap.ui.model.Filter({
-          path: "CustomerNumber",
-          operator: "EQ",
-          value1: "500000",
-        });
-        aFilters.push(oFilterSoldToParty);
-
-        var oFilterDate = new sap.ui.model.Filter({
-          path: "Keydate",
-          operator: "EQ",
-          value1: this.getView()
-            .getModel("oModelForFilters")
-            .getProperty("/Keydate"),
-        });
-        aFilters.push(oFilterDate);
-
-        var sPath = "/Es_Debtors_Ageing";
-        this.getView().setBusy(true);
-        this.getView()
-          .getModel()
-          .read(sPath, {
-            filters: aFilters,
-            success: function (oData) {
-              // this.getView().setModel();
-              this.getView().getModel("oModelForTable").setData(oData.results);
-              this.getView().byId("myMessageStrip").setVisible(true);
-              this.getView().setBusy(false);
-            }.bind(this),
-            error: function (oError) {
-              this.getView().setBusy(false);
-            }.bind(this),
+        var custNo = this.getView()
+          .getModel("oModelForFilters")
+          .getProperty("/CustomerNumber");
+        var date = this.getView()
+          .getModel("oModelForFilters")
+          .getProperty("/Keydate");
+        if (custNo) {
+          var oFilterSoldToParty = new sap.ui.model.Filter({
+            path: "CustomerNumber",
+            operator: "EQ",
+            value1: this.getView()
+              .getModel("oModelForFilters")
+              .getProperty("/CustomerNumber"),
           });
+          aFilters.push(oFilterSoldToParty);
+        }
+        if (date) {
+          var oFilterDate = new sap.ui.model.Filter({
+            path: "Keydate",
+            operator: "EQ",
+            value1: this.getView()
+              .getModel("oModelForFilters")
+              .getProperty("/Keydate"),
+          });
+          aFilters.push(oFilterDate);
+        }
+        if (!custNo || !date) {
+          sap.m.MessageBox.error(
+            "'Customer No' and 'Date'both Filter is required to get details"
+          );
+        }
+        {
+          var sPath = "/Es_Debtors_Ageing";
+          this.getView().setBusy(true);
+          this.getView()
+            .getModel()
+            .read(sPath, {
+              filters: aFilters,
+              success: function (oData) {
+                // this.getView().setModel();
+                this.getView()
+                  .getModel("oModelForTable")
+                  .setData(oData.results);
+                this.getView().byId("myMessageStrip").setVisible(true);
+                this.getView().setBusy(false);
+              }.bind(this),
+              error: function (oError) {
+                this.getView().setBusy(false);
+              }.bind(this),
+            });
+        }
       },
       onResetButtonPress: function () {
         this.getView().getModel("oModelForFilters").setData({});

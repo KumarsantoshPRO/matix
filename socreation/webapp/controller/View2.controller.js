@@ -587,7 +587,7 @@ sap.ui.define(
               );
             });
           });
-          promise.then(function () {}).catch(function () {});
+          promise.then(function () { }).catch(function () { });
         },
 
         _promiseReadCallForEachContract: function (
@@ -616,7 +616,7 @@ sap.ui.define(
           });
         },
 
-        onSubmit: function () {
+        getEnteredPayload: function () {
           var oHeadPayload = this.getOwnerComponent()
             .getModel("oModelForHeader")
             .getData();
@@ -626,14 +626,6 @@ sap.ui.define(
 
           oHeadPayload.ET_SO_AUTO_CREATION_ORDER_ITEM = aItemPayload.results;
 
-          // oHeadPayload.SalesOrg = oHeadPayload.SalesOrg.split("-")[0];
-
-          // oHeadPayload.DocType = oHeadPayload.DocType.split("-")[0];
-          // oHeadPayload.DistrChan = oHeadPayload.DistrChan.split("-")[0];
-          // oHeadPayload.Division = oHeadPayload.Division.split("-")[0];
-
-          // oHeadPayload.Pmnttrms = oHeadPayload.Pmnttrms.split("-")[0];
-          // oHeadPayload.Incoterms1 = oHeadPayload.Incoterms1.split("-")[0];
           const myDate = new Date();
           const oDateFormat = DateFormat.getDateTimeInstance(
             {
@@ -650,14 +642,6 @@ sap.ui.define(
           oHeadPayload.Lrdat = oDateFormat.format(myDate);
           oHeadPayload.PriceDate = oDateFormat.format(myDate);
           oHeadPayload.ReqDateH = oDateFormat.format(myDate);
-          // oHeadPayload.ET_SO_AUTO_CREATION_PARTNERSET[0].PartnNumb =
-          //   oHeadPayload.ET_SO_AUTO_CREATION_PARTNERSET[0].PartnNumb.split(
-          //     "-"
-          //   )[0];
-          // oHeadPayload.ET_SO_AUTO_CREATION_PARTNERSET[1].PartnNumb =
-          //   oHeadPayload.ET_SO_AUTO_CREATION_PARTNERSET[1].PartnNumb.split(
-          //     "-"
-          //   )[0];
 
           var payload = oHeadPayload;
 
@@ -676,7 +660,11 @@ sap.ui.define(
               ReqQty: element.TargetQty,
             });
           }
+          return payload;
+        },
 
+        onSubmit: function () {
+          var payload = this.getEnteredPayload();
           var sPath = "/Es_So_Auto_Creation_Head";
           this.getView().setBusy(true);
           this.getView()
@@ -697,6 +685,111 @@ sap.ui.define(
                   },
                   dependentOn: this.getView(),
                 });
+                this.getView().setBusy(false);
+              }.bind(this),
+              error: function (sError) {
+                var that = this;
+
+                MessageBox.error(
+                  JSON.parse(sError.responseText).error.message.value,
+                  {
+                    onClose: function (sAction) {
+                      that.getOwnerComponent().getRouter().navTo("RouteView");
+                    },
+                    dependentOn: this.getView(),
+                  }
+                );
+                this.getView().setBusy(false);
+              }.bind(this),
+            });
+        },
+
+        onConditionButtonPress: function () {
+          var payload = {
+            DocType: "",
+            SalesOrg: "",
+            DistrChan: "",
+            Division: "",
+            ReqDateH: "",
+            Ref1: "",
+            Pmnttrms: "",
+            Incoterms1: "",
+            Incoterms2: "",
+            PriceDate: "",
+            PurchNoC: "",
+            DocDate: "",
+            Lrdat: "",
+            Lrno: "",
+            Vhlnr: "",
+            ZtruckCap: "",
+            Tdlnr: "",
+            Et_Condition_item: [
+              {
+                ItmNumber: "",
+                Material: "",
+                Batch: "",
+                Plant: "",
+                StoreLoc: "",
+                TargetQty: "",
+                TargetQu: "",
+                MatlGroup: ""
+              }
+            ],
+            Et_Condition_partner: [
+              {
+                PartnRole: "",
+                PartnNumb: ""
+              },
+              {
+                PartnRole: "",
+                PartnNumb: ""
+              }
+            ],
+            Et_Condition_final: [
+              {
+                ItmNumber: "",
+                CondStNo: "",
+                CondCount: "",
+                CondType: "",
+                CondText: "",
+                CondValue: "",
+                Currency: "",
+                CondUnit: ""
+
+              }
+
+            ]
+          };
+          var comparingPayload = this.getEnteredPayload();
+
+          payload.DistrChan = comparingPayload.DistrChan;
+          payload.Division = comparingPayload.Division;
+          payload.DocDate = comparingPayload.DocDate;
+          payload.DocType = comparingPayload.DocType;
+          payload.Incoterms1 = comparingPayload.Incoterms1;
+          payload.Incoterms2 = comparingPayload.Incoterms2;
+          payload.Lrdat = comparingPayload.Lrdat;
+          payload.Lrno = comparingPayload.Lrno;
+          payload.Pmnttrms = comparingPayload.Pmnttrms;
+          payload.PriceDate = comparingPayload.PriceDate;
+          payload.PurchNoC = comparingPayload.PurchNoC;
+          payload.Ref1 = comparingPayload.Ref1;
+          payload.ReqDateH = comparingPayload.ReqDateH;
+          payload.SalesOrg = comparingPayload.SalesOrg;
+          payload.Tdlnr = comparingPayload.Tdlnr;
+          payload.Vhlnr = comparingPayload.Vhlnr;
+          payload.ZtruckCap = comparingPayload.ZtruckCap;
+
+          payload.Et_Condition_partner = comparingPayload.ET_SO_AUTO_CREATION_PARTNERSET;
+          payload.Et_Condition_item = comparingPayload.ET_SO_AUTO_CREATION_ORDER_ITEM;
+          var sPath = "/Et_Condition_final";
+          this.getView().setBusy(true);
+          this.getView()
+            .getModel()
+            .create(sPath, payload, {
+              success: function (oData, response) {
+   
+                this.getView().setModel(new JSONModel(oData.results),"oModelForCondition")
                 this.getView().setBusy(false);
               }.bind(this),
               error: function (sError) {
