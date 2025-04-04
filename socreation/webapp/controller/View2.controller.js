@@ -788,8 +788,19 @@ sap.ui.define(
             .getModel()
             .create(sPath, payload, {
               success: function (oData, response) {
-   
-                this.getView().setModel(new JSONModel(oData.results),"oModelForCondition")
+                this.getView().setModel(new JSONModel(oData.results), "oModelForCondition")
+                // create dialog lazily
+                if (!this.oMPDialog) {
+                  this.oMPDialog = this.loadFragment({
+                    name: "matix.com.sp.socreation.socreation.view.fragments.condition"
+                  });
+                }
+                this.oMPDialog.then(function (oDialog) {
+                  this.oDialog = oDialog;
+                  this.oDialog.setModel("oModelForCondition");
+                  this.oDialog.open();
+                }.bind(this));
+
                 this.getView().setBusy(false);
               }.bind(this),
               error: function (sError) {
