@@ -790,7 +790,11 @@ sap.ui.define(
             .getModel()
             .create(sPath, payload, {
               success: function (oData, response) {
+<<<<<<< HEAD
                 this.getView().setModel(new JSONModel(oData.Et_Condition_final.results), "oModelForCondition")
+=======
+                this.getView().setModel(new JSONModel(oData.results), "oModelForCondition")
+>>>>>>> e00f6977de1dcc743a041ec862abcfa376eccbb6
                 // create dialog lazily
                 if (!this.oMPDialog) {
                   this.oMPDialog = this.loadFragment({
@@ -798,7 +802,10 @@ sap.ui.define(
                   });
                 }
                 this.oMPDialog.then(function (oDialog) {
+<<<<<<< HEAD
                   console.log("Fragment loaded")
+=======
+>>>>>>> e00f6977de1dcc743a041ec862abcfa376eccbb6
                   this.oDialog = oDialog;
                   this.oDialog.setModel("oModelForCondition");
                   this.oDialog.open();
