@@ -42,9 +42,9 @@
                         <core:Title />
                         <Label text="From Date" />
                         <DatePicker
-                            placeholder="mm/dd/yyyy"
+                         
                             width="15rem"
-                            value="{path:'oModelForFilters>/FromDate', type: 'sap.ui.model.type.Date', formatOptions: {UTC: true}}"
+                            value="{path:'oModelForFilters>/FromDate', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'dd-MM-yyyy', strictParsing: true,UTC: true}}"
                         />
                         <Label text="Customer" />
                         <Input
@@ -59,9 +59,9 @@
                         <core:Title />
                         <Label text="To Date" />
                         <DatePicker
-                            placeholder="mm/dd/yyyy"
+                         
                             width="15rem"
-                            value="{path:'oModelForFilters>/ToDate', type: 'sap.ui.model.type.Date', formatOptions: {UTC: true}}"
+                            value="{path:'oModelForFilters>/ToDate', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'dd-MM-yyyy', strictParsing: true,UTC: true}}"
                         />
                         <Label />
                         <Input

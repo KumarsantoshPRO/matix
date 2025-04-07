@@ -29,7 +29,7 @@
                             <core:Title />
                             <Label text="From Date " />
                             <DatePicker
-                                value="{path:'oModelForFilters>/FromErdat', type: 'sap.ui.model.type.Date', formatOptions: {UTC: true}}"
+                                value="{path:'oModelForFilters>/FromErdat', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'dd-MM-yyyy', strictParsing: true,UTC: true}}"
                                 width="15rem"
                             />
 
@@ -72,7 +72,7 @@
                             <core:Title />
                             <Label text="To Date " />
                             <DatePicker
-                                value="{path:'oModelForFilters>/ToErdat', type: 'sap.ui.model.type.Date', formatOptions: {UTC: true}}"
+                                value="{path:'oModelForFilters>/ToErdat', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'dd-MM-yyyy', strictParsing: true,UTC: true}}"
                                 width="15rem"
                             />
 
@@ -272,13 +272,13 @@
                             app:p13nKey="Plant"
                             headerMenu="menu"
                         >
-                            <Text text="Order Qnty" />
+                            <Text text="Order Qty" />
                         </Column>
                         <Column
                             app:p13nKey="Plant"
                             headerMenu="menu"
                         >
-                            <Text text="Delivery Qnty" />
+                            <Text text="Delivery Qty" />
                         </Column>
                         <Column
                             app:p13nKey="Plant"
@@ -311,14 +311,14 @@
                             headerMenu="menu"
                             visible="false"
                         >
-                            <Text text="PGI Qnty" />
+                            <Text text="PGI Qty" />
                         </Column>
 
                         <Column
                             app:p13nKey="Plant"
                             headerMenu="menu"
                         >
-                            <Text text="Invoice Qnty Balance" />
+                            <Text text="Invoice Qty Balance" />
                         </Column>
 
                         <Column
@@ -373,14 +373,14 @@
                             app:p13nKey="Plant"
                             headerMenu="menu"
                         >
-                            <Text text="Materil No" />
+                            <Text text="Material No" />
                         </Column>
 
                         <Column
                             app:p13nKey="Plant"
                             headerMenu="menu"
                         >
-                            <Text text="Materil Desc" />
+                            <Text text="Material Desc" />
                         </Column>
 
                         <Column
@@ -395,21 +395,21 @@
                         <ColumnListItem>
                             <Text text="{path: 'oModelForTable>SoNo'}" />
                             <Text
-                                text="{path: 'oModelForTable>SoDate', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'MMM dd, yyyy', strictParsing: true, UTC: true}}"
+                                text="{path: 'oModelForTable>SoDate', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'dd-MM-yyyy', strictParsing: true, UTC: true}}"
                             />
                             <Text text="{path: 'oModelForTable>ObdNo'}" />
                             <Text
-                                text="{path: 'oModelForTable>Erdat', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'MMM dd, yyyy', strictParsing: true, UTC: true}}"
+                                text="{path: 'oModelForTable>Erdat', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'dd-MM-yyyy', strictParsing: true, UTC: true}}"
                             />
                             <Text text="{path: 'oModelForTable>SoQty'}" />
                             <Text text="{path: 'oModelForTable>Lfimg'}" />
                             <Text text="{path: 'oModelForTable>PgiDoc'}" />
                             <Text
-                                text="{path: 'oModelForTable>PgiDate', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'MMM dd, yyyy', strictParsing: true, UTC: true}}"
+                                text="{path: 'oModelForTable>PgiDate', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'dd-MM-yyyy', strictParsing: true, UTC: true}}"
                             />
                             <Text text="{path: 'oModelForTable>InvNo'}" />
                             <Text
-                                text="{path: 'oModelForTable>InvDate', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'MMM dd, yyyy', strictParsing: true, UTC: true}}"
+                                text="{path: 'oModelForTable>InvDate', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'dd-MM-yyyy', strictParsing: true, UTC: true}}"
                             />
                             <Text
                                 text="{path: 'oModelForTable>'}"
@@ -423,7 +423,7 @@
                             <Text text="{path: 'oModelForTable>ZtruckCap'}" />
                             <Text text="{path: 'oModelForTable>Lrno'}" />
                             <Text
-                                text="{path: 'oModelForTable>Lrdat', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'MMM dd, yyyy', strictParsing: true, UTC: true}}"
+                                text="{path: 'oModelForTable>Lrdat', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'dd-MM-yyyy', strictParsing: true, UTC: true}}"
                             />
                             <Text text="{path: 'oModelForTable>Matnr'}" />
                             <Text text="{path: 'oModelForTable>Arktx'}" />

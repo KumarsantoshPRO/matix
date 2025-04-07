@@ -49,9 +49,8 @@
 
                             <Label text="Date " />
                             <DatePicker
-                                placeholder="mm/dd/yyyy"
                                 width="15rem"
-                                value="{path:'oModelForFilters>/Keydate', type: 'sap.ui.model.type.Date', formatOptions: {UTC: true}}"
+                                value="{path:'oModelForFilters>/Keydate', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'dd-MM-yyyy', strictParsing: true,UTC: true}}"
                             />
                         </form:content>
                     </form:SimpleForm>
@@ -97,6 +96,7 @@
                                 <Button
                                     icon="sap-icon://download"
                                     press="onExport"
+                                    visible="false"
                                 />
                             </content>
                         </OverflowToolbar>
@@ -150,7 +150,9 @@
                                     text="{oModelForTable>DistrictCode}-{oModelForTable>DistrictName}"
                                 />
                                 <Text text="{oModelForTable>CreditLimit}" />
-                                <Text text="{oModelForTable>ValidTill}" />
+                                <Text
+                                    text="{path:'oModelForTable>ValidTill', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'dd-MM-yyyy', strictParsing: true,UTC: true}}"
+                                />
                                 <Text text="{oModelForTable>Balance}" />
                             </cells>
                         </ColumnListItem>

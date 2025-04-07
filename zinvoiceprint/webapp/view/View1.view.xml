@@ -47,7 +47,7 @@
                         >
                             <fb:control>
                                 <DatePicker
-                                    value="{path: 'oModelForFilters>/FromFkdat', type: 'sap.ui.model.type.Date', formatOptions: {UTC: true}}"
+                                    value="{path: 'oModelForFilters>/FromFkdat', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'dd-MM-yyyy', strictParsing: true,UTC: true}}"
                                     placeholder="dd-mm-yyyy"
                                 />
                             </fb:control>
@@ -61,7 +61,7 @@
                         >
                             <fb:control>
                                 <DatePicker
-                                    value="{path: 'oModelForFilters>/ToFkdat', type: 'sap.ui.model.type.Date', formatOptions: {UTC: true}}"
+                                    value="{path: 'oModelForFilters>/ToFkdat', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'dd-MM-yyyy', strictParsing: true,UTC: true}}"
                                     placeholder="dd-mm-yyyy"
                                 />
                             </fb:control>
@@ -75,7 +75,6 @@
                             <fb:control>
                                 <Input
                                     value="{path: 'oModelForFilters>/FromVbeln'}"
-                                    showValueHelp="true"
                                 />
                             </fb:control>
                         </fb:FilterGroupItem>
@@ -89,7 +88,6 @@
                             <fb:control>
                                 <Input
                                     value="{path: 'oModelForFilters>/ToVbeln'}"
-                                    showValueHelp="true"
                                 />
                             </fb:control>
                         </fb:FilterGroupItem>
@@ -215,11 +213,14 @@
                 <items>
                     <ColumnListItem>
                         <Text
-                            text="{path:'oModelForTable>Fkdat', type: 'sap.ui.model.type.Date', formatOptions: {UTC: true}}"
+                            text="{path:'oModelForTable>Fkdat', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'dd-MM-yyyy', strictParsing: true,UTC: true}}"
                         />
                         <Text text="{oModelForTable>Vbeln}" />
                         <Text text="{oModelForTable>Fkart}" />
-                        <Link text="{oModelForTable>Vbeln}" press="onInvoicePDPress"/>
+                        <Link
+                            text="{oModelForTable>Vbeln}"
+                            press="onInvoicePDPress"
+                        />
                     </ColumnListItem>
                 </items>
             </Table>

@@ -57,7 +57,7 @@ sap.ui.define(
               "oModelForSoldTopart"
             );
           }.bind(this),
-          error: function (sError) {}.bind(this),
+          error: function (sError) { }.bind(this),
         });
       },
 
@@ -108,9 +108,9 @@ sap.ui.define(
           });
           aFilters.push(oFilterDate);
         }
-        if (!custNo || !date) {
+        if (!custNo && !date) {
           sap.m.MessageBox.error(
-            "'Customer No' and 'Date'both Filter is required to get details"
+            "'Customer No' or 'Date' Filter is required to get details"
           );
         }
         {

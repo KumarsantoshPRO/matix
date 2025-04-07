@@ -705,6 +705,7 @@ sap.ui.define(
         },
 
         onConditionButtonPress: function () {
+          
           var payload = {
             DocType: "",
             SalesOrg: "",
@@ -782,14 +783,27 @@ sap.ui.define(
 
           payload.Et_Condition_partner = comparingPayload.ET_SO_AUTO_CREATION_PARTNERSET;
           payload.Et_Condition_item = comparingPayload.ET_SO_AUTO_CREATION_ORDER_ITEM;
-          var sPath = "/Et_Condition_final";
+
+          var sPath = "/Et_condition_creation_headSet";
           this.getView().setBusy(true);
           this.getView()
             .getModel()
             .create(sPath, payload, {
               success: function (oData, response) {
-   
-                this.getView().setModel(new JSONModel(oData.results),"oModelForCondition")
+                this.getView().setModel(new JSONModel(oData.Et_Condition_final.results), "oModelForCondition")
+                // create dialog lazily
+                if (!this.oMPDialog) {
+                  this.oMPDialog = this.loadFragment({
+                    name: "matix.com.sp.socreation.socreation.view.fragments.condition"
+                  });
+                }
+                this.oMPDialog.then(function (oDialog) {
+                  console.log("Fragment loaded")
+                  this.oDialog = oDialog;
+                  this.oDialog.setModel("oModelForCondition");
+                  this.oDialog.open();
+                }.bind(this));
+
                 this.getView().setBusy(false);
               }.bind(this),
               error: function (sError) {
@@ -807,6 +821,9 @@ sap.ui.define(
                 this.getView().setBusy(false);
               }.bind(this),
             });
+        },
+        _closeDialog: function () {
+          this.oDialog.close();
         },
         onPmnttrmsInputSuggestionItemSelected: function (oEvent) {
           var sValue = oEvent.getParameter("selectedItem").getProperty("text");
