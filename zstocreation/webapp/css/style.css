@@ -1,1 +1,9 @@
 /* Enter your custom styles here */
+.sapUiForm .sapUiFormElementLbl>.sapMLabel {
+    text-align: left !important;
+    width : auto;
+}
+.bold-label {
+    font-weight: bold;
+    color: black;
+}

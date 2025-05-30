@@ -73,10 +73,14 @@
                                 required="true"
                             />
 
-                            <DatePicker
+                            <!-- <DatePicker
                                 id='docTypeDatePickerId'
                                 value="{path: 'oModelForHeader>/DocDate', type: 'sap.ui.model.type.Date', formatOptions: {UTC: true}}"
-                                displayFormat="dd/MM/yyyy"
+                                displayFormat="dd/MM/yyyy" placeholder="dd-MM-yyyy"
+                            /> -->
+                            <DatePicker
+                                id='docTypeDatePickerId'
+                                value="{path:'oModelForHeader>/DocDate', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'dd.MM.yyyy', strictParsing: true,UTC: true}}"
                             />
                             <!-- <core:Title /> -->
                             <Label text="Truck No" />
@@ -286,6 +290,7 @@
                     <Column
                         app:p13nKey="Plant"
                         headerMenu="menu"
+                        visible="{oAppState>/showBatch}"
                     >
                         <Text text="Batch No" />
                     </Column>
@@ -298,6 +303,7 @@
                             forceSelection="false"
                             selectedKey="{oModelForItems>Material}"
                             change="onSelectChangeMaterial"
+                            width="100%"
                         >
                             <core:Item
                                 key="{oModelForMaterial>DomvalueL}"
@@ -315,6 +321,7 @@
                             forceSelection="false"
                             selectedKey="{oModelForItems>Plant}"
                             change="onSelectChangePlant"
+                            width="100%"
                         >
                             <core:Item
                                 key="{oModelForPlant>DomvalueL}"
@@ -322,15 +329,28 @@
                             />
                         </Select>
 
-                        <Select
+                        <!-- <Select
                             items="{oModelForStorageLoc>/}"
                             forceSelection="false"
                             selectedKey="{oModelForItems>StoreLoc}"
                             change="onSelectChangeStorageLoc"
+                            width="100%"
                         >
                             <core:Item
                                 key="{oModelForStorageLoc>DomvalueL}"
                                 text="{oModelForStorageLoc>DomvalueL}-{oModelForStorageLoc>Ddtext}"
+                            />
+                        </Select> -->
+                        <Select
+                            items="{oModelForItems>locationList}"
+                            forceSelection="false"
+                            selectedKey="{oModelForItems>StoreLoc}"
+                            change="onSelectChangeStorageLoc"
+                            width="100%"
+                        >
+                            <core:Item
+                                key="{oModelForItems>DomvalueL}"
+                                text="{oModelForItems>DomvalueL}-{oModelForItems>Ddtext}"
                             />
                         </Select>
 
@@ -339,6 +359,7 @@
                             items="{oModelForBatch>/}"
                             forceSelection="false"
                             selectedKey="{oModelForItems>Batch}"
+                            width="100%"
                         >
                             <core:Item
                                 key="{oModelForBatch>DomvalueL}"
@@ -355,8 +376,9 @@
                 <ToolbarSpacer />
                 <Button
                     text="Auto Invoice for SO"
-                    press="onSubmit"
+                    press="onAutoInvSo"
                     type="Emphasized"
+                    enabled="{oAppState>/autoInvoice}"
                 />
                 <Button
                     text="Update Contract value"
@@ -368,6 +390,13 @@
                     press="onConditionButtonPress"
                     type="Emphasized"
                     ariaHasPopup="Dialog"
+                />
+                <Button
+                    text="{oAppState>/submitBtnText}"
+                    press="onSubmit"
+                    type="Accept"
+                    enabled="{oAppState>/submitEnable}"
+                    visible="false"
                 />
                 <Button
                     text="Reset"

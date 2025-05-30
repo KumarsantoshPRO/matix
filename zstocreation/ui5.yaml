@@ -18,8 +18,7 @@ server:
         backend:
           - path: /sap
             url: https://vhmxfmedap01.sap.matixgroup.com:44300
-            client: '110'
-            rejectUnauthorized: false
+            client: '120'
     - name: fiori-tools-appreload
       afterMiddleware: compression
       configuration:

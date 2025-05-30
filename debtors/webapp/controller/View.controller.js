@@ -26,11 +26,14 @@ sap.ui.define(
         this.getView().setModel(
           new JSONModel({
             CustomerNumber: "",
+            CustomerDscription: "",
             Keydate: new Date(),
           }),
           "oModelForFilters"
         );
         this.getView().setModel(new JSONModel(), "oModelForTable");
+
+
         this.loadDataForSuggestions();
       },
 
@@ -79,7 +82,51 @@ sap.ui.define(
 
         oEvent.getSource().getBinding("suggestionItems").filter(Filters);
       },
+      onInputChange: function (oEvent) {
+        var oInput = oEvent.getSource();
+        var sValue = oEvent.getParameter("value");
+        var oBinding = oInput.getBinding("suggestionItems");
+        var aContexts = oBinding.getContexts();
+        var bValid = false;
 
+        // Check if the entered value exists in the suggestions
+        for (var i = 0; i < aContexts.length; i++) {
+          if (aContexts[i].getObject().text === sValue) {
+            bValid = true;
+            break;
+          }
+        }
+
+        if (!bValid && sValue !== "") {
+          // Input is invalid (not in suggestions and not empty)
+          oInput.setValueState("Error");
+          oInput.setValue("");
+          sap.m.MessageToast.show(
+            "Please select a valid entry from the suggestions."
+          );
+        } else {
+          // Input is valid (either in suggestions or empty)
+          oInput.setValueState("None");
+          oInput.setValueStateText("");
+        }
+      },
+      onSoldToPartyInputSuggestionItemSelected: function (oEvent) {
+        var sValue = oEvent.getParameter("selectedItem").getProperty("text");
+        this.getView()
+          .getModel("oModelForFilters")
+          .setProperty("/CustomerNumber", sValue.split("-")[0]);
+        var oInput = oEvent.getSource();
+        oInput.setValueState("None");
+        oInput.setValueStateText("");
+        if (sValue.split("-")[1] !== "") {  
+          this.getView()
+            .getModel("oModelForFilters")
+            .setProperty(
+              "/CustomerDscription",
+              "-" + sValue.split("-")[1]
+            );
+        }
+      },
       onNextButtonPress: function () {
         var aFilters = new Array();
         var custNo = this.getView()
@@ -92,9 +139,7 @@ sap.ui.define(
           var oFilterSoldToParty = new sap.ui.model.Filter({
             path: "CustomerNumber",
             operator: "EQ",
-            value1: this.getView()
-              .getModel("oModelForFilters")
-              .getProperty("/CustomerNumber"),
+            value1: custNo,
           });
           aFilters.push(oFilterSoldToParty);
         }
@@ -102,9 +147,7 @@ sap.ui.define(
           var oFilterDate = new sap.ui.model.Filter({
             path: "Keydate",
             operator: "EQ",
-            value1: this.getView()
-              .getModel("oModelForFilters")
-              .getProperty("/Keydate"),
+            value1: date,
           });
           aFilters.push(oFilterDate);
         }
@@ -112,8 +155,7 @@ sap.ui.define(
           sap.m.MessageBox.error(
             "'Customer No' or 'Date' Filter is required to get details"
           );
-        }
-        {
+        } else {
           var sPath = "/Es_Debtors_Ageing";
           this.getView().setBusy(true);
           this.getView()

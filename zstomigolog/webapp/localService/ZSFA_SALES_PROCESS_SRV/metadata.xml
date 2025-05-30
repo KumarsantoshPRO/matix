@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:sap="http://www.sap.com/Protocols/SAPData">
+    <edmx:DataServices m:DataServiceVersion="2.0">
+        <Schema Namespace="ZSFA_SALES_PROCESS_SRV" xml:lang="en" sap:schema-version="1" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+            <EntityType Name="Et_So_Auto_Creation_Head" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="DocType"/>
+                </Key>
+                <Property Name="DocType" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:label="Sales Doc. Type" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="ReqDateH" Type="Edm.DateTime" Precision="7" sap:unicode="false" sap:label="Reqd Deliv Date" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Ref1" Type="Edm.String" MaxLength="12" sap:unicode="false" sap:label="Your Reference" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="SalesOrg" Type="Edm.String" MaxLength="4" sap:unicode="false" sap:label="Sales Org." sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Pmnttrms" Type="Edm.String" MaxLength="4" sap:unicode="false" sap:label="Pyt Terms" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="DistrChan" Type="Edm.String" MaxLength="2" sap:unicode="false" sap:label="Distr. Channel" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Incoterms1" Type="Edm.String" MaxLength="3" sap:unicode="false" sap:label="Incoterms" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Incoterms2" Type="Edm.String" MaxLength="28" sap:unicode="false" sap:label="Incoterms 2" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Division" Type="Edm.String" MaxLength="2" sap:unicode="false" sap:label="Division" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="PriceDate" Type="Edm.DateTime" Precision="7" sap:unicode="false" sap:label="Pricing Date" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="PurchNoC" Type="Edm.String" MaxLength="35" sap:unicode="false" sap:label="Cust. Reference" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="DocDate" Type="Edm.DateTime" Precision="7" sap:unicode="false" sap:label="Document Date" sap:creatable="false" sap:updatable="false" sap:sortable="false"/>
+                <Property Name="Lrdat" Type="Edm.DateTime" Precision="7" sap:unicode="false" sap:label="LR DATE" sap:creatable="false" sap:updatable="false" sap:sortable="false"/>
+                <Property Name="Lrno" Type="Edm.String" MaxLength="10" sap:unicode="false" sap:label="Character Field with Length 10" sap:creatable="false" sap:updatable="false" sap:sortable="false"/>
+                <Property Name="Vhlnr" Type="Edm.String" MaxLength="20" sap:unicode="false" sap:label="Truck's License" sap:creatable="false" sap:updatable="false" sap:sortable="false"/>
+                <Property Name="ZtruckCap" Type="Edm.Decimal" Precision="13" Scale="3" sap:unicode="false" sap:label="Truck Capacity" sap:creatable="false" sap:updatable="false" sap:sortable="false"/>
+                <Property Name="Tdlnr" Type="Edm.String" MaxLength="10" sap:unicode="false" sap:label="Service Agent" sap:creatable="false" sap:updatable="false" sap:sortable="false"/>
+                <NavigationProperty Name="ET_SO_AUTO_CREATION_ORDER_ITEM" Relationship="ZSFA_SALES_PROCESS_SRV.Header_to_orderitem" FromRole="FromRole_Header_to_orderitem" ToRole="ToRole_Header_to_orderitem"/>
+                <NavigationProperty Name="ET_SO_AUTO_CREATION_PARTNERSET" Relationship="ZSFA_SALES_PROCESS_SRV.Header_to_orderPartner" FromRole="FromRole_Header_to_orderPartner" ToRole="ToRole_Header_to_orderPartner"/>
+                <NavigationProperty Name="ET_SO_AUTO_CREATION_SCHEDULESE" Relationship="ZSFA_SALES_PROCESS_SRV.Header_to_orderSchedule" FromRole="FromRole_Header_to_orderSchedule" ToRole="ToRole_Header_to_orderSchedule"/>
+            </EntityType>
+            <EntityType Name="Et_SO_Auto_Creation_order_item" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Material"/>
+                </Key>
+                <Property Name="ItmNumber" Type="Edm.String" MaxLength="6" sap:unicode="false" sap:label="Item" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="MatlGroup" Type="Edm.String" MaxLength="9" sap:unicode="false" sap:label="Material Group" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="TargetQu" Type="Edm.String" MaxLength="3" sap:unicode="false" sap:label="Target Qty UoM" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false" sap:semantics="unit-of-measure"/>
+                <Property Name="Material" Type="Edm.String" Nullable="false" MaxLength="18" sap:unicode="false" sap:label="Material" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Batch" Type="Edm.String" MaxLength="10" sap:unicode="false" sap:label="Batch" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Plant" Type="Edm.String" MaxLength="4" sap:unicode="false" sap:label="Plant" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="StoreLoc" Type="Edm.String" MaxLength="4" sap:unicode="false" sap:label="Location" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="TargetQty" Type="Edm.Decimal" Precision="13" Scale="3" sap:unicode="false" sap:label="Target Quantity" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <EntityType Name="Et_SO_Auto_Creation_Partner" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="PartnRole"/>
+                    <PropertyRef Name="PartnNumb"/>
+                </Key>
+                <Property Name="PartnRole" Type="Edm.String" Nullable="false" MaxLength="2" sap:unicode="false" sap:label="Partner Functn" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="PartnNumb" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Customer" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <EntityType Name="Et_SO_Auto_Creation_Schedule" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="ItmNumber"/>
+                </Key>
+                <Property Name="ItmNumber" Type="Edm.String" Nullable="false" MaxLength="6" sap:unicode="false" sap:label="Item" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="ReqDate" Type="Edm.DateTime" Precision="7" sap:unicode="false" sap:label="Delivery Date" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="ReqQty" Type="Edm.Decimal" Precision="13" Scale="3" sap:unicode="false" sap:label="Order Quantity" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <EntityType Name="Et_F4_Value" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Domname"/>
+                    <PropertyRef Name="Domname3"/>
+                    <PropertyRef Name="Domname1"/>
+                    <PropertyRef Name="Domname2"/>
+                </Key>
+                <Property Name="Domname" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:label="Domain" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Domname4" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:label="Domain" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Domname3" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:label="Domain" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Valpos" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:label="Value key" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Ddlanguage" Type="Edm.String" Nullable="false" MaxLength="2" sap:unicode="false" sap:label="Lang." sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="DomvalueL" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Lower Value" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="DomvalueH" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Dom.upper limit" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Ddtext" Type="Edm.String" Nullable="false" MaxLength="60" sap:unicode="false" sap:label="Short Description" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="DomvalLd" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Lower limit" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="DomvalHd" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Upper Limit" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Appval" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:label="App" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Domname1" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:label="Domain" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Domname2" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:label="Domain" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Msg" Type="Edm.String" Nullable="false" MaxLength="255" sap:unicode="false" sap:label="Char255" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Msgtype" Type="Edm.String" Nullable="false" MaxLength="255" sap:unicode="false" sap:label="Char255" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <EntityType Name="DdDoma" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Domname"/>
+                </Key>
+                <Property Name="Decimals" Type="Edm.String" Nullable="false" MaxLength="6" sap:unicode="false" sap:label="Decimal Places" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Domname" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:label="Domain" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Datatype" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Data Type" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Leng" Type="Edm.String" Nullable="false" MaxLength="6" sap:unicode="false" sap:label="No. of Characters" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Text" Type="Edm.String" Nullable="false" MaxLength="60" sap:unicode="false" sap:label="Short text" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <EntityType Name="Et_Contract_Value" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="SoldToParty"/>
+                </Key>
+                <Property Name="SoldToParty" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Sold-to Party" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Material" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:label="Material" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="CreationDate" Type="Edm.DateTime" Nullable="false" Precision="7" sap:unicode="false" sap:label="Document Date" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Contract" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Sales Document" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Limit" Type="Edm.Decimal" Nullable="false" Precision="13" Scale="3" sap:unicode="false" sap:label="Target Quantity" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <EntityType Name="Et_condition_creation_head" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="DocType"/>
+                </Key>
+                <Property Name="DocType" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:label="Document Type" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="DocDate" Type="Edm.DateTime" Precision="7" sap:unicode="false" sap:label="Document Date" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="CompCode" Type="Edm.String" MaxLength="4" sap:unicode="false" sap:label="Company Code" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="PurchOrg" Type="Edm.String" MaxLength="4" sap:unicode="false" sap:label="Purchasing Org." sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="PurGroup" Type="Edm.String" MaxLength="3" sap:unicode="false" sap:label="Purch. Group" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="SupplPlnt" Type="Edm.String" MaxLength="4" sap:unicode="false" sap:label="Supplying Plant" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="StorgaeLoc" Type="Edm.String" MaxLength="4" sap:unicode="false" sap:label="Location" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="SupplVend" Type="Edm.String" MaxLength="10" sap:unicode="false" sap:label="Goods Supplier" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="StoNo" Type="Edm.String" MaxLength="10" sap:unicode="false" sap:label="Purchasing Doc." sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Lrno" Type="Edm.String" MaxLength="35" sap:unicode="false" sap:label=" LR NO" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Lrdat" Type="Edm.DateTime" Precision="7" sap:unicode="false" sap:label="LR DATE" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Vhlnr" Type="Edm.String" MaxLength="20" sap:unicode="false" sap:label="Truck's License" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="ZtruckCap" Type="Edm.Decimal" Precision="13" Scale="3" sap:unicode="false" sap:label="Truck Capacity" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Tdlnr" Type="Edm.String" MaxLength="10" sap:unicode="false" sap:label="Service Agent" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <EntityType Name="Et_condition_creation_item" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="ItmNumber"/>
+                </Key>
+                <Property Name="ItmNumber" Type="Edm.String" Nullable="false" MaxLength="6" sap:unicode="false" sap:label="Item" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Material" Type="Edm.String" MaxLength="18" sap:unicode="false" sap:label="Material" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Batch" Type="Edm.String" MaxLength="10" sap:unicode="false" sap:label="Batch" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Plant" Type="Edm.String" MaxLength="4" sap:unicode="false" sap:label="Plant" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="StoreLoc" Type="Edm.String" MaxLength="4" sap:unicode="false" sap:label="Location" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="TargetQty" Type="Edm.String" MaxLength="13" sap:unicode="false" sap:label="Target quantity" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="TargetQu" Type="Edm.String" MaxLength="3" sap:unicode="false" sap:label="Target Qty UoM" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false" sap:semantics="unit-of-measure"/>
+                <Property Name="MatlGroup" Type="Edm.String" MaxLength="9" sap:unicode="false" sap:label="Material Group" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <EntityType Name="Et_condition_creation_partner" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="PartnRole"/>
+                </Key>
+                <Property Name="PartnRole" Type="Edm.String" Nullable="false" MaxLength="2" sap:unicode="false" sap:label="Partner Functn" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="PartnNumb" Type="Edm.String" MaxLength="10" sap:unicode="false" sap:label="Customer" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <Association Name="Header_to_orderPartner" sap:content-version="1">
+                <End Type="ZSFA_SALES_PROCESS_SRV.Et_So_Auto_Creation_Head" Multiplicity="*" Role="FromRole_Header_to_orderPartner"/>
+                <End Type="ZSFA_SALES_PROCESS_SRV.Et_SO_Auto_Creation_Partner" Multiplicity="*" Role="ToRole_Header_to_orderPartner"/>
+                <ReferentialConstraint>
+                    <Principal Role="FromRole_Header_to_orderPartner">
+                        <PropertyRef Name="DocType"/>
+                    </Principal>
+                    <Dependent Role="ToRole_Header_to_orderPartner">
+                        <PropertyRef Name="PartnNumb"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="Header_to_orderSchedule" sap:content-version="1">
+                <End Type="ZSFA_SALES_PROCESS_SRV.Et_So_Auto_Creation_Head" Multiplicity="*" Role="FromRole_Header_to_orderSchedule"/>
+                <End Type="ZSFA_SALES_PROCESS_SRV.Et_SO_Auto_Creation_Schedule" Multiplicity="*" Role="ToRole_Header_to_orderSchedule"/>
+                <ReferentialConstraint>
+                    <Principal Role="FromRole_Header_to_orderSchedule">
+                        <PropertyRef Name="DocType"/>
+                    </Principal>
+                    <Dependent Role="ToRole_Header_to_orderSchedule">
+                        <PropertyRef Name="ItmNumber"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="Header_to_orderitem" sap:content-version="1">
+                <End Type="ZSFA_SALES_PROCESS_SRV.Et_So_Auto_Creation_Head" Multiplicity="*" Role="FromRole_Header_to_orderitem"/>
+                <End Type="ZSFA_SALES_PROCESS_SRV.Et_SO_Auto_Creation_order_item" Multiplicity="*" Role="ToRole_Header_to_orderitem"/>
+                <ReferentialConstraint>
+                    <Principal Role="FromRole_Header_to_orderitem">
+                        <PropertyRef Name="DocType"/>
+                    </Principal>
+                    <Dependent Role="ToRole_Header_to_orderitem">
+                        <PropertyRef Name="Material"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <EntityContainer Name="ZSFA_SALES_PROCESS_SRV_Entities" m:IsDefaultEntityContainer="true" sap:supported-formats="atom json xlsx">
+                <EntitySet Name="Es_So_Auto_Creation_Head" EntityType="ZSFA_SALES_PROCESS_SRV.Et_So_Auto_Creation_Head" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
+                <EntitySet Name="Et_SO_Auto_Creation_order_itemSet" EntityType="ZSFA_SALES_PROCESS_SRV.Et_SO_Auto_Creation_order_item" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="Et_SO_Auto_Creation_PartnerSet" EntityType="ZSFA_SALES_PROCESS_SRV.Et_SO_Auto_Creation_Partner" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="Et_SO_Auto_Creation_ScheduleSet" EntityType="ZSFA_SALES_PROCESS_SRV.Et_SO_Auto_Creation_Schedule" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="Es_F4_ValueSet" EntityType="ZSFA_SALES_PROCESS_SRV.Et_F4_Value" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
+                <EntitySet Name="DdDomaCollection" EntityType="ZSFA_SALES_PROCESS_SRV.DdDoma" sap:content-version="1"/>
+                <EntitySet Name="Es_Contract_Value" EntityType="ZSFA_SALES_PROCESS_SRV.Et_Contract_Value" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
+                <EntitySet Name="Et_condition_creation_headSet" EntityType="ZSFA_SALES_PROCESS_SRV.Et_condition_creation_head" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="Et_condition_creation_itemSet" EntityType="ZSFA_SALES_PROCESS_SRV.Et_condition_creation_item" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="Et_condition_creation_partnerSet" EntityType="ZSFA_SALES_PROCESS_SRV.Et_condition_creation_partner" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <AssociationSet Name="Header_to_orderScheduleSet" Association="ZSFA_SALES_PROCESS_SRV.Header_to_orderSchedule" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="Es_So_Auto_Creation_Head" Role="FromRole_Header_to_orderSchedule"/>
+                    <End EntitySet="Et_SO_Auto_Creation_ScheduleSet" Role="ToRole_Header_to_orderSchedule"/>
+                </AssociationSet>
+                <AssociationSet Name="Header_to_orderitemSet" Association="ZSFA_SALES_PROCESS_SRV.Header_to_orderitem" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="Es_So_Auto_Creation_Head" Role="FromRole_Header_to_orderitem"/>
+                    <End EntitySet="Et_SO_Auto_Creation_order_itemSet" Role="ToRole_Header_to_orderitem"/>
+                </AssociationSet>
+                <AssociationSet Name="Header_to_orderPartnerSet" Association="ZSFA_SALES_PROCESS_SRV.Header_to_orderPartner" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="Es_So_Auto_Creation_Head" Role="FromRole_Header_to_orderPartner"/>
+                    <End EntitySet="Et_SO_Auto_Creation_PartnerSet" Role="ToRole_Header_to_orderPartner"/>
+                </AssociationSet>
+            </EntityContainer>
+            <Annotation Term="Core.SchemaVersion" String="1.0.0" xmlns="http://docs.oasis-open.org/odata/ns/edm"/>
+            <atom:link rel="self" href="https://vhmxfmedap01.sap.matixgroup.com:44300/sap/opu/odata/sap/ZSFA_SALES_PROCESS_SRV/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+            <atom:link rel="latest-version" href="https://vhmxfmedap01.sap.matixgroup.com:44300/sap/opu/odata/sap/ZSFA_SALES_PROCESS_SRV/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>

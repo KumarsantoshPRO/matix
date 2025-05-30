@@ -21,17 +21,41 @@
                         <form:content>
                             <Label text="Plant" />
                             <Input
+                                value="{oModelForFilters>/Plant}{oModelTemp>/PlantDescrp}"
                                 placeholder="Plant"
-                                showValueHelp="true"
+                                showSuggestion="true"
+                                suggest=".onSuggest"
+                                suggestionItems="{oModelForPlant>/}"
+                                suggestionItemSelected="onPlantInputSuggestionItemSelected"
+                                change="onInputChange"
+                                valueStateText="Please select a Plant from the suggestions."
                                 width="15rem"
-                            />
+                            >
+                                <suggestionItems>
+                                    <core:Item
+                                        text="{oModelForPlant>DomvalueL}-{oModelForPlant>Ddtext}"
+                                    />
+                                </suggestionItems>
+                            </Input>
 
                             <Label text="Material" />
                             <Input
+                                value="{oModelForFilters>/Material}{oModelTemp>/MaterialDescrp}"
                                 placeholder="Material"
-                                showValueHelp="true"
+                                showSuggestion="true"
+                                suggest=".onSuggest"
+                                suggestionItems="{oModelForMaterial>/}"
+                                suggestionItemSelected="onMaterialInputSuggestionItemSelected"
+                                change="onInputChange"
+                                valueStateText="Please select a Material from the suggestions."
                                 width="15rem"
-                            />
+                            >
+                                <suggestionItems>
+                                    <core:Item
+                                        text="{oModelForMaterial>DomvalueL}-{oModelForMaterial>Ddtext}"
+                                    />
+                                </suggestionItems>
+                            </Input>
                         </form:content>
                     </form:SimpleForm>
                 </f:content>

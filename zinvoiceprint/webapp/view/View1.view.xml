@@ -47,8 +47,8 @@
                         >
                             <fb:control>
                                 <DatePicker
-                                    value="{path: 'oModelForFilters>/FromFkdat', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'dd-MM-yyyy', strictParsing: true,UTC: true}}"
-                                    placeholder="dd-mm-yyyy"
+                                    value="{path: 'oModelForFilters>/FromFkdat', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'dd.MM.yyyy', strictParsing: true,UTC: true}}"
+                                    placeholder="dd.MM.yyyy"
                                 />
                             </fb:control>
                         </fb:FilterGroupItem>
@@ -61,8 +61,8 @@
                         >
                             <fb:control>
                                 <DatePicker
-                                    value="{path: 'oModelForFilters>/ToFkdat', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'dd-MM-yyyy', strictParsing: true,UTC: true}}"
-                                    placeholder="dd-mm-yyyy"
+                                    value="{path: 'oModelForFilters>/ToFkdat', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'dd.MM.yyyy', strictParsing: true,UTC: true}}"
+                                    placeholder="dd.MM.yyyy"
                                 />
                             </fb:control>
                         </fb:FilterGroupItem>
@@ -213,7 +213,7 @@
                 <items>
                     <ColumnListItem>
                         <Text
-                            text="{path:'oModelForTable>Fkdat', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'dd-MM-yyyy', strictParsing: true,UTC: true}}"
+                            text="{path:'oModelForTable>Fkdat', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'dd.MM.yyyy', strictParsing: true,UTC: true}}"
                         />
                         <Text text="{oModelForTable>Vbeln}" />
                         <Text text="{oModelForTable>Fkart}" />

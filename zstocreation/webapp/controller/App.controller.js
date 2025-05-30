@@ -3,7 +3,7 @@ sap.ui.define([
 ], (Controller) => {
   "use strict";
 
-  return Controller.extend("matix.com.stp.stocreation.zstocreation.controller.View1", {
+  return Controller.extend("matix.com.stp.stocreation.zstocreation.controller.App", {
       onInit() {
       }
   });

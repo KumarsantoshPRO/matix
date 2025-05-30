@@ -24,10 +24,13 @@
                             <Input
                                 placeholder="Sold To Party"
                                 width="15rem"
-                                value="{oModelForFilters>/CustomerNumber}"
+                                value="{oModelForFilters>/CustomerNumber}{oModelForFilters>/CustomerDscription}"
                                 showSuggestion="true"
                                 suggest=".onSuggest"
                                 suggestionItems="{oModelForSoldTopart>/}"
+                                suggestionItemSelected="onSoldToPartyInputSuggestionItemSelected"
+                                change="onInputChange"
+                                valueStateText="Please select a Sold To Party from the suggestions."
                             >
                                 <suggestionItems>
                                     <core:Item
@@ -50,7 +53,7 @@
                             <Label text="Date " />
                             <DatePicker
                                 width="15rem"
-                                value="{path:'oModelForFilters>/Keydate', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'dd-MM-yyyy', strictParsing: true,UTC: true}}"
+                                value="{path:'oModelForFilters>/Keydate', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'dd.MM.yyyy', strictParsing: true,UTC: true}}"
                             />
                         </form:content>
                     </form:SimpleForm>
@@ -151,7 +154,7 @@
                                 />
                                 <Text text="{oModelForTable>CreditLimit}" />
                                 <Text
-                                    text="{path:'oModelForTable>ValidTill', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'dd-MM-yyyy', strictParsing: true,UTC: true}}"
+                                    text="{path:'oModelForTable>ValidTill', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'dd.MM.yyyy', strictParsing: true,UTC: true}}"
                                 />
                                 <Text text="{oModelForTable>Balance}" />
                             </cells>

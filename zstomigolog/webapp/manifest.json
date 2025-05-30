@@ -1,0 +1,137 @@
+{
+  "_version": "1.65.0",
+  "sap.app": {
+    "id": "matix.com.log.somlog.zsomlog",
+    "type": "application",
+    "i18n": "i18n/i18n.properties",
+    "applicationVersion": {
+      "version": "0.0.1"
+    },
+    "title": "{{appTitle}}",
+    "description": "{{appDescription}}",
+    "resources": "resources.json",
+    "sourceTemplate": {
+      "id": "@sap/generator-fiori:basic",
+      "version": "1.15.6",
+      "toolsId": "41872ca8-1b2c-42ee-b929-08bf82090b29"
+    },
+    "dataSources": {
+      "ZSFA_GET_STO_MIGO_LOG_SRV": {
+        "uri": "/sap/opu/odata/sap/ZSFA_GET_STO_MIGO_LOG_SRV/",
+        "type": "OData",
+        "settings": {
+          "annotations": [],
+          "localUri": "localService/ZSFA_GET_STO_MIGO_LOG_SRV/metadata.xml",
+          "odataVersion": "2.0"
+        }
+      },
+      "ZSFA_SALES_PROCESS_SRV": {
+        "uri": "/sap/opu/odata/sap/ZSFA_SALES_PROCESS_SRV/",
+        "type": "OData",
+        "settings": {
+          "annotations": [],
+          "localUri": "localService/ZSFA_SALES_PROCESS_SRV/metadata.xml",
+          "odataVersion": "2.0"
+        }
+      }
+    }
+  },
+  "sap.ui": {
+    "technology": "UI5",
+    "icons": {
+      "icon": "",
+      "favIcon": "",
+      "phone": "",
+      "phone@2": "",
+      "tablet": "",
+      "tablet@2": ""
+    },
+    "deviceTypes": {
+      "desktop": true,
+      "tablet": true,
+      "phone": true
+    }
+  },
+  "sap.ui5": {
+    "flexEnabled": false,
+    "dependencies": {
+      "minUI5Version": "1.127.7",
+      "libs": {
+        "sap.m": {},
+        "sap.ui.core": {}
+      }
+    },
+    "contentDensities": {
+      "compact": true,
+      "cozy": true
+    },
+    "models": {
+      "i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "settings": {
+          "bundleName": "matix.com.log.somlog.zsomlog.i18n.i18n"
+        }
+      },
+      "ZSFA_GET_STO_MIGO_LOG_SRV": {
+        "preload": true,
+        "dataSource": "ZSFA_GET_STO_MIGO_LOG_SRV",
+        "settings": {
+          "defaultBindingMode": "TwoWay",
+          "defaultCountMode": "Inline",
+          "refreshAfterChange": false,
+          "useBatch": false,
+          "metadataUrlParams": {
+            "sap-value-list": "none"
+          }
+        }
+      },
+      "ZSFA_SALES_PROCESS_SRV": {
+        "dataSource": "ZSFA_SALES_PROCESS_SRV",
+        "settings": {
+          "defaultBindingMode": "TwoWay"
+        },
+        "preload": true
+      }
+    },
+    "resources": {
+      "css": [
+        {
+          "uri": "css/style.css"
+        }
+      ]
+    },
+    "routing": {
+      "config": {
+        "routerClass": "sap.m.routing.Router",
+        "controlAggregation": "pages",
+        "controlId": "app",
+        "transition": "slide",
+        "type": "View",
+        "viewType": "XML",
+        "path": "matix.com.log.somlog.zsomlog.view",
+        "async": true,
+        "viewPath": "matix.com.log.somlog.zsomlog.view"
+      },
+      "routes": [
+        {
+          "name": "RouteView1",
+          "pattern": ":?query:",
+          "target": [
+            "TargetView1"
+          ]
+        }
+      ],
+      "targets": {
+        "TargetView1": {
+          "id": "View1",
+          "name": "View1"
+        }
+      }
+    },
+    "rootView": {
+      "viewName": "matix.com.log.somlog.zsomlog.view.App",
+      "type": "XML",
+      "id": "App"
+    }
+  }
+}

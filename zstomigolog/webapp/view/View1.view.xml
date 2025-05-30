@@ -1,0 +1,238 @@
+<mvc:View controllerName="matix.com.log.somlog.zsomlog.controller.View1" height="100%" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" 
+	xmlns:core="sap.ui.core" xmlns:f="sap.f" xmlns:fb="sap.ui.comp.filterbar" xmlns:svm="sap.ui.comp.smartvariants" 
+	xmlns:plugins="sap.m.plugins" xmlns:columnmenu="sap.m.table.columnmenu" xmlns:sap.ui.fl="sap.ui.fl" xmlns:sap.ui.dt="sap.ui.dt"
+	xmlns:vm="sap.ui.fl.variants" xmlns:dnd="sap.ui.core.dnd" xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+	xmlns:u="sap.ui.unified" xmlns:form="sap.ui.layout.form" xmlns:uxap="sap.uxap">
+	<f:DynamicPage id="dynamicPageId" preserveHeaderStateOnScroll="true" headerExpanded="{/headerExpanded}" showFooter="true" fitContent="true">
+		<f:header>
+			<f:DynamicPageHeader >
+            <fb:FilterBar
+                    id="filterbar"
+                    persistencyKey="myPersKey"
+                    useToolbar="false"
+                    search="onSearch"
+                    showClearOnFB="false"
+                    showGoOnFB="false"
+                    clear="onFilterClear"
+                    showFilterConfiguration="false"
+                    filterContainerWidth="30rem"
+                >
+                    <fb:filterGroupItems>
+                    <fb:FilterGroupItem
+                            name="Name1"
+                            label="From Date"
+                            groupName="Group1"
+                            visibleInFilterBar="true"
+                        >
+                            <fb:control>
+                                <!-- <DatePicker
+									value="{path: 'oFilterModel>/fromDate', type: 'sap.ui.model.type.Date', formatOptions: {UTC: true}}"
+                                    placeholder="dd-MM-yyyy"
+                                /> -->
+								<DatePicker
+                                width="15rem"
+                                value="{path:'oFilterModel>/fromDate', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'dd.MM.yyyy', strictParsing: true,UTC: true}}"
+                            />
+                            </fb:control>
+                        </fb:FilterGroupItem>
+
+                        <fb:FilterGroupItem
+                            name="Name2"
+                            label="To Date"
+                            groupName="Group1"
+                            visibleInFilterBar="true"
+                        >
+                            <fb:control>
+                                <!-- <DatePicker
+									value="{path: 'oFilterModel>/toDate', type: 'sap.ui.model.type.Date', formatOptions: {UTC: true}}"
+                                    placeholder="dd-MM-yyyy"
+                                /> -->
+								<DatePicker
+                                width="15rem"
+                                value="{path:'oFilterModel>/toDate', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'dd.MM.yyyy', strictParsing: true,UTC: true}}"
+                            />
+                            </fb:control>
+                        </fb:FilterGroupItem>
+                        <fb:FilterGroupItem
+                            name="Name3"
+                            label="Supplying Plant"
+                            groupName="Group1"
+                            visibleInFilterBar="true"
+                        >
+                            <fb:control>
+                                <Input
+                                value="{oFilterModel>/supplyingPlant}"
+                                showSuggestion="true"
+                                suggest=".onSuggest"
+                                suggestionItems="{oModelforPlant>/}"
+                            >
+                                <suggestionItems>
+                                    <core:Item text="{oModelforPlant>DomvalueL}-{oModelforPlant>Ddtext}"/>
+                                </suggestionItems>
+                            </Input>
+                            </fb:control>
+                        </fb:FilterGroupItem>
+
+                        <fb:FilterGroupItem
+                            name="Name4"
+                            label="Receiving Plant"
+                            groupName="Group1"
+                            visibleInFilterBar="true"
+                        >
+                            <fb:control>
+                                <Input
+                                value="{oFilterModel>/receivingPlant}"
+                                showSuggestion="true"
+                                suggest=".onSuggest"
+                                suggestionItems="{oModelforPlant>/}"
+                            >
+                                <suggestionItems>
+                                    <core:Item text="{oModelforPlant>DomvalueL}-{oModelforPlant>Ddtext}"/>
+                                </suggestionItems>
+                            </Input>
+                            </fb:control>
+                        </fb:FilterGroupItem>
+
+                        <fb:FilterGroupItem
+                            name="Name5"
+                            label="Product"
+                            groupName="Group1"
+                            visibleInFilterBar="true"
+                        >
+                            <fb:control>
+                                <Input
+                                    value="{oFilterModel>/product}"
+                                    showSuggestion="true"
+                                suggest=".onSuggest"
+                                suggestionItems="{oModelforMaterial>/}"
+								suggestionItemSelected="onMaterialSelectSuggestion"
+                            >
+                                <suggestionItems>
+                                    <core:Item text="{oModelforMaterial>DomvalueL}-{oModelforMaterial>Ddtext}"/>
+                                </suggestionItems>
+                                </Input>
+                            </fb:control>
+                        </fb:FilterGroupItem>
+                        
+                    </fb:filterGroupItems>
+                </fb:FilterBar>
+				<Toolbar >
+					<Button text="Search" type="Emphasized" press="onSearch"/>
+					<Button text="Reset" type="Reject" press="onFilterClear"/>
+					<ToolbarSpacer/>
+				</Toolbar>
+			</f:DynamicPageHeader>
+		</f:header>
+		<f:content>
+        <ScrollContainer horizontal="true" vertical="true" focusable="true">
+			<Table id="SOTable" items="{oFormModel>/}" width="auto" ariaLabelledBy="title" fixedLayout="false" autoPopinMode="false" growing="true"
+				sticky="ColumnHeaders,HeaderToolbar" popinLayout="GridSmall" mode="None" delete="onItemsTableDelete" backgroundDesign="Solid"
+				alternateRowColors="true">
+				<headerToolbar>
+					<OverflowToolbar>
+						<Title id="title" text="List of STO Log"/>
+						<ToolbarSpacer/>
+						<!-- <Button icon="sap-icon://action-settings" press="openPersoDialog" tooltip="Settings" visible="{myProperties>/view}"/> -->
+					</OverflowToolbar>
+				</headerToolbar>
+				<dependents>
+					<plugins:ColumnResizer columnResize="onColumnResize"/>
+					<columnmenu:Menu id="menu" beforeOpen="beforeOpenColumnMenu">
+						<columnmenu:QuickSort change="onSort">
+							<columnmenu:items>
+								<columnmenu:QuickSortItem/>
+							</columnmenu:items>
+						</columnmenu:QuickSort>
+						<columnmenu:QuickGroup change="onGroup">
+							<columnmenu:items>
+								<columnmenu:QuickGroupItem/>
+							</columnmenu:items>
+						</columnmenu:QuickGroup>
+						<columnmenu:items>
+							<columnmenu:ActionItem icon="sap-icon://sort" label="Sort" press="onColumnHeaderItemPress"/>
+							<columnmenu:ActionItem icon="sap-icon://group-2" label="Group" press="onColumnHeaderItemPress"/>
+							<columnmenu:ActionItem icon="sap-icon://filter" label="Filter" press="onColumnHeaderItemPress"/>
+							<columnmenu:ActionItem icon="sap-icon://table-column" label="Columns" press="onColumnHeaderItemPress"/>
+						</columnmenu:items>
+					</columnmenu:Menu>
+				</dependents>
+				<dragDropConfig>
+					<dnd:DragDropInfo sourceAggregation="columns" targetAggregation="columns" dropPosition="Between" drop="onColumnMove"/>
+				</dragDropConfig>
+				<noData>
+					<IllustratedMessage/>
+				</noData>
+				<columns>
+					<!-- <Column headerMenu="menu">
+						<header>
+							<Text text="SI No"/>
+						</header>
+					</Column> -->
+					<Column headerMenu="menu" width="6rem">
+						<header>
+							<Text text="STO Number"/>
+						</header>   
+					</Column>
+					<Column app:p13nKey="HsnCode" headerMenu="menu" width="6rem">
+						<Text text="Created On"/>
+					</Column>
+					<Column app:p13nKey="SionNo" headerMenu="menu" width="6rem">
+						<Text text="Supplying Plant"/>
+					</Column>
+					<Column app:p13nKey="Plant" headerMenu="menu" width="6rem">
+						<Text text="Receiving Plant"/>
+					</Column>
+                    <Column app:p13nKey="Plant" headerMenu="menu" width="6rem">
+						<Text text="Material"/>
+					</Column>
+                    <Column app:p13nKey="Plant" headerMenu="menu" width="6rem">
+						<Text text="STO Qty"/>
+					</Column>
+                    <Column app:p13nKey="Plant" headerMenu="menu" width="6rem">
+						<Text text="OBD No"/>
+					</Column>
+                    <Column app:p13nKey="Plant" headerMenu="menu" width="6rem">
+						<Text text="PGI Date"/>
+					</Column>
+                    <Column app:p13nKey="Plant" headerMenu="menu" width="6rem">
+						<Text text="OBD Date"/>
+					</Column>
+                    <Column app:p13nKey="Plant" headerMenu="menu" width="6rem">
+						<Text text="MIGO No"/>
+					</Column>
+                    <Column app:p13nKey="Plant" headerMenu="menu" width="6rem">
+						<Text text="MIGO Date"/>
+					</Column>
+                    <Column app:p13nKey="Plant" headerMenu="menu" width="6rem">
+						<Text text="MIGO Qty"/>
+					</Column>
+				</columns>
+				<items>
+					<ColumnListItem>
+						<!-- <Text text="{oFormModel>SINo}"/> -->
+						<Text text="{oFormModel>StoNo}"/>
+						<Text text="{path: 'oFormModel>CreatedOn', formatter: '.formatDate'}"/>
+						<Text text="{oFormModel>SupplyingPlantCode}"/>
+						<Text text="{oFormModel>ReceivingPlantCode}"/>
+						<Text text="{oFormModel>MaterialsNo}"/>
+						<Text text="{oFormModel>StoPoQuan}"/>
+						<Text text="{oFormModel>ObdNo}"/>
+						<Text text="{path: 'oFormModel>PgiDate', formatter: '.formatDate'}"/>
+						<Text text="{path: 'oFormModel>ObdDate', formatter: '.formatDate'}"/>
+						<Text text="{oFormModel>MigoNo}"/>
+						<Text text="{path: 'oFormModel>MigoDate', formatter: '.formatDate'}"/>
+						<Text text="{oFormModel>MigoQuantity}"/>
+					</ColumnListItem>
+				</items>
+			</Table>
+            </ScrollContainer>
+			
+		</f:content>
+		<f:footer>
+			<OverflowToolbar>
+				<ToolbarSpacer/>
+				<Button type="Reject" text="Clear Results" press="onClearResults"/>
+			</OverflowToolbar>
+		</f:footer>
+	</f:DynamicPage>
+</mvc:View>

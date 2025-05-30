@@ -1,132 +1,360 @@
-<mvc:View controllerName="matix.com.stp.stocreation.zstocreation.controller.View1" height="100%" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m"
-	xmlns:core="sap.ui.core" xmlns:f="sap.f" xmlns:fb="sap.ui.comp.filterbar" xmlns:svm="sap.ui.comp.smartvariants"
-	xmlns:plugins="sap.m.plugins" xmlns:columnmenu="sap.m.table.columnmenu" xmlns:sap.ui.fl="sap.ui.fl" xmlns:sap.ui.dt="sap.ui.dt"
-	xmlns:vm="sap.ui.fl.variants" xmlns:dnd="sap.ui.core.dnd" xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
-	xmlns:u="sap.ui.unified" xmlns:form="sap.ui.layout.form" xmlns:uxap="sap.uxap">
-	<uxap:ObjectPageLayout id="ObjectPageLayout" upperCaseAnchorBar="true" showFooter="true" headerContentPinnable="true">
-		<uxap:sections>
-			<uxap:ObjectPageSection title="Stock Transfer Order">
-				<uxap:subSections>
-					<uxap:ObjectPageSubSection id="idV2OPSubGenInfo" title="Stock Transfer Order" titleUppercase="true">
-						<uxap:blocks>
-							<form:SimpleForm layout="ResponsiveGridLayout" columnsXL="2" columnsL="2" columnsM="2" >
-								<form:content>
-                                    <core:Title/>
-									<Label text="Order type"/>
-									<Input />
-									<Label text="Doc Date"/>
-									<DatePicker placeholder="dd-mm-yyyy"></DatePicker>
-									<Label text="LR No"/>
-									<Input/>
-									<Label text="Truck Capacilty"/>
-									<Input/>
-                                    <core:Title/>
-									<Label text="Supplying plant "/>
-									<Input/>
-									<Label text="Storage Location"/>
-									<Select ></Select>
-									<Label text="Truck No (Pleas enter Truck No without space)"/>
-									<Input/>
-									<Label text="Transporter Code"/>
-									<Input/>
-								</form:content>
-							</form:SimpleForm>
-						</uxap:blocks>
-					</uxap:ObjectPageSubSection>
-				</uxap:subSections>
-			</uxap:ObjectPageSection>
-			<uxap:ObjectPageSection id="idV2OPSPrdDetail" titleUppercase="true" title="Line Item Details">
-				<uxap:subSections>
-					<uxap:ObjectPageSubSection id="idV2OPSubPrdDetail" title="Line Item Details" titleUppercase="true">
-						<uxap:blocks>
-							<Table id="StoTable" items="{path: 'oModelForTable>/'}" ariaLabelledBy="title" fixedLayout="Strict" autoPopinMode="true" growing="true"
-								sticky="ColumnHeaders,HeaderToolbar" popinLayout="GridSmall" mode="Delete" delete="onItemsTableDelete" backgroundDesign="Solid"
-								alternateRowColors="true">
-								<headerToolbar>
-									<OverflowToolbar>
-										<Title id="title" text="Line Item Details"/>
-										<ToolbarSpacer/>
-										<Button icon="sap-icon://delete" press="onItemsTableDelete" />
-										<Button icon="sap-icon://add-product" press="onAddNewItemPress" tooltip="Add New Item" type="Emphasized"/>
-									</OverflowToolbar>
-								</headerToolbar>
-								<dependents>
-									<plugins:ColumnResizer columnResize="onColumnResize"/>
-									<columnmenu:Menu id="menu" beforeOpen="beforeOpenColumnMenu">
-										<columnmenu:QuickSort change="onSort">
-											<columnmenu:items>
-												<columnmenu:QuickSortItem/>
-											</columnmenu:items>
-										</columnmenu:QuickSort>
-										<columnmenu:QuickGroup change="onGroup">
-											<columnmenu:items>
-												<columnmenu:QuickGroupItem/>
-											</columnmenu:items>
-										</columnmenu:QuickGroup>
-										<columnmenu:items>
-											<columnmenu:ActionItem icon="sap-icon://sort" label="Sort" press="onColumnHeaderItemPress"/>
-											<columnmenu:ActionItem icon="sap-icon://group-2" label="Group" press="onColumnHeaderItemPress"/>
-											<columnmenu:ActionItem icon="sap-icon://filter" label="Filter" press="onColumnHeaderItemPress"/>
-											<columnmenu:ActionItem icon="sap-icon://table-column" label="Columns" press="onColumnHeaderItemPress"/>
-										</columnmenu:items>
-									</columnmenu:Menu>
-								</dependents>
-								<dragDropConfig>
-									<dnd:DragDropInfo sourceAggregation="columns" targetAggregation="columns" dropPosition="Between" drop="onColumnMove"/>
-								</dragDropConfig>
-								<noData>
-									<IllustratedMessage/>
-								</noData>
-								<columns>
-									<Column headerMenu="menu">
-										<header>
-											<Text text="Material"/>
-										</header>
-									</Column>
-									<Column headerMenu="menu">
-										<header>
-											<Text text="Quantity"/>
-										</header>
-									</Column>
-									<Column app:p13nKey="HsnCode" headerMenu="menu">
-										<Text text="Unit"/>
-									</Column>
-									<Column app:p13nKey="SionNo" headerMenu="menu">
-										<Text text="Destination Plant"/>
-									</Column>
-									<Column app:p13nKey="Plant" headerMenu="menu">
-										<Text text="Location Code"/>
-									</Column>
-									<Column app:p13nKey="Plant" headerMenu="menu">
-										<Text text="Batch No"/>
-									</Column>
-								</columns>
-								<items>
-									<ColumnListItem>
-                                    <cells>
-										<Select selectedKey="{oModelForTable>material}"></Select>
-                                        <Input value="{oModelForTable>quantity}"/>
-                                        <Input value="{oModelForTable>unit}"/>
-                                        <Select selectedKey="{oModelForTable>destinationPlant}"></Select>
-                                        <Select selectedKey="{oModelForTable>locationCode}"></Select>
-                                        <Input value="{oModelForTable>batchNo}"/>
-                                        </cells>
-									</ColumnListItem>
-                                    
-								</items>
-							</Table>
-						</uxap:blocks>
-					</uxap:ObjectPageSubSection>
-				</uxap:subSections>
-			</uxap:ObjectPageSection>
-		</uxap:sections>
-		<uxap:footer>
-			<OverflowToolbar visible="{myProperties>/footer}">
-				<ToolbarSpacer/>
-				<Button text="Auto Invoice for STO" press="" type="Emphasized"/>
-				<Button text="Cancel" press="" type="Reject"/>
-				<Button text="Submit" press="" type="Accept"/>
-			</OverflowToolbar>
-		</uxap:footer>
-	</uxap:ObjectPageLayout>
+<mvc:View
+    xmlns:form="sap.ui.layout.form"
+    controllerName="matix.com.stp.stocreation.zstocreation.controller.View1"
+    height="100%"
+    xmlns:core="sap.ui.core"
+    xmlns:svm="sap.ui.comp.smartvariants"
+    xmlns:plugins="sap.m.plugins"
+    xmlns:columnmenu="sap.m.table.columnmenu"
+    xmlns:sap.ui.fl="sap.ui.fl"
+    xmlns:sap.ui.dt="sap.ui.dt"
+    xmlns:vm="sap.ui.fl.variants"
+    xmlns:dnd="sap.ui.core.dnd"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:c="sap.ui.core"
+    xmlns:u="sap.ui.unified"
+    xmlns:f="sap.f"
+    xmlns:t="sap.ui.table"
+    xmlns:uxap="sap.uxap"
+    xmlns:layout="sap.ui.layout"
+>
+    <f:DynamicPage
+        id="dynamicPageId"
+        preserveHeaderStateOnScroll="true"
+        headerExpanded="{/headerExpanded}"
+        showFooter="true"
+        fitContent="true"
+    >
+        <!-- <f:title>
+				<f:DynamicPageTitle>
+					<f:heading>
+						<Title text="Stock Transfer Order"/>
+					</f:heading>
+				</f:DynamicPageTitle>
+			</f:title> -->
+        <f:header>
+            <f:DynamicPageHeader>
+                <form:SimpleForm
+                    layout="ResponsiveGridLayout"
+                    title="Stock Transfer Order"
+                    editable="true"
+                >
+                    <form:content>
+                        <core:Title />
+                        <Label
+                            text="Order type"
+                            class="bold-label"
+                        />
+                        <Select
+                            width="15rem"
+                            items="{orderType>/}"
+                            selectedKey="{oFormModel>/DocType}"
+                            forceSelection="false"
+                        >
+                            <core:ListItem
+                                key="{orderType>text}"
+                                text="{orderType>text}"
+                            />
+                        </Select>
+                        <Label
+                            text="Doc Date"
+                            class="bold-label"
+                        />
+                        <DatePicker
+                            width="15rem"
+                            value="{path:'oFormModel>/DocDate', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'dd.MM.yyyy', strictParsing: true,UTC: true}}"
+                        /> 
+                        <Label
+                            text="LR No"
+                            class="bold-label"
+                        />
+                        <Input
+                            width="15rem"
+                            value="{oFormModel>/Lrno}"
+                        />
+                        <Label
+                            text="Truck Capacilty"
+                            class="bold-label"
+                        />
+                        <Input
+                            width="15rem"
+                            value="{oFormModel>/ZtruckCap}"
+                        />
+                        <core:Title />
+                        <Label
+                            text="Supplying plant"
+                            class="bold-label"
+                        />
+                        <Input
+                            width="15rem"
+                            value="{oFormModel>/SupplPlnt}"
+                            showSuggestion="true"
+                            suggest=".onSuggest"
+                            suggestionItems="{oModelforPlant>/}"
+                            suggestionItemSelected="storageLocationSuggestions"
+                        >
+                            <suggestionItems>
+                                <core:Item
+                                    text="{oModelforPlant>DomvalueL}-{oModelforPlant>Ddtext}"
+                                />
+                            </suggestionItems>
+                        </Input>
+
+                        <Label
+                            text="Storage Location"
+                            class="bold-label"
+                        />
+                        <Input
+                            width="15rem"
+                            value="{oFormModel>/SupplVend}"
+                            showSuggestion="true"
+                            suggest=".onSuggest"
+                            suggestionItems="{oModelforStrglocation>/}"
+                        >
+                            <suggestionItems>
+                                <core:Item
+                                    text="{oModelforStrglocation>DomvalueL}-{oModelforStrglocation>Ddtext}"
+                                />
+                            </suggestionItems>
+                        </Input>
+                        <Label
+                            text="Truck No"
+                            class="bold-label"
+                        />
+                        <Input
+                            width="15rem"
+                            value="{oFormModel>/Vhlnr}"
+                        />
+                        <Label
+                            text="Transporter Code"
+                            class="bold-label"
+                        />
+                        <Input
+                            width="15rem"
+                            value="{oFormModel>/Tdlnr}"
+                        />
+                    </form:content>
+                </form:SimpleForm>
+            </f:DynamicPageHeader>
+        </f:header>
+        <f:content>
+            <Table
+                id="StoTable"
+                multiSelectMode="Default"
+                items="{oModelForTable>/results}"
+                ariaLabelledBy="title"
+                fixedLayout="Strict"
+                autoPopinMode="true"
+                growing="true"
+                sticky="ColumnHeaders,HeaderToolbar"
+                popinLayout="GridSmall"
+                mode="MultiSelect"
+                delete="onItemsTableDelete"
+                backgroundDesign="Solid"
+                alternateRowColors="true"
+            >
+                <headerToolbar>
+                    <OverflowToolbar>
+                        <Title
+                            id="title"
+                            text="Line Item Details"
+                            class="bold-label"
+                        />
+                        <ToolbarSpacer />
+                        <Button
+                            icon="sap-icon://delete"
+                            text="Delete"
+                            class="sapUiButton"
+                            press="onItemsTableDelete"
+                            tooltip="Delete Row"
+                            type="Reject"
+                        />
+                        <Button
+                            icon="sap-icon://add-product"
+                            text="Add Row"
+                            class="sapUiButton"
+                            press="onAddNewItemPress"
+                            tooltip="Add Row"
+                            type="Emphasized"
+                        />
+                    </OverflowToolbar>
+                </headerToolbar>
+                <dependents>
+                    <plugins:ColumnResizer columnResize="onColumnResize" />
+                    <columnmenu:Menu
+                        id="menu"
+                        beforeOpen="beforeOpenColumnMenu"
+                    >
+                        <columnmenu:QuickSort change="onSort">
+                            <columnmenu:items>
+                                <columnmenu:QuickSortItem />
+                            </columnmenu:items>
+                        </columnmenu:QuickSort>
+                        <columnmenu:QuickGroup change="onGroup">
+                            <columnmenu:items>
+                                <columnmenu:QuickGroupItem />
+                            </columnmenu:items>
+                        </columnmenu:QuickGroup>
+                        <columnmenu:items>
+                            <columnmenu:ActionItem
+                                icon="sap-icon://sort"
+                                label="Sort"
+                                press="onColumnHeaderItemPress"
+                            />
+                            <columnmenu:ActionItem
+                                icon="sap-icon://group-2"
+                                label="Group"
+                                press="onColumnHeaderItemPress"
+                            />
+                            <columnmenu:ActionItem
+                                icon="sap-icon://filter"
+                                label="Filter"
+                                press="onColumnHeaderItemPress"
+                            />
+                            <columnmenu:ActionItem
+                                icon="sap-icon://table-column"
+                                label="Columns"
+                                press="onColumnHeaderItemPress"
+                            />
+                        </columnmenu:items>
+                    </columnmenu:Menu>
+                </dependents>
+                <dragDropConfig>
+                    <dnd:DragDropInfo
+                        sourceAggregation="columns"
+                        targetAggregation="columns"
+                        dropPosition="Between"
+                        drop="onColumnMove"
+                    />
+                </dragDropConfig>
+                <noData>
+                    <IllustratedMessage />
+                </noData>
+                <columns>
+                    <Column headerMenu="menu">
+                        <header>
+                            <Text
+                                text="Material"
+                                class="bold-label"
+                            />
+                        </header>
+                    </Column>
+                    <Column headerMenu="menu">
+                        <header>
+                            <Text
+                                text="Quantity"
+                                class="bold-label"
+                            />
+                        </header>
+                    </Column>
+                    <Column headerMenu="menu">
+                        <Text
+                            text="Unit"
+                            class="bold-label"
+                        />
+                    </Column>
+                    <Column headerMenu="menu">
+                        <Text
+                            text="Destination Plant"
+                            class="bold-label"
+                        />
+                    </Column>
+                    <Column headerMenu="menu">
+                        <Text
+                            text="Location Code"
+                            class="bold-label"
+                        />
+                    </Column>
+                    <Column headerMenu="menu">
+                        <Text
+                            text="Batch No"
+                            class="bold-label"
+                        />
+                    </Column>
+                </columns>
+                <items>
+                    <ColumnListItem>
+                        <cells>
+                            <Input
+                                value="{oModelForTable>Material}"
+                                showSuggestion="true"
+                                suggest=".onSuggest"
+                                suggestionItems="{oModelforMaterial>/}"
+                                suggestionItemSelected="onMaterialSelectSuggestion"
+                            >
+                                <suggestionItems>
+                                    <core:Item
+                                        text="{oModelforMaterial>DomvalueL}-{oModelforMaterial>Ddtext}"
+                                    />
+                                </suggestionItems>
+                            </Input>
+                            <Input value="{oModelForTable>Quantity}" />
+                            <Input value="{oModelForTable>PoUnit}" />
+                            <Input
+                                value="{oModelForTable>Plant}"
+                                showSuggestion="true"
+                                suggest=".onSuggest"
+                                suggestionItems="{oModelforPlant>/}"
+                                suggestionItemSelected="locationCodeSuggestions"
+                            >
+                                <suggestionItems>
+                                    <core:Item
+                                        text="{oModelforPlant>DomvalueL}-{oModelforPlant>Ddtext}"
+                                    />
+                                </suggestionItems>
+                            </Input>
+                            <Input
+                                value="{oModelForTable>StgeLoc}"
+                                showSuggestion="true"
+                                suggest=".onSuggest"
+                                suggestionItems="{oModelforlocationcode>/}"
+                            >
+                                <suggestionItems>
+                                    <core:Item
+                                        text="{oModelforlocationcode>DomvalueL}-{oModelforlocationcode>Ddtext}"
+                                    />
+                                </suggestionItems>
+                            </Input>
+                            <!-- suggestionItemSelected="BatchSuggestions" -->
+                            <Input
+                                value="{oModelForTable>Batch}"
+                                showSuggestion="true"
+                                suggest=".onSuggest"
+                                suggestionItems="{oModelforBatch>/}"
+                            >
+                                <suggestionItems>
+                                    <core:Item
+                                        text="{oModelforBatch>DomvalueL}-{oModelforBatch>Ddtext}"
+                                    />
+                                </suggestionItems>
+                            </Input>
+                        </cells>
+                    </ColumnListItem>
+                </items>
+            </Table>
+        </f:content>
+        <f:footer>
+            <OverflowToolbar>
+                <ToolbarSpacer />
+                <Button
+                    type="Default"
+                    text="Auto Invoice for STO"
+                    press="onSubmit"
+                    enabled="{oViewModel>/autoInvoice}"
+                />
+                <Button
+                    type="Reject"
+                    text="Cancel"
+                    press="onCancel"
+                />
+                <Button
+                    type="Accept"
+                    text="Submit"
+                    press="onSubmit"
+                    enabled="{oViewModel>/submit}"
+                />
+            </OverflowToolbar>
+        </f:footer>
+    </f:DynamicPage>
 </mvc:View>

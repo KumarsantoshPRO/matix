@@ -1,78 +1,93 @@
-<core:FragmentDefinition
-    xmlns="sap.m"
-    xmlns:core="sap.ui.core"
-    xmlns:mvc="sap.ui.core.mvc"
->
-    <Dialog
-        id="ConditionDialog"
-        title="Condition Item"
-        draggable="true"
-        resizable="true"
-        showHeader="true"
-        class="sapUiResponsivePadding--content"
-    >
-        <customHeader>
-            <Bar>
-                <contentLeft>
-                    <Title text="Condition Details" />
-                </contentLeft>
-                <contentRight>
-                    <Button
-                        icon="sap-icon://decline"
-                        type="Reject"
-                        press="._closeDialog"
-                    />
-                </contentRight>
-            </Bar>
-        </customHeader>
-        <Table
-            id="conditionTable"
-            items="{oModelForCondition>/}"
-        >
-            <columns>
-                <Column>
-                    <Text text="Item Number" />
-                </Column>
-                <Column>
-                    <Text text="Cond. Step No" />
-                </Column>
-                <Column>
-                    <Text text="Cond. Count" />
-                </Column>
-                <Column>
-                    <Text text="Cond. Type" />
-                </Column>
-                <Column>
-                    <Text text="Cond. Text" />
-                </Column>
-                <Column>
-                    <Text text="Cond. Value" />
-                </Column>
-                <Column>
-                    <Text text="Currency" />
-                </Column>
-                <Column>
-                    <Text text="Cond. Unit" />
-                </Column>
-            </columns>
-            <items>
-                <ColumnListItem>
-                    <cells>
-                        <Text text="{oModelForCondition>ItmNumber}" />
-                        <Text text="{oModelForCondition>CondStNo}" />
-                        <Text text="{oModelForCondition>CondCount}" />
-                        <Text text="{oModelForCondition>CondType}" />
-                        <Text text="{oModelForCondition>CondText}" />
-                        <Text text="{oModelForCondition>CondValue}" />
-                        <Text text="{oModelForCondition>Currency}" />
-                        <Text text="{oModelForCondition>CondUnit}" />
-                    </cells>
-                </ColumnListItem>
-            </items>
-        </Table>
-
-        <!-- <endButton>
+<!-- <core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:f="sap.ui.layout.form"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:core="sap.ui.core">
+	<Dialog
+		id="mainDialog"
+		title="Hello {/recipient/name}">
+		<content>
+			
+			
+	
+		</content>
+		<footer>
+			<Toolbar>
+				<content>
+		 
+					<ToolbarSpacer />
+				 
+					<Button id="Reject"
+						text="Reject"
+						type="Reject"
+						press="._closeDialog"
+						ariaHasPopup="Dialog" />
+				</content>
+			</Toolbar>
+		</footer>
+	</Dialog>
+</core:FragmentDefinition> -->
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc">
+	<Dialog id="ConditionDialog" title="Condition Item" draggable="true" resizable="true" showHeader="true"
+		class="sapUiResponsivePadding--content">
+		 <customHeader>
+      <Bar>
+        <contentLeft>
+          <Title text="Condition Details" />
+        </contentLeft>
+        <contentRight>
+          <Button
+            icon="sap-icon://decline"
+            type="Reject"
+            press="._closeDialog" />
+        </contentRight>
+      </Bar>
+    </customHeader>
+		<!-- <VBox class="sapUiSmallMargin"> -->
+			<Table id="conditionTable" items="{oModelForCondition>/}">
+				<columns>
+					<Column>
+						<Text text="Item Number"/>
+					</Column>
+					<Column>
+						<Text text="Cond. Step No"/>
+					</Column>
+					<Column>
+						<Text text="Cond. Count"/>
+					</Column>
+					<Column>
+						<Text text="Cond. Type"/>
+					</Column>
+					<Column>
+						<Text text="Cond. Text"/>
+					</Column>
+					<Column><Text text="Cond. Value"/>
+					</Column>
+					<Column>
+						<Text text="Currency"/>
+					</Column>
+					<Column>
+						<Text text="Cond. Unit"/>
+					</Column>
+				</columns>
+				<items>
+					<ColumnListItem>
+						<cells>
+							<Text text="{oModelForCondition>ItmNumber}"/>
+							<Text text="{oModelForCondition>CondStNo}"/>
+							<Text text="{oModelForCondition>CondCount}"/>
+							<Text text="{oModelForCondition>CondType}"/>
+							<Text text="{oModelForCondition>CondText}"/>
+							<Text text="{oModelForCondition>CondValue}"/>
+							<Text text="{oModelForCondition>Currency}"/>
+							<Text text="{oModelForCondition>CondUnit}"/>
+						</cells>
+					</ColumnListItem>
+				</items>
+			</Table>
+		<!-- </VBox> -->
+		<!-- <endButton>
 			<Button id="Reject" text="Cancel" type="Reject" press="._closeDialog" ariaHasPopup="Dialog"/>
 		</endButton> -->
-    </Dialog>
+	</Dialog>
 </core:FragmentDefinition>

@@ -24,11 +24,21 @@
                     "localUri": "localService/metadata.xml",
                     "odataVersion": "2.0"
                 }
-            } 
+            },
+            "ZSFA_SALES_PROCESS_SRV": {
+                "uri": "/sap/opu/odata/sap/ZSFA_SALES_PROCESS_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": [],
+                    "localUri": "localService/metadata.xml",
+                    "odataVersion": "2.0"
+                }
+            }
         }
     },
     "sap.ui": {
         "technology": "UI5",
+        "fullWidth": true,
         "icons": {
             "icon": "",
             "favIcon": "",
@@ -63,9 +73,8 @@
                     "bundleName": "matix.com.stp.stocreation.zstocreation.i18n.i18n"
                 }
             },
-            "": {
+            "ZSFA_STOCK_TRANSFER_PROCESS_SRV": {
                 "preload": true,
-                
                 "dataSource": "ZSFA_STOCK_TRANSFER_PROCESS_SRV",
                 "settings": {
                     "defaultBindingMode": "TwoWay",
@@ -75,6 +84,12 @@
                     "metadataUrlParams": {
                         "sap-value-list": "none"
                     }
+                }
+            },
+            "ZSFA_SALES_PROCESS_SRV": {
+                "dataSource": "ZSFA_SALES_PROCESS_SRV",
+                "settings": {
+                    "defaultBindingMode": "TwoWay"
                 }
             }
         },

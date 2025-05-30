@@ -31,6 +31,8 @@ sap.ui.define(
             ToMatnr: "",
             FromSalesOffice: "",
             ToSalesOffice: "",
+            FromMatGroup: "",
+            ToMatGroup: ""
           }),
           "oModelForFilters"
         );
@@ -41,6 +43,8 @@ sap.ui.define(
             productToDescrp: "",
             FromSalesOfficeDescrp: "",
             ToSalesOffice: "",
+            FromMatGroupDescrp: "",
+            ToMatGroupDescrp: ""
           }),
           "oModelTemp"
         );
@@ -107,6 +111,34 @@ sap.ui.define(
             this.getView().setBusy(false);
           }.bind(this),
         });
+
+        var oFiltermatGroup = new sap.ui.model.Filter({
+          path: "Domname",
+          operator: "EQ",
+          value1: "T023T",
+        });
+
+        this.getView().setBusy(true);
+        oModel.read(sPath, {
+          filters: [oFiltermatGroup],
+          success: function (data) {
+            for (let index = 0; index < data.results.length; index++) {
+              const element = data.results[index];
+              element.DomvalueL = element.DomvalueL.replace(/^0+/, "");
+            }
+            this.getView().setModel(
+              new JSONModel(data.results),
+              "oModelForMatGroup"
+            );
+            this.getView().setBusy(false);
+          }.bind(this),
+          error: function (sError) {
+            MessageBox.error(
+              JSON.parse(sError.responseText).error.message.value
+            );
+            this.getView().setBusy(false);
+          }.bind(this),
+        });
       },
       onSuggest: function (oEvent) {
         var sTerm = oEvent.getParameter("suggestValue");
@@ -123,7 +155,7 @@ sap.ui.define(
             and: false,
           });
         }
-        debugger;
+
         oEvent.getSource().getBinding("suggestionItems").filter(Filters);
       },
       onInputChange: function (oEvent) {
@@ -154,25 +186,45 @@ sap.ui.define(
           oInput.setValueStateText("");
         }
       },
+      // product
       onProductInputSuggestionItemSelected: function (oEvent) {
-        debugger;
+
         var sValue = oEvent.getParameter("selectedItem").getProperty("text");
         this.getView()
           .getModel("oModelForFilters")
           .setProperty("/FromMatnr", sValue.split("-")[0]);
-
+        var oInput = oEvent.getSource();
+        oInput.setValueState("None");
+        oInput.setValueStateText("");
         if (sValue.split("-")[1] !== "") {
           this.getView()
             .getModel("oModelTemp")
             .setProperty("/productDescrp", "-" + sValue.split("-")[1]);
         }
       },
+      onProductToInputSuggestionItemSelected: function (oEvent) {
+        var sValue = oEvent.getParameter("selectedItem").getProperty("text");
+        this.getView()
+          .getModel("oModelForFilters")
+          .setProperty("/ToMatnr", sValue.split("-")[0]);
+        var oInput = oEvent.getSource();
+        oInput.setValueState("None");
+        oInput.setValueStateText("");
+        if (sValue.split("-")[1] !== "") {
+          this.getView()
+            .getModel("oModelTemp")
+            .setProperty("/productToDescrp", "-" + sValue.split("-")[1]);
+        }
+      },
+      // Sales office
       onFromSalesOfficeInputSuggestionItemSelected: function (oEvent) {
         var sValue = oEvent.getParameter("selectedItem").getProperty("text");
         this.getView()
           .getModel("oModelForFilters")
           .setProperty("/FromSalesOffice", sValue.split("-")[0]);
-
+        var oInput = oEvent.getSource();
+        oInput.setValueState("None");
+        oInput.setValueStateText("");
         if (sValue.split("-")[1] !== "") {
           this.getView()
             .getModel("oModelTemp")
@@ -184,7 +236,9 @@ sap.ui.define(
         this.getView()
           .getModel("oModelForFilters")
           .setProperty("/ToSalesOffice", sValue.split("-")[0]);
-
+        var oInput = oEvent.getSource();
+        oInput.setValueState("None");
+        oInput.setValueStateText("");
         if (sValue.split("-")[1] !== "") {
           this.getView()
             .getModel("oModelTemp")
@@ -194,18 +248,36 @@ sap.ui.define(
             );
         }
       },
-      onProductToInputSuggestionItemSelected: function (oEvent) {
+      // Material Group
+      onFromMatGroupInputSuggestionItemSelected: function (oEvent) {
         var sValue = oEvent.getParameter("selectedItem").getProperty("text");
         this.getView()
           .getModel("oModelForFilters")
-          .setProperty("/ToMatnr", sValue.split("-")[0]);
-
+          .setProperty("/FromMatGroup", sValue.split("-")[0]);
+        var oInput = oEvent.getSource();
+        oInput.setValueState("None");
+        oInput.setValueStateText("");
         if (sValue.split("-")[1] !== "") {
           this.getView()
             .getModel("oModelTemp")
-            .setProperty("/productToDescrp", "-" + sValue.split("-")[1]);
+            .setProperty("/FromMatGroupDescrp", "-" + sValue.split("-")[1]);
         }
       },
+      onToMatGroupInputSuggestionItemSelected: function (oEvent) {
+        var sValue = oEvent.getParameter("selectedItem").getProperty("text");
+        this.getView()
+          .getModel("oModelForFilters")
+          .setProperty("/ToMatGroup", sValue.split("-")[0]);
+        var oInput = oEvent.getSource();
+        oInput.setValueState("None");
+        oInput.setValueStateText("");
+        if (sValue.split("-")[1] !== "") {
+          this.getView()
+            .getModel("oModelTemp")
+            .setProperty("/ToMatGroupDescrp", "-" + sValue.split("-")[1]);
+        }
+      },
+
       onSearchButtonPress: function () {
         var aFilters = new Array();
         //   dates
@@ -230,6 +302,13 @@ sap.ui.define(
         var toSalesOffice = this.getView()
           .getModel("oModelForFilters")
           .getProperty("/ToSalesOffice");
+        // Material Group
+        var fromMatGroup = this.getView()
+          .getModel("oModelForFilters")
+          .getProperty("/FromMatGroup");
+        var toMatGroup = this.getView()
+          .getModel("oModelForFilters")
+          .getProperty("/ToMatGroup");
 
         if (
           !fromDate &&
@@ -237,28 +316,38 @@ sap.ui.define(
           !fromProduct &&
           !toProduct &&
           !fromSalesOffice &&
-          !toSalesOffice
+          !toSalesOffice &&
+          !fromMatGroup &&
+          !toMatGroup
         ) {
           sap.m.MessageBox.error("Enter any one filter to get the details");
         } else {
+          // Date
           if (!fromDate && toDate) {
             fromDate = toDate;
           } else if (!toDate && fromDate) {
             toDate = fromDate;
           }
-
+          // Product
           if (!fromProduct && toProduct) {
             fromProduct = toProduct;
           } else if (!toProduct && fromProduct) {
             toProduct = fromProduct;
           }
-
+          // Sales office
           if (!fromSalesOffice && toSalesOffice) {
             fromSalesOffice = toSalesOffice;
           } else if (!toSalesOffice && fromSalesOffice) {
             toSalesOffice = fromSalesOffice;
           }
 
+          // Material Group
+          if (!fromMatGroup && toMatGroup) {
+            fromMatGroup = toMatGroup;
+          } else if (!toMatGroup && fromMatGroup) {
+            toMatGroup = fromMatGroup;
+          }
+          // Date
           if (fromDate && toDate) {
             var oFilterErdat = new sap.ui.model.Filter({
               path: "Erdat",
@@ -268,7 +357,7 @@ sap.ui.define(
             });
             aFilters.push(oFilterErdat);
           }
-
+          // Product
           if (fromProduct && toProduct) {
             var oFilterMatnr = new sap.ui.model.Filter({
               path: "Matnr",
@@ -278,6 +367,7 @@ sap.ui.define(
             });
             aFilters.push(oFilterMatnr);
           }
+          // Sales Office
           if (fromSalesOffice && toSalesOffice) {
             var oFilterSalesOffice = new sap.ui.model.Filter({
               path: "SalesOffice",
@@ -287,19 +377,40 @@ sap.ui.define(
             });
             aFilters.push(oFilterSalesOffice);
           }
+          if (fromMatGroup && toMatGroup) {
+            var oFilterMatGroup = new sap.ui.model.Filter({
+              path: "Matkl",
+              operator: "BT",
+              value1: fromMatGroup,
+              value2: toMatGroup,
+            });
+            aFilters.push(oFilterMatGroup);
+          }
+          // Date
           if (fromDate > toDate) {
             sap.m.MessageBox.error(
               "'From date' can not be less than 'To date'"
             );
-          } else if (fromProduct > toProduct) {
+          }
+          // Product 
+          else if (fromProduct > toProduct) {
             sap.m.MessageBox.error(
               "'From Product' can not be less than 'To Product'"
             );
-          } else if (fromSalesOffice > toSalesOffice) {
+          }
+          // Sales Office 
+          else if (fromSalesOffice > toSalesOffice) {
             sap.m.MessageBox.error(
               "'From Sales Office' can not be less than 'To Sales Office'"
             );
-          } else {
+          }
+          // Material Group 
+          else if (fromMatGroup > toMatGroup) {
+            sap.m.MessageBox.error(
+              "'From Material Group' can not be less than 'To Material Group'"
+            );
+          }
+          else {
             var sPath = "/Et_Obd_log";
             this.getView().setBusy(true);
             this.getView()
@@ -325,6 +436,7 @@ sap.ui.define(
       onResetButtonPress: function () {
         this.getView().getModel("oModelForFilters").setData({});
         this.getView().getModel("oModelForTable").setData({});
+        this.getView().getModel("oModelTemp").setData({});
       },
 
       // Start: Download Excel

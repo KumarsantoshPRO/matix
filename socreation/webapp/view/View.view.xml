@@ -116,9 +116,10 @@
                         required="true"
                     />
                     <Select
+                        id="materialGroup"
                         items="{oModelForMatGroup>/}"
                         selectedKey="{oModelTemp>/MatlGroup}"
-                        forceSelection="false"
+                        forceSelection="true"
                     >
                         <core:Item
                             key="{oModelForMatGroup>DomvalueL}"

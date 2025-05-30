@@ -17,6 +17,12 @@ sap.ui.define(
         // call the base component's init function
         UIComponent.prototype.init.apply(this, arguments);
 
+        this.setModel(new sap.ui.model.json.JSONModel({ 
+          showBatch: false,
+          autoInvoice: true,
+          submitBtnText: "Submit",
+          submitEnable: true
+        }), "oAppState");
         // set the device model
         this.setModel(models.createDeviceModel(), "device");
 

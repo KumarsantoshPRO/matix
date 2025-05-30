@@ -1,0 +1,356 @@
+<mvc:View
+    controllerName="matix.com.log.solog.solog.controller.View"
+    height="100%"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:core="sap.ui.core"
+    xmlns="sap.m"
+    xmlns:f="sap.f"
+    xmlns:form="sap.ui.layout.form"
+    xmlns:plugins="sap.m.plugins"
+    xmlns:columnmenu="sap.m.table.columnmenu"
+    xmlns:vm="sap.ui.fl.variants"
+    xmlns:dnd="sap.ui.core.dnd"
+    xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+>
+    <f:DynamicPage
+        headerExpanded="true"
+        showFooter="true"
+    >
+        <f:header>
+            <f:DynamicPageHeader pinnable="false">
+                <f:content>
+                    <form:SimpleForm
+                        editable="true"
+                        layout="ResponsiveGridLayout"
+                        columnsL="2"
+                        title="Sales Order Log"
+                    >
+                        <form:content>
+                            <core:Title />
+                            <Label text="From Date " />
+                            <!-- <DatePicker width="15rem"
+									value="{path: 'oFilterModel>/fromDate', type: 'sap.ui.model.type.Date', formatOptions: {UTC: true}}"
+                                    placeholder="dd.MM.yyyy"
+                                /> -->
+                            <DatePicker
+                                width="15rem"
+                                value="{path:'oFilterModel>/fromDate', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'dd.MM.yyyy', strictParsing: true,UTC: true}}"
+                            />
+
+                            <!-- <Label text="User" />
+                            <Input width="15rem" value="{oFilterModel>/user}" /> -->
+                            <Label text="Product " />
+                            <Input width="15rem"
+                                    value="{oFilterModel>/product}"
+                                    showSuggestion="true"
+                                suggest=".onSuggest"
+                                suggestionItems="{oModelforMaterial>/}"
+								suggestionItemSelected="onMaterialSelectSuggestion" 
+                                change="onInputChange"
+                            >
+                                <suggestionItems>
+                                    <core:Item text="{oModelforMaterial>DomvalueL}-{oModelforMaterial>Ddtext}"/>
+                                </suggestionItems>
+                                </Input>
+                            <core:Title />
+                            <Label text="To Date " />
+                            <!-- <DatePicker width="15rem"
+									value="{path: 'oFilterModel>/toDate', type: 'sap.ui.model.type.Date', formatOptions: {UTC: true}}"
+                                    placeholder="dd.MM.yyyy"
+                                /> -->
+                                <DatePicker
+                                width="15rem"
+                                value="{path:'oFilterModel>/toDate', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'dd.MM.yyyy', strictParsing: true,UTC: true}}"
+                            />
+                            <Label text="Sales Office " />
+                            <Input width="15rem"
+                                    value="{oFilterModel>/salesOffice}"
+                                    showSuggestion="true"
+                                suggest=".onSuggest"
+                                suggestionItems="{oModelforSalesOffice>/}"
+								suggestionItemSelected="onSalesOfficeSelectSuggestion"
+                                change="customerSalesGroupSuggestions"
+
+                            >
+                                <suggestionItems>
+                                    <core:Item text="{oModelforSalesOffice>DomvalueL}-{oModelforSalesOffice>Ddtext}"/>
+                                </suggestionItems>
+                                </Input>
+
+                            <Label text="Customer Sales Group" />
+                            <Input width="15rem"
+                                    value="{oFilterModel>/custSalesGroup}"
+                                    showSuggestion="true"
+                                suggest=".onSuggest"
+                                suggestionItems="{oModelforCustSalesGroup>/}"
+								suggestionItemSelected="customerSalesGroupSuggestions"
+                            >
+                                <suggestionItems>
+                                    <core:Item text="{oModelforCustSalesGroup>DomvalueL}-{oModelforCustSalesGroup>Ddtext}"/>
+                                </suggestionItems>
+                                </Input>
+
+                            
+                        </form:content>
+                    </form:SimpleForm>
+                </f:content>
+                <HBox justifyContent="SpaceBetween">
+                    <HBox>
+                        <Button
+                            text="Search"
+                            type="Emphasized"
+                            press="onSearch"
+                            class="sapUiSmallMarginEnd"
+                        />
+                        <Button
+                            text="Reset"
+                            type="Reject"
+                            press="onFilterClear"
+                        />
+                    </HBox>
+                </HBox>
+            </f:DynamicPageHeader>
+        </f:header>
+
+        <f:content>
+        <ScrollContainer horizontal="true" vertical="true" focusable="true">
+            <Table
+                id="SOTable"
+                items="{oFormModel>/}"
+                width="auto"
+                ariaLabelledBy="title"
+                fixedLayout="false" autoPopinMode="false"                
+                growing="true"
+                sticky="ColumnHeaders,HeaderToolbar"
+                popinLayout="GridSmall"
+                mode="None"
+                delete="onItemsTableDelete"
+                backgroundDesign="Solid"
+                alternateRowColors="true"
+            >
+                <headerToolbar>
+                    <OverflowToolbar>
+                        <Title
+                            id="title"
+                            text="List of SO Log"
+                        />
+                        <Button
+                            icon="sap-icon://action-settings"
+                            press="openPersoDialog"
+                            tooltip="Settings"
+                            visible="false"
+                        />
+                        <ToolbarSeparator visible="false" />
+                        <vm:VariantManagement
+                            id="p13nVm"
+                            for="SIONTable"
+                            visible="false"
+                        />
+                        <ToolbarSpacer />
+                        <Button
+                            text="Delete"
+                            icon="sap-icon://delete"
+                            press="deleteRow"
+                            tooltip="Delete"
+                            type="Reject"
+                            visible="false"
+                        />
+                        <Button
+                            text="Add Row"
+                            icon="sap-icon://add-product"
+                            press="onAddNewItemPress"
+                            tooltip="Add New Item"
+                            type="Emphasized"
+                            visible="false"
+                        />
+                    </OverflowToolbar>
+                </headerToolbar>
+
+                <dependents>
+                    <plugins:ColumnResizer columnResize="onColumnResize" />
+                    <columnmenu:Menu
+                        id="menu"
+                        beforeOpen="beforeOpenColumnMenu"
+                    >
+                        <columnmenu:QuickSort change="onSort">
+                            <columnmenu:items>
+                                <columnmenu:QuickSortItem />
+                            </columnmenu:items>
+                        </columnmenu:QuickSort>
+                        <columnmenu:QuickGroup change="onGroup">
+                            <columnmenu:items>
+                                <columnmenu:QuickGroupItem />
+                            </columnmenu:items>
+                        </columnmenu:QuickGroup>
+                        <columnmenu:items>
+                            <columnmenu:ActionItem
+                                icon="sap-icon://sort"
+                                label="Sort"
+                                press="onColumnHeaderItemPress"
+                            />
+                            <columnmenu:ActionItem
+                                icon="sap-icon://group-2"
+                                label="Group"
+                                press="onColumnHeaderItemPress"
+                            />
+                            <columnmenu:ActionItem
+                                icon="sap-icon://filter"
+                                label="Filter"
+                                press="onColumnHeaderItemPress"
+                            />
+                            <columnmenu:ActionItem
+                                icon="sap-icon://table-column"
+                                label="Columns"
+                                press="onColumnHeaderItemPress"
+                            />
+                        </columnmenu:items>
+                    </columnmenu:Menu>
+                </dependents>
+
+                <dragDropConfig>
+                    <dnd:DragDropInfo
+                        sourceAggregation="columns"
+                        targetAggregation="columns"
+                        dropPosition="Between"
+                        drop="onColumnMove"
+                    />
+                </dragDropConfig>
+
+                <noData>
+                    <IllustratedMessage />
+                </noData>
+
+                <columns>
+                    <Column headerMenu="menu" width="6rem">
+                        <header>
+                            <Text text="SO Number" />
+                        </header>
+                    </Column>
+
+                    <Column
+                        app:p13nKey="HsnCode"
+                        headerMenu="menu"
+                        width="6rem"
+                    >
+                        <Text text="Doc.Date" />
+                    </Column>
+                    <Column
+                        app:p13nKey="SionNo"
+                        headerMenu="menu"
+                        width="7rem"
+                    >
+                        <Text text="Sold-To-Party" />
+                    </Column>
+                    <Column
+                        app:p13nKey="Plant"
+                        headerMenu="menu"
+                        width="10rem"
+                    >
+                        <Text text="Customer Name" />
+                    </Column>
+                    <Column
+                        app:p13nKey="Plant"
+                        headerMenu="menu"
+                        width="7rem"
+                    >
+                        <Text text="Ship-To-party" />
+                    </Column>
+                    <Column
+                        app:p13nKey="Plant"
+                        headerMenu="menu"
+                        width="5rem"
+                    >
+                        <Text text="Plant" />
+                    </Column>
+                    <Column
+                        app:p13nKey="Plant"
+                        headerMenu="menu"
+                        width="5rem"
+                    >
+                        <Text text="Payment Terms" />
+                    </Column>
+                    <Column
+                        app:p13nKey="Plant"
+                        headerMenu="menu"
+                        width="6rem"
+                    >
+                        <Text text="Material" />
+                    </Column>
+
+                    <Column
+                        app:p13nKey="Plant"
+                        headerMenu="menu"
+                        width="6rem"
+                    >
+                        <Text text="Batch No" />
+                    </Column>
+                    <Column
+                        app:p13nKey="Plant"
+                        headerMenu="menu"
+                        width="6rem"
+                    >
+                        <Text text="SO Qty" />
+                    </Column>
+                    <Column
+                        app:p13nKey="Plant"
+                        headerMenu="menu"
+                        width="6rem"
+                    >
+                        <Text text="Storage Location" />
+                    </Column>
+
+                    <Column
+                        app:p13nKey="Plant"
+                        headerMenu="menu"
+                        width="6rem"
+                    >
+                        <Text text="Sales Office" />
+                    </Column>
+
+                    <Column
+                        app:p13nKey="Plant"
+                        headerMenu="menu"
+                        width="5rem"
+                    >
+                        <Text text="Customer Region" />
+                    </Column>
+
+                    <Column
+                        app:p13nKey="Plant"
+                        headerMenu="menu"
+                        width="6rem"
+                    >
+                        <Text text="Customer Sales Group" />
+                    </Column>
+                    
+                </columns>
+
+                <items>
+                    <ColumnListItem>
+                        <Text text="{oFormModel>Vbeln}"/>
+                        <Text text="{path: 'oFormModel>Audat', formatter: '.formatDate'}"/>
+                        <Text text="{oFormModel>Kunnr}"/>
+                        <Text text="{oFormModel>Name1}"/>
+                        <Text text="{oFormModel>ShipToParty}"/>
+                        <Text text="{oFormModel>Werks}"/>
+                        <Text text="{oFormModel>Zterm}"/>
+                        <Text text="{oFormModel>Matnr}"/>
+                        <Text text="{oFormModel>Charg}"/>
+                        <Text text="{oFormModel>Kwmeng}"/>
+                        <Text text="{oFormModel>Lgort}"/>
+                        <Text text="{oFormModel>Vkbur}"/>
+                        <Text text="{oFormModel>Regio}"/>
+                        <Text text="{oFormModel>Vkgrp}"/>
+                    </ColumnListItem>
+                </items>
+            </Table>
+            </ScrollContainer>
+        </f:content>
+        <f:footer>
+			<OverflowToolbar>
+				<ToolbarSpacer/>
+				<Button type="Reject" text="Clear Results" press="onClearResults"/>
+			</OverflowToolbar>
+		</f:footer>
+    </f:DynamicPage>
+</mvc:View>

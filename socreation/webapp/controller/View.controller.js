@@ -20,6 +20,8 @@ sap.ui.define(
             .attachRoutePatternMatched(this._onRouteMatched, this);
           this.loadDataForSuggestions();
           this.loadPayloads();
+
+
         },
         _onRouteMatched: function (oEvent) {
           if (oEvent.getParameter("name") === "View2") {
@@ -28,6 +30,8 @@ sap.ui.define(
           }
         },
         loadPayloads: function () {
+          const myDate = new Date();
+          var DocDate = myDate;
           var headerPayload = {
             DocType: "ZRAO",
             ReqDateH: "",
@@ -40,7 +44,7 @@ sap.ui.define(
             Division: "UR",
             PriceDate: "",
             PurchNoC: "",
-            DocDate: new Date(),
+            DocDate: DocDate,
             Lrdat: "",
             Lrno: null,
             Vhlnr: null,
@@ -78,6 +82,7 @@ sap.ui.define(
                 StoreLoc: "",
                 TargetQty: "",
                 MatlGroup: "",
+                locationList: []
               },
             ],
           };
@@ -181,8 +186,11 @@ sap.ui.define(
                 const element = data.results[index];
                 element.DomvalueL = element.DomvalueL.replace(/^0+/, "");
               }
+              var aFilteredResults = data.results.filter(function (element) {
+                return !["1", "10", "CM", "PO"].includes(element.DomvalueL);
+              });
               this.getView().setModel(
-                new JSONModel(data.results),
+                new JSONModel(aFilteredResults),
                 "oModelForDivision"
               );
               this.getView().setBusy(false);
@@ -223,6 +231,8 @@ sap.ui.define(
           });
         },
 
+
+
         onSuggest: function (oEvent) {
           var sTerm = oEvent.getParameter("suggestValue");
           var aFilters = [];
@@ -242,9 +252,19 @@ sap.ui.define(
           oEvent.getSource().getBinding("suggestionItems").filter(Filters);
         },
 
-        onRouteMatched: function (oEvent) {},
+        onRouteMatched: function (oEvent) { },
 
         onNextButtonPress: function () {
+          var oSelect = this.getView().byId("materialGroup");
+          var sSelectedGroup = oSelect.getSelectedKey();
+          var aVisibleGroups = ["86", "87", "88", "89", "90", "93"];
+          var bShowBatch = aVisibleGroups.includes(sSelectedGroup);
+          var oModel = this.getView().getModel("oAppState");
+          oModel.setProperty("/showBatch", bShowBatch);
+          // this.getView().getModel("oAppState").setProperty("/autoInvoice", bShowBatch);
+          //   this.getView().getModel("oAppState").setProperty("/submitBtnText", "Create SO");
+          //   this.getView().getModel("oAppState").setProperty("/submitEnable", !bShowBatch);
+          this.getView().setModel(oModel, "oAppState");
           var nTemp = 1;
           // var myModel = this.getOwnerComponent().getModel("oModelForHeader");
 
@@ -276,6 +296,7 @@ sap.ui.define(
           } else {
             MessageBox.error("Enter all mandatory fields");
           }
+
         },
 
         onDocTypeSugSelect: function (oEvent) {
@@ -295,7 +316,9 @@ sap.ui.define(
           this.getOwnerComponent()
             .getModel("oModelForHeader")
             .setProperty("/DistrChan", sValue.split("-")[0]);
-
+          var oInput = oEvent.getSource();
+          oInput.setValueState("None");
+          oInput.setValueStateText("");
           if (sValue.split("-")[1] !== "") {
             this.getOwnerComponent()
               .getModel("oModelTemp")
